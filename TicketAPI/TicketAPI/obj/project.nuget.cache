@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jDHpLEjr2Aw=",
+  "dgSpecHash": "n2eWztgdTjs=",
   "success": true,
-  "projectFilePath": "C:\\Users\\salma\\source\\repos\\GESTION_INTERVENTION\\TicketAPI\\TicketAPI\\TicketAPI.csproj",
+  "projectFilePath": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\TicketAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\salma\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\salma\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
