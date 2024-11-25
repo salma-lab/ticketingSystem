@@ -86,23 +86,6 @@ namespace TicketAPI.Migrations
                     b.ToTable("Status");
                 });
 
-            modelBuilder.Entity("TicketAPI.Models.Technicien", b =>
-                {
-                    b.Property<int>("TechnicienId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TechnicienId"));
-
-                    b.Property<string>("NomTechnicien")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("TechnicienId");
-
-                    b.ToTable("Techniciens");
-                });
-
             modelBuilder.Entity("TicketAPI.Models.Ticket", b =>
                 {
                     b.Property<int>("TicketId")

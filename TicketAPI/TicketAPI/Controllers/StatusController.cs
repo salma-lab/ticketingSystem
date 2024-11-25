@@ -11,7 +11,7 @@ namespace TicketAPI.Controllers
 
     [Route("api/StatusController")]
     [ApiController]
-    [Authorize] // Require authentication for all actions in this controller
+    [Authorize] 
 
     public class StatusController : ControllerBase
     {
@@ -28,7 +28,7 @@ namespace TicketAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy = "RequireAdminRole")] // Only Admin can access this
+        [Authorize(Policy = "RequireAdminRole")] 
 
         public async Task<ActionResult<IEnumerable<Status>>> GetStatus()
         {
@@ -36,7 +36,7 @@ namespace TicketAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = "RequireAdminRole")] // Only Admin can access this
+        [Authorize(Policy = "RequireAdminRole")] 
 
         public async Task<ActionResult<Status>> PostStatus(Status status)
         {
@@ -55,7 +55,31 @@ namespace TicketAPI.Controllers
             // Renvoie le statut ajouté avec un code de statut 201 Created
             return CreatedAtAction(nameof(GetStatus), new { id = status.StatusId }, status);
         }
+        [HttpDelete("{id}")]
+        [Authorize(Policy = "RequireAdminRole")]
+        public async Task<IActionResult> DeleteStatus(int id)
+        {
+            // Find the status by ID
+            var status = await _context.Status.FindAsync(id);
+
+            if (status == null)
+            {
+                // Return a 404 if the status is not found
+                return NotFound();
+            }
+
+            // Remove the status from the database
+            _context.Status.Remove(status);
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+
+            // Return a 204 No Content response (indicating successful deletion)
+            return NoContent();
+        }
 
     }
+
+
 
 }

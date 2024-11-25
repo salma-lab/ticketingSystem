@@ -21,9 +21,8 @@ namespace TicketAPI.Controllers
         }
 
         // GET: api/commentaires
-        // GET: api/commentaires
         [HttpGet]
-        [Authorize] // Require authentication for all actions in this controller
+        [Authorize] 
 
         public async Task<ActionResult<IEnumerable<CommentaireResponseDto>>> GetCommentaires()
         {
@@ -39,8 +38,7 @@ namespace TicketAPI.Controllers
                 Contenu = c.Contenu,
                 DateCommentaire = c.DateCommentaire,
                 Nom = c.Utilisateur.Nom,
-                Prenom = c.Utilisateur.Prenom// You may also want to add Utilisateur Name if required
-                                                       // Assuming the property for name is 'Nom'
+                Prenom = c.Utilisateur.Prenom
             }).ToList();
 
             return response;
@@ -48,7 +46,7 @@ namespace TicketAPI.Controllers
 
         // GET: api/commentaires/5
         [HttpGet("{id}")]
-        [Authorize] // Require authentication for all actions in this controller
+        [Authorize] 
 
         public async Task<ActionResult<CommentaireDto>> GetCommentaire(int id)
         {
@@ -69,13 +67,13 @@ namespace TicketAPI.Controllers
                 DateCommentaire = commentaire.DateCommentaire,
                 UtilisateurId = commentaire.UtilisateurId,
                 Nom = commentaire.Utilisateur.Nom,
-                Prenom = commentaire.Utilisateur.Prenom// You may also want to add Utilisateur Name if required
+                Prenom = commentaire.Utilisateur.Prenom
             };
         }
 
         // POST: api/commentaires
         [HttpPost]
-        [Authorize] // Require authentication for all actions in this controller
+        [Authorize] 
 
         public async Task<ActionResult<Commentaire>> PostCommentaire(CommentaireDto commentaireDto)
         {
@@ -104,7 +102,7 @@ namespace TicketAPI.Controllers
 
         // PUT: api/commentaires/5
         [HttpPut("{id}")]
-        [Authorize] // Require authentication for all actions in this controller
+        [Authorize] 
 
         public async Task<IActionResult> PutCommentaire(int id, Commentaire commentaire)
         {
@@ -136,7 +134,7 @@ namespace TicketAPI.Controllers
 
         // DELETE: api/commentaires/5
         [HttpDelete("{id}")]
-        [Authorize] // Require authentication for all actions in this controller
+        [Authorize] 
 
         public async Task<IActionResult> DeleteCommentaire(int id)
         {

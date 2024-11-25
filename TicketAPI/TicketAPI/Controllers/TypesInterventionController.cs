@@ -5,58 +5,74 @@ using TicketAPI.Data;
 using TicketAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 
-
-
 namespace TicketAPI.Controllers
 {
-    
-
     [Route("api/TypesInterventionController")]
     [ApiController]
-    [Authorize] // Require authentication for all actions in this controller
-
+    [Authorize]
     public class TypesInterventionController : ControllerBase
     {
         private readonly TicketingSystemDbContext _context;
-        private readonly IConfiguration _configuration; // Add IConfiguration
-
+        private readonly IConfiguration _configuration;
 
         public TypesInterventionController(TicketingSystemDbContext context, IConfiguration configuration)
         {
             _context = context;
-            _configuration = configuration; // Assign it
-
+            _configuration = configuration;
         }
 
+        // Get all types of intervention
         [HttpGet]
-        [Authorize(Policy = "RequireAdminRole")] // Only Admin can access this
-
+        [Authorize(Policy = "RequireAdminRole")]
         public async Task<ActionResult<IEnumerable<TypeIntervention>>> GetTypesIntervention()
         {
             return await _context.TypesIntervention.ToListAsync();
         }
 
+        // Add a new type of intervention
         [HttpPost]
-        [Authorize(Policy = "RequireAdminRole")] // Only Admin can access this
-
+        [Authorize(Policy = "RequireAdminRole")]
         public async Task<ActionResult<TypeIntervention>> PostTypeIntervention(TypeIntervention typeIntervention)
         {
-            // Vérifie que le modèle est valide
+            // Check if the model is valid
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            // Ajoute le type d'intervention à la base de données
+            // Add the new intervention type to the database
             _context.TypesIntervention.Add(typeIntervention);
 
-            // Sauvegarde les changements dans la base de données
+            // Save changes to the database
             await _context.SaveChangesAsync();
 
-            // Renvoie le type d'intervention ajouté avec un code de statut 201 Created
+            // Return the created intervention type with a 201 status code
             return CreatedAtAction(nameof(GetTypesIntervention), new { id = typeIntervention.TypeInterventionId }, typeIntervention);
         }
 
-    }
+        // Delete a type of intervention by its ID
+        [HttpDelete("{id}")]
+        [Authorize(Policy = "RequireAdminRole")]
+        public async Task<IActionResult> DeleteTypeIntervention(int id)
+        {
+            // Find the intervention type by ID
+            var typeIntervention = await _context.TypesIntervention.FindAsync(id);
 
+            // If not found, return a 404 Not Found
+            if (typeIntervention == null)
+            {
+                return NotFound();
+            }
+
+            // Remove the intervention type from the database
+            _context.TypesIntervention.Remove(typeIntervention);
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+
+            // Return a 204 No Content response, indicating successful deletion
+            return NoContent();
+        }
+    }
 }
+

@@ -6,43 +6,70 @@ using TicketAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 
 
+
 namespace TicketAPI.Controllers
 {
     [Route("api/TicketsController")]
     [ApiController]
-    [Authorize] // Require authentication for all actions in this controller
+    [Authorize] 
 
     public class TicketController : ControllerBase
     {
         private readonly TicketingSystemDbContext _context;
-        private readonly IConfiguration _configuration; // Add IConfiguration
+        private readonly IConfiguration _configuration; 
 
 
         public TicketController(TicketingSystemDbContext context, IConfiguration configuration)
         {
             _context = context;
-            _configuration = configuration; // Assign it
+            _configuration = configuration; 
 
         }
 
         // GET: api/ticket
         [HttpGet]
-        [Authorize] // Require authentication for all actions in this controller
-
-        public async Task<ActionResult<IEnumerable<Ticket>>> GetTickets()
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<TicketDTO>>> GetTickets()
         {
             return await _context.Tickets
                 .Include(t => t.Status)
                 .Include(t => t.TypeIntervention)
                 .Include(t => t.Commentaires)
-                .Include(t=> t.Utilisateur)
-                
+                .Include(t => t.Utilisateur) // Include the Utilisateur entity
+                .Select(t => new TicketDTO
+                {
+                    TicketId = t.TicketId,
+                    Description = t.Description,
+                    AppareilNom = t.AppareilNom,
+                    Etage = t.Etage,
+                    Emplacement = t.Emplacement,
+                    MotifDemande = t.MotifDemande,
+                    Oralement = t.Oralement,
+                    NomType = t.TypeIntervention.NomType,
+                    NomStatus = t.Status.NomStatus,
+                    Email = t.Utilisateur.Email // Map the email property
+                })
                 .ToListAsync();
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // GET: api/ticket/5
         [HttpGet("{id}")]
-        [Authorize] // Require authentication for all actions in this controller
+        [Authorize] 
 
         public async Task<ActionResult<Ticket>> GetTicket(int id)
         {
@@ -63,7 +90,7 @@ namespace TicketAPI.Controllers
 
         // POST: api/ticket
         [HttpPost]
-        [Authorize] // Require authentication for all actions in this controller
+        [Authorize]
 
         public async Task<ActionResult<Ticket>> CreateTicket(CreateTicketDto createTicketDto)
         {
@@ -82,7 +109,7 @@ namespace TicketAPI.Controllers
                 MotifDemande=createTicketDto.MotifDemande,
                 AppareilNom=createTicketDto.AppareilNom,
                 TypeInterventionId = createTicketDto.TypeInterventionId,
-                UtilisateurId = createTicketDto.UtilisateurId // Associe l'utilisateur
+                UtilisateurId = createTicketDto.UtilisateurId 
 
             };
 
@@ -96,7 +123,7 @@ namespace TicketAPI.Controllers
 
         // PUT: api/ticket/5
         [HttpPut("{id}")]
-        [Authorize] // Require authentication for all actions in this controller
+        [Authorize] 
 
         public async Task<IActionResult> PutTicket(int id, Ticket ticket)
         {
@@ -128,7 +155,7 @@ namespace TicketAPI.Controllers
 
         // DELETE: api/ticket/5
         [HttpDelete("{id}")]
-        [Authorize] // Require authentication for all actions in this controller
+        [Authorize] 
 
         public async Task<IActionResult> DeleteTicket(int id)
         {

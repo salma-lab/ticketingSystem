@@ -13,9 +13,13 @@
         public string Emplacement { get; set; }
         public string MotifDemande { get; set; }
 
+
+
         public int UtilisateurId { get; set; }
 
+
         public Status Status { get; set; }
+
         public TypeIntervention TypeIntervention { get; set; }
         public Utilisateur Utilisateur { get; set; } // Navigation vers l'utilisateur
 

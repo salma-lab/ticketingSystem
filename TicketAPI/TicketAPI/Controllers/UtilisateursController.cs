@@ -17,56 +17,62 @@ namespace TicketAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize] // Require authentication for all actions in this controller
+    //[Authorize] 
     public class UtilisateursController : ControllerBase
     {
         private readonly TicketingSystemDbContext _context;
         private readonly PasswordService _passwordService;
-        private readonly IConfiguration _configuration; // Add IConfiguration
+        private readonly IConfiguration _configuration; 
 
 
         public UtilisateursController(TicketingSystemDbContext context, PasswordService passwordService, IConfiguration configuration)
         {
             _context = context;
             _passwordService = passwordService;
-            _configuration = configuration; // Assign it
+            _configuration = configuration; 
 
         }
 
         // GET: api/utilisateurs
         [HttpGet]
-        [Authorize(Policy = "RequireAdminRole")] // Only Admin can access this
+        [Authorize(Policy = "RequireAdminRole")] 
         public async Task<ActionResult<IEnumerable<UtilisateurDTO>>> GetUtilisateurs()
         {
-            var utilisateurs = await _context.Utilisateurs
-                .Include(u => u.Role)
-                .Include(u => u.Tickets)
-                .Select(u => new UtilisateurDTO
-                {
-                    UtilisateurId = u.UtilisateurId,
-                    Nom = u.Nom,
-                    Prenom = u.Prenom,
-                    Email = u.Email,
-                    RoleName = u.Role.RoleName,
-                    Tickets = u.Tickets.Select(t => new TicketDTO
+            try
+            {
+                var utilisateurs = await _context.Utilisateurs
+                    .Include(u => u.Role)
+                    .Include(u => u.Tickets)
+                    .Select(u => new UtilisateurDTO
                     {
-                        TicketId = t.TicketId,
-                        Description = t.Description,
-                        DateCreation = t.DateCreation,
-                        StatusId = t.StatusId,
-                        TypeInterventionId = t.TypeInterventionId,
-                        UtilisateurId = t.UtilisateurId
-                    }).ToList()
-                })
-                .ToListAsync();
+                        UtilisateurId = u.UtilisateurId,
+                        Nom = u.Nom,
+                        Prenom = u.Prenom,
+                        Email = u.Email,
+                        RoleName = u.Role.RoleName,
+                        Tickets = u.Tickets.Select(t => new TicketDTO
+                        {
+                            TicketId = t.TicketId,
+                            Description = t.Description,
+                            DateCreation = t.DateCreation,
+                            UtilisateurId = t.UtilisateurId
+                        }).ToList()
+                    })
+                    .ToListAsync();
 
-            return Ok(utilisateurs);
+                return Ok(utilisateurs);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception details for debugging
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
+
 
         // POST: api/utilisateurs
         [HttpPost]
-        [Authorize(Policy = "RequireAdminRole")]
-        // Only Admin can create users
+        //[Authorize(Policy = "RequireAdminRole")]
         public async Task<ActionResult<UtilisateurDTO>> CreateUtilisateur(CreateUtilisateurDTO utilisateurDto)
         {
             if (!ModelState.IsValid)
@@ -96,7 +102,7 @@ namespace TicketAPI.Controllers
                 Nom = utilisateurDto.Nom,
                 Prenom = utilisateurDto.Prenom,
                 Email = utilisateurDto.Email,
-                PasswordHash = hashedPassword, // Store the hashed password
+                PasswordHash = hashedPassword, 
                 RoleId = utilisateurDto.RoleId
             };
 
@@ -130,12 +136,12 @@ namespace TicketAPI.Controllers
 
         // GET: api/utilisateurs/{id}
         [HttpGet("{id}")]
-        [Authorize(Policy = "RequireAdminRole")] // Only Admin can access this
+        [Authorize(Policy = "RequireAdminRole")] 
         public async Task<ActionResult<UtilisateurDTO>> GetUtilisateur(int id)
         {
             var utilisateur = await _context.Utilisateurs
-                .Include(u => u.Role) // Include Role to access RoleName
-                .Include(u => u.Tickets) // Include Tickets if needed
+                .Include(u => u.Role) 
+                .Include(u => u.Tickets) 
                 .FirstOrDefaultAsync(u => u.UtilisateurId == id);
 
             if (utilisateur == null)
@@ -155,8 +161,6 @@ namespace TicketAPI.Controllers
                     TicketId = t.TicketId,
                     Description = t.Description,
                     DateCreation = t.DateCreation,
-                    StatusId = t.StatusId,
-                    TypeInterventionId = t.TypeInterventionId,
                     UtilisateurId = t.UtilisateurId
                 }).ToList()
             };
@@ -246,8 +250,6 @@ namespace TicketAPI.Controllers
                 TicketId = t.TicketId,
                 Description = t.Description,
                 DateCreation = t.DateCreation,
-                StatusId = t.StatusId,
-                TypeInterventionId = t.TypeInterventionId,
                 UtilisateurId = t.UtilisateurId
             }).ToList();
 

@@ -6,7 +6,8 @@
         public string Nom { get; set; }
         public string Prenom { get; set; }
         public string Email { get; set; }
-        public string RoleName { get; set; } // e.g., "Admin", "Worker", "Technician"
+        public string RoleName { get; set; } 
+
         public List<TicketDTO> Tickets { get; set; } = new List<TicketDTO>();
 
 

@@ -15,7 +15,7 @@ namespace TicketAPI.Models
         public string Email { get; set; }
         [Required]
 
-        public string PasswordHash { get; set; } // Hash of the password
+        public string PasswordHash { get; set; } 
         [Required]
 
         public int RoleId { get; set; }

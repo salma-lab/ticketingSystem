@@ -14,22 +14,24 @@ namespace TicketAPI.Data
         public DbSet<Status> Status { get; set; }
         public DbSet<Utilisateur> Utilisateurs { get; set; }
         public DbSet<Role> Roles { get; set; }
+    
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Utilisateur>()
-           .HasOne(u => u.Role)
-           .WithMany(r => r.Utilisateurs)
-           .HasForeignKey(u => u.RoleId)
-           .OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete cycles
+             //Configure the foreign key relationship between Utilisateur and Role
+           modelBuilder.Entity<Utilisateur>()
+                .HasOne(u => u.Role)
+                .WithMany(r => r.Utilisateurs)
+                .HasForeignKey(u => u.RoleId)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete cycles
 
-
-      
-        
+            //Configure the foreign key relationship between Commentaire and Utilisateur
+              // Prevent cascade delete cycles
         }
 
 
-       
+
     }
 }
