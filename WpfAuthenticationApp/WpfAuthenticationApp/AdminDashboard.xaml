@@ -1,0 +1,63 @@
+﻿<Window x:Class="WpfAuthenticationApp.AdminDashboard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Admin Dashboard" Height="600" Width="800">
+    <Grid>
+        <!-- TabControl to organize TypeIntervention, Status, and Ticket management -->
+        <TabControl>
+            <!-- Tab for TypeIntervention Management -->
+            <TabItem Header="Type Intervention">
+                <StackPanel>
+                    <!-- DataGrid for displaying TypeIntervention -->
+                    <DataGrid Name="TypeInterventionDataGrid" AutoGenerateColumns="True" 
+                              Height="200" Margin="10" 
+                              ItemsSource="{Binding TypeInterventions}"/>
+
+                    <!-- Input for adding new TypeIntervention -->
+                    <TextBox Name="NewTypeNameTextBox" Margin="10" Width="200" 
+                           />
+                    <Button Content="Add Type Intervention" Margin="10" 
+                            Width="200" Click="AddTypeIntervention_Click"/>
+                    <Button Content="Delete Type Intervention" Margin="10" 
+                            Width="200" Click="DeleteTypeIntervention_Click"/>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Tab for Status Management -->
+            <TabItem Header="Status">
+                <StackPanel>
+                    <!-- DataGrid for displaying Status -->
+                    <DataGrid Name="StatusDataGrid" AutoGenerateColumns="True" 
+                              Height="200" Margin="10" 
+                              ItemsSource="{Binding Statuses}"/>
+
+                    <!-- Input for adding new Status -->
+                    <TextBox Name="NewStatusNameTextBox" Margin="10" Width="200" 
+                           />
+                    <Button Content="Add Status" Margin="10" 
+                            Width="200" Click="AddStatus_Click"/>
+                    <Button Content="Delete Status" Margin="10" 
+                            Width="200" Click="DeleteStatus_Click"/>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Tab for Ticket Management -->
+            <TabItem Header="Tickets">
+                <StackPanel>
+                    <!-- DataGrid for displaying Tickets -->
+                    <DataGrid Name="TicketDataGrid" AutoGenerateColumns="True" 
+                  Height="200" Margin="10" 
+                  ItemsSource="{Binding Tickets}"/>
+
+                    <!-- Input for adding new Ticket -->
+                    <TextBox Name="NewTicketDescriptionTextBox" Margin="10" Width="200" 
+               />
+                    <ComboBox Name="TicketStatusComboBox" Margin="10" Width="200" 
+                  ItemsSource="{Binding Statuses}" DisplayMemberPath="NomStatus" />
+                    <Button Content="Add Ticket" Margin="10" Width="200" Click="AddTicket_Click"/>
+                    <Button Content="Delete Ticket" Margin="10" Width="200" Click="DeleteTicket_Click"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
