@@ -18,7 +18,7 @@
   {
     "ContainingType": "TicketAPI.Controllers.CommentairesController",
     "Method": "GetCommentaires",
-    "RelativePath": "api/Commentaires",
+    "RelativePath": "api/CommentairesController",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -38,7 +38,7 @@
   {
     "ContainingType": "TicketAPI.Controllers.CommentairesController",
     "Method": "PostCommentaire",
-    "RelativePath": "api/Commentaires",
+    "RelativePath": "api/CommentairesController",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -64,7 +64,7 @@
   {
     "ContainingType": "TicketAPI.Controllers.CommentairesController",
     "Method": "GetCommentaire",
-    "RelativePath": "api/Commentaires/{id}",
+    "RelativePath": "api/CommentairesController/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -90,7 +90,7 @@
   {
     "ContainingType": "TicketAPI.Controllers.CommentairesController",
     "Method": "PutCommentaire",
-    "RelativePath": "api/Commentaires/{id}",
+    "RelativePath": "api/CommentairesController/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -111,7 +111,7 @@
   {
     "ContainingType": "TicketAPI.Controllers.CommentairesController",
     "Method": "DeleteCommentaire",
-    "RelativePath": "api/Commentaires/{id}",
+    "RelativePath": "api/CommentairesController/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -123,6 +123,32 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.CommentairesController",
+    "Method": "GetCommentsByTicket",
+    "RelativePath": "api/CommentairesController/ticket/{ticketId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ticketId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[TicketAPI.Models.CommentaireResponseDto, TicketAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "TicketAPI.Controllers.roleController",
@@ -358,6 +384,26 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "TicketAPI.Controllers.TicketController",
+    "Method": "GetMyTickets",
+    "RelativePath": "api/TicketsController/MyTickets",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[TicketAPI.Models.Ticket, TicketAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "TicketAPI.Controllers.TypesInterventionController",
     "Method": "GetTypesIntervention",
     "RelativePath": "api/TypesInterventionController",
@@ -422,7 +468,7 @@
   {
     "ContainingType": "TicketAPI.Controllers.UtilisateursController",
     "Method": "GetUtilisateurs",
-    "RelativePath": "api/Utilisateurs",
+    "RelativePath": "api/UtilisateursController",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -442,7 +488,7 @@
   {
     "ContainingType": "TicketAPI.Controllers.UtilisateursController",
     "Method": "CreateUtilisateur",
-    "RelativePath": "api/Utilisateurs",
+    "RelativePath": "api/UtilisateursController",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -468,7 +514,7 @@
   {
     "ContainingType": "TicketAPI.Controllers.UtilisateursController",
     "Method": "GetUtilisateur",
-    "RelativePath": "api/Utilisateurs/{id}",
+    "RelativePath": "api/UtilisateursController/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -494,7 +540,7 @@
   {
     "ContainingType": "TicketAPI.Controllers.UtilisateursController",
     "Method": "UpdateUtilisateur",
-    "RelativePath": "api/Utilisateurs/{id}",
+    "RelativePath": "api/UtilisateursController/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -525,7 +571,7 @@
   {
     "ContainingType": "TicketAPI.Controllers.UtilisateursController",
     "Method": "DeleteUtilisateur",
-    "RelativePath": "api/Utilisateurs/{id}",
+    "RelativePath": "api/UtilisateursController/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -541,7 +587,7 @@
   {
     "ContainingType": "TicketAPI.Controllers.UtilisateursController",
     "Method": "GetUtilisateurProfile",
-    "RelativePath": "api/Utilisateurs/{id}/profile",
+    "RelativePath": "api/UtilisateursController/{id}/profile",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -567,7 +613,7 @@
   {
     "ContainingType": "TicketAPI.Controllers.UtilisateursController",
     "Method": "GetTicketsForUtilisateur",
-    "RelativePath": "api/Utilisateurs/{id}/tickets",
+    "RelativePath": "api/UtilisateursController/{id}/tickets",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

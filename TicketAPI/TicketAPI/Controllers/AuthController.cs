@@ -68,5 +68,6 @@ namespace TicketAPI.Controllers
 
             return Ok(new { Token = tokenString });
         }
+
     }
 }

@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\salma\source\repos\WpfAuthenticationApp\WpfAuthenticationApp\obj\Debug\net8.0-windows\
+C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\obj\Debug\net8.0-windows\
 WpfAuthenticationApp
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-C:\Users\salma\source\repos\WpfAuthenticationApp\WpfAuthenticationApp\App.xaml
-4-850522089
-
-15879724550
+C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\App.xaml
+6-1283921299
+138852545
+21-516772585
 2091856776545
-AdminDashboard.xaml;LoginWindow.xaml;MainWindow.xaml;UserDashboard.xaml;
+AdminDashboard.xaml;LoginWindow.xaml;MainWindow.xaml;UserDashboard.xaml;Views\CreateTicketPage.xaml;Views\ProfilePage.xaml;
 
 False
 

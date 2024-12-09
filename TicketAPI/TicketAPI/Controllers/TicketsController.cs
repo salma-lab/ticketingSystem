@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TicketAPI.Data;
 using TicketAPI.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 
 
@@ -91,7 +92,6 @@ namespace TicketAPI.Controllers
         // POST: api/ticket
         [HttpPost]
         [Authorize]
-
         public async Task<ActionResult<Ticket>> CreateTicket(CreateTicketDto createTicketDto)
         {
             if (createTicketDto == null)
@@ -99,18 +99,28 @@ namespace TicketAPI.Controllers
                 return BadRequest("Le ticket est requis.");
             }
 
+            // Retrieve the UtilisateurId from the JWT token
+            var utilisateurIdClaim = User.FindFirst(ClaimTypes.NameIdentifier); // This will get the user ID from the JWT token
+            if (utilisateurIdClaim == null)
+            {
+                return Unauthorized("User ID is missing from the token.");
+            }
+
+            // Convert the claim value to an integer (assuming UtilisateurId is an integer)
+            int utilisateurId = int.Parse(utilisateurIdClaim.Value);
+
+            // Create the new Ticket object and associate it with the authenticated user
             var ticket = new Ticket
             {
                 Description = createTicketDto.Description,
                 StatusId = createTicketDto.StatusId,
-                Oralement=createTicketDto.Oralement,
-                Etage=createTicketDto.Etage,
-                Emplacement=createTicketDto.Emplacement,
-                MotifDemande=createTicketDto.MotifDemande,
-                AppareilNom=createTicketDto.AppareilNom,
+                Oralement = createTicketDto.Oralement,
+                Etage = createTicketDto.Etage,
+                Emplacement = createTicketDto.Emplacement,
+                MotifDemande = createTicketDto.MotifDemande,
+                AppareilNom = createTicketDto.AppareilNom,
                 TypeInterventionId = createTicketDto.TypeInterventionId,
-                UtilisateurId = createTicketDto.UtilisateurId 
-
+                UtilisateurId = utilisateurId // Set the UtilisateurId from the JWT token
             };
 
             _context.Tickets.Add(ticket);
@@ -118,6 +128,7 @@ namespace TicketAPI.Controllers
 
             return CreatedAtAction(nameof(GetTicket), new { id = ticket.TicketId }, ticket);
         }
+
 
 
 
@@ -175,5 +186,42 @@ namespace TicketAPI.Controllers
         {
             return _context.Tickets.Any(e => e.TicketId == id);
         }
+
+
+        [HttpGet("MyTickets")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<Ticket>>> GetMyTickets()
+        {
+            // Retrieve the UtilisateurId from the JWT token
+            var utilisateurIdClaim = User.FindFirst(ClaimTypes.NameIdentifier); // Adjust claim type if needed
+            if (utilisateurIdClaim == null)
+            {
+                return Unauthorized("User ID is missing from the token.");
+            }
+
+            // Convert the claim value to an integer
+            if (!int.TryParse(utilisateurIdClaim.Value, out int utilisateurId))
+            {
+                return BadRequest("Invalid user ID in the token.");
+            }
+
+            // Fetch tickets associated with the authenticated user
+            var userTickets = await _context.Tickets
+                .Where(t => t.UtilisateurId == utilisateurId)
+                .Include(t => t.Status) // Include related entities if needed
+                .Include(t => t.TypeIntervention)
+                .ToListAsync();
+
+            if (!userTickets.Any())
+            {
+                return NotFound("No tickets found for the logged-in user.");
+            }
+
+            return Ok(userTickets);
+        }
+
+
+
+
     }
 }

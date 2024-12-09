@@ -9,7 +9,6 @@ namespace TicketAPI.Controllers
 {
     [Route("api/TypesInterventionController")]
     [ApiController]
-    [Authorize]
     public class TypesInterventionController : ControllerBase
     {
         private readonly TicketingSystemDbContext _context;
@@ -23,7 +22,7 @@ namespace TicketAPI.Controllers
 
         // Get all types of intervention
         [HttpGet]
-        [Authorize(Policy = "RequireAdminRole")]
+        
         public async Task<ActionResult<IEnumerable<TypeIntervention>>> GetTypesIntervention()
         {
             return await _context.TypesIntervention.ToListAsync();

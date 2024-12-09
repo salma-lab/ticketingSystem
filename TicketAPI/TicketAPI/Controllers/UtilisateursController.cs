@@ -15,9 +15,9 @@ using TicketAPI.Services;
 
 namespace TicketAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/UtilisateursController")]
     [ApiController]
-    //[Authorize] 
+    [Authorize] 
     public class UtilisateursController : ControllerBase
     {
         private readonly TicketingSystemDbContext _context;
@@ -72,7 +72,7 @@ namespace TicketAPI.Controllers
 
         // POST: api/utilisateurs
         [HttpPost]
-        //[Authorize(Policy = "RequireAdminRole")]
+       [Authorize(Policy = "RequireAdminRole")]
         public async Task<ActionResult<UtilisateurDTO>> CreateUtilisateur(CreateUtilisateurDTO utilisateurDto)
         {
             if (!ModelState.IsValid)
@@ -236,25 +236,40 @@ namespace TicketAPI.Controllers
         [HttpGet("{id}/tickets")]
         public async Task<ActionResult<IEnumerable<TicketDTO>>> GetTicketsForUtilisateur(int id)
         {
+            // Fetch the utilisateur and include related Tickets, Status, and TypeIntervention
             var utilisateur = await _context.Utilisateurs
                 .Include(u => u.Tickets)
+                    .ThenInclude(t => t.Status)
+                .Include(u => u.Tickets)
+                    .ThenInclude(t => t.TypeIntervention)
                 .FirstOrDefaultAsync(u => u.UtilisateurId == id);
 
+            // If the user is not found, return 404
             if (utilisateur == null)
             {
                 return NotFound("Utilisateur not found");
             }
 
+            // Map the tickets to a DTO
             var tickets = utilisateur.Tickets.Select(t => new TicketDTO
             {
                 TicketId = t.TicketId,
                 Description = t.Description,
                 DateCreation = t.DateCreation,
+                NomStatus = t.Status.NomStatus,
+                NomType = t.TypeIntervention.NomType,
+                AppareilNom = t.AppareilNom,
+                Etage = t.Etage,
+                Emplacement = t.Emplacement,
+                MotifDemande = t.MotifDemande,
+                Oralement = t.Oralement,
                 UtilisateurId = t.UtilisateurId
             }).ToList();
 
+            // Return the list of tickets
             return Ok(tickets);
         }
+
 
         // Method to get profile information for a specific utilisateur - accessible to all authenticated users
         [HttpGet("{id}/profile")]

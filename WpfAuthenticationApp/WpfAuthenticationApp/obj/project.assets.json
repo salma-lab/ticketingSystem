@@ -3604,11 +3604,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\salma\\source\\repos\\WpfAuthenticationApp\\WpfAuthenticationApp\\WpfAuthenticationApp.csproj",
+      "projectUniqueName": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\WpfAuthenticationApp.csproj",
       "projectName": "WpfAuthenticationApp",
-      "projectPath": "C:\\Users\\salma\\source\\repos\\WpfAuthenticationApp\\WpfAuthenticationApp\\WpfAuthenticationApp.csproj",
+      "projectPath": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\WpfAuthenticationApp.csproj",
       "packagesPath": "C:\\Users\\salma\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\salma\\source\\repos\\WpfAuthenticationApp\\WpfAuthenticationApp\\obj\\",
+      "outputPath": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

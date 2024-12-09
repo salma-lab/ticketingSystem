@@ -11,7 +11,7 @@ namespace TicketAPI.Controllers
 
     [Route("api/StatusController")]
     [ApiController]
-    [Authorize] 
+     
 
     public class StatusController : ControllerBase
     {
@@ -28,7 +28,7 @@ namespace TicketAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy = "RequireAdminRole")] 
+        [Authorize] 
 
         public async Task<ActionResult<IEnumerable<Status>>> GetStatus()
         {

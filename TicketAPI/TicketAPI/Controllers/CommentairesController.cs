@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using TicketAPI.Data;
 using TicketAPI.Models;
 
 namespace TicketAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/CommentairesController")]
     [ApiController]
     [Authorize] // Require authentication for all actions in this controller
 
@@ -72,35 +73,38 @@ namespace TicketAPI.Controllers
         }
 
         // POST: api/commentaires
+        // POST: api/commentaires
         [HttpPost]
-        [Authorize] 
-
+        [Authorize] // Ensure that only authenticated users can add comments
         public async Task<ActionResult<Commentaire>> PostCommentaire(CommentaireDto commentaireDto)
         {
-            // Vérifier si le TicketId existe
+            // Check if the ticket exists
             var ticketExists = await _context.Tickets.AnyAsync(t => t.TicketId == commentaireDto.TicketId);
             if (!ticketExists)
             {
                 return BadRequest("Le Ticket spécifié n'existe pas.");
             }
 
-            // Créer le commentaire à partir du DTO
+            // Retrieve the authenticated user's ID from the claims (assuming it's stored as 'NameIdentifier')
+            var utilisateurId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)); // Assuming the user ID is stored as a claim
+
+            // Create the comment based on the DTO
             var commentaire = new Commentaire
             {
                 TicketId = commentaireDto.TicketId,
                 Contenu = commentaireDto.Contenu,
-                DateCommentaire = DateTime.Now, // ou utilisez la valeur par défaut
-                UtilisateurId = commentaireDto.UtilisateurId // Set UtilisateurId from DTO
+                DateCommentaire = DateTime.Now, // Use the current date and time for the comment
+                UtilisateurId = utilisateurId // Set the authenticated user's ID
             };
 
+            // Add the comment to the database
             _context.Commentaires.Add(commentaire);
             await _context.SaveChangesAsync();
 
-            // Retourner l'élément créé avec une référence à son endpoint
+            // Return the created comment along with a reference to its endpoint
             return CreatedAtAction(nameof(GetCommentaire), new { id = commentaire.CommentaireId }, commentaire);
         }
 
-        // PUT: api/commentaires/5
         [HttpPut("{id}")]
         [Authorize] 
 
@@ -149,6 +153,33 @@ namespace TicketAPI.Controllers
 
             return NoContent();
         }
+
+
+        // GET: api/CommentairesController/ticket/{ticketId}
+        [HttpGet("ticket/{ticketId}")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<CommentaireResponseDto>>> GetCommentsByTicket(int ticketId)
+        {
+            var commentaires = await _context.Commentaires
+                .Where(c => c.TicketId == ticketId)
+                .Include(c => c.Utilisateur) // Include related user info
+                .ToListAsync();
+
+            var response = commentaires.Select(c => new CommentaireResponseDto
+            {
+                CommentaireId = c.CommentaireId,
+                TicketId = c.TicketId,
+                Contenu = c.Contenu,
+                DateCommentaire = c.DateCommentaire,
+                Nom = c.Utilisateur.Nom,
+                Prenom = c.Utilisateur.Prenom
+            }).ToList();
+
+            return Ok(response);
+        }
+
+
+
 
         private bool CommentaireExists(int id)
         {
