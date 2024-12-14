@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using WpfAuthenticationApp.Models;
 using WpfAuthenticationApp.Views;
+using Newtonsoft.Json;
 
 
 
@@ -23,6 +24,8 @@ namespace WpfAuthenticationApp
         private readonly string _utilisateurApiUrl = "https://localhost:7046/api/UtilisateursController";
         private readonly string _roleApiUrl = "https://localhost:7046/api/RoleController";
         private readonly string _commentApiUrl = "https://localhost:7046/api/CommentairesController";
+        private readonly string baseUrl = "https://localhost:7046"; // Replace with your API base URL
+
 
 
 
@@ -48,7 +51,7 @@ namespace WpfAuthenticationApp
             DataContext = this;
             LoadTypeInterventionss();
             LoadStatuses();
-
+            LoadMyTicketsAsync();
 
         }
 
@@ -89,7 +92,7 @@ namespace WpfAuthenticationApp
                 response.EnsureSuccessStatusCode();
 
                 var json = await response.Content.ReadAsStringAsync();
-                var outerObject = JsonSerializer.Deserialize<OuterObject<TypeInterventions>>(json, new JsonSerializerOptions
+                var outerObject = System.Text.Json.JsonSerializer.Deserialize<OuterObject<TypeInterventions>>(json, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
@@ -106,7 +109,7 @@ namespace WpfAuthenticationApp
             {
                 MessageBox.Show($"Error fetching data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (JsonException ex)
+            catch (System.Text.Json.JsonException ex)
             {
                 MessageBox.Show($"Error parsing data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -133,7 +136,7 @@ namespace WpfAuthenticationApp
                 response.EnsureSuccessStatusCode();
 
                 var json = await response.Content.ReadAsStringAsync();
-                var outerObject = JsonSerializer.Deserialize<OuterObject<Statusq>>(json, new JsonSerializerOptions
+                var outerObject = System.Text.Json.JsonSerializer.Deserialize<OuterObject<Statusq>>(json, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
@@ -150,7 +153,7 @@ namespace WpfAuthenticationApp
             {
                 MessageBox.Show($"Error fetching data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (JsonException ex)
+            catch (System.Text.Json.JsonException ex)
             {
                 MessageBox.Show($"Error parsing data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -207,7 +210,7 @@ namespace WpfAuthenticationApp
             {
                 using var client = new HttpClient();
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token); // Ensure token is valid
-                var json = JsonSerializer.Serialize(newTicket);
+                var json = System.Text.Json.JsonSerializer.Serialize(newTicket);
                 var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
                 // Send the request to create the ticket
@@ -232,44 +235,60 @@ namespace WpfAuthenticationApp
         }
 
 
-        private async void LoadTickets_Click(object sender, RoutedEventArgs e)
+
+
+        private async Task LoadMyTicketsAsync()
         {
             try
             {
-                // Ensure valid authentication token
-                if (string.IsNullOrEmpty(_token))
-                {
-                    MessageBox.Show("User not authenticated. Please log in.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
+                // Set up the HttpClient
                 using var client = new HttpClient();
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token); // Add authentication token
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token); // Ensure valid JWT token
+                client.BaseAddress = new Uri("https://localhost:7046");
 
-                // API URL for fetching tickets by user
-                var response = await client.GetAsync($"{_ticketApiUrl}/MyTickets"); // Ensure endpoint matches backend API
-                response.EnsureSuccessStatusCode(); // Throws an exception for unsuccessful HTTP responses
+                // Send the GET request to the MyTickets endpoint
+                var response = await client.GetAsync("MyTickets");
 
-                // Deserialize JSON response
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-                var tickets = JsonSerializer.Deserialize<List<Ticket>>(jsonResponse, new JsonSerializerOptions
+                // Check the response status
+                if (response.IsSuccessStatusCode)
                 {
-                    PropertyNameCaseInsensitive = true
-                });
+                    // Deserialize the response to a list of tickets
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    var tickets = JsonConvert.DeserializeObject<List<Ticket>>(jsonResponse);
 
-                // Bind data to DataGrid
-                TicketsDataGrid.ItemsSource = tickets;
+                    // Bind the data to a UI element (e.g., DataGrid)
+                    TicketsDataGrid.ItemsSource = tickets;
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    MessageBox.Show("You are not authorized. Please check your login credentials or token.",
+                                    "Unauthorized",
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Warning);
+                }
+                else
+                {
+                    MessageBox.Show($"Error fetching tickets: {response.ReasonPhrase} ({(int)response.StatusCode})",
+                                    "Error",
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Error);
+                }
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Error fetching tickets: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error connecting to the server: {ex.Message}",
+                                "Connection Error",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"An unexpected error occurred: {ex.Message}",
+                                "Error",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
             }
         }
-
 
 
 
@@ -355,9 +374,10 @@ namespace WpfAuthenticationApp
         public string MotifDemande { get; set; }
         public int TypeInterventionId { get; set; }
         public int StatusId { get; set; }
+        public string NomType { get; set; }
+
     }
 }
-
 
 
 

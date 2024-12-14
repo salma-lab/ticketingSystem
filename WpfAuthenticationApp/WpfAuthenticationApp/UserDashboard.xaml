@@ -111,17 +111,16 @@
               HorizontalAlignment="Stretch" 
               VerticalAlignment="Stretch">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Ticket ID" Binding="{Binding TicketId}" Width="*"/>
                                     <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
                                     <DataGridTextColumn Header="Date Created" Binding="{Binding DateCreation}" Width="*"/>
-                                    <DataGridTextColumn Header="Status" Binding="{Binding StatusId}" Width="*"/>
+                                    <DataGridTextColumn Header="Statut" Binding="{Binding NomType}" Width="*"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Border>
 
 
 
-                        
+
 
 
                     </Grid>
