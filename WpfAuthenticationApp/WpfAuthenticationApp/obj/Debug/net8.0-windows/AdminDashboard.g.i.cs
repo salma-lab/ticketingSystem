@@ -220,7 +220,7 @@ namespace WpfAuthenticationApp {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/WpfAuthenticationApp;component/admindashboard.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/WpfAuthenticationApp;V1.0.0.0;component/admindashboard.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\AdminDashboard.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

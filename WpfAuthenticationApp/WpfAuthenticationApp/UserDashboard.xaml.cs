@@ -34,7 +34,7 @@ namespace WpfAuthenticationApp
 
         public ObservableCollection<TypeInterventions> TypeInterventions { get; set; } = new();
         public ObservableCollection<Statusq> Statuses { get; set; } = new();
-        public ObservableCollection<Ticket> Tickets { get; set; } = new();
+        public ObservableCollection<Tickets> Tickets { get; set; } = new();
         public ObservableCollection<Commentaire> Commentaire { get; set; } = new();
 
 
@@ -218,7 +218,7 @@ namespace WpfAuthenticationApp
                 response.EnsureSuccessStatusCode(); // Will throw an exception if status is not success
 
                 // Reload ticket list or refresh as necessary
-
+                LoadMyTicketsAsync();
                 // Clear form fields after adding ticket
                 NewTicketDescriptionTextBox.Clear();
                 NewTicketOralementCheckBox.IsChecked = false;
@@ -254,7 +254,7 @@ namespace WpfAuthenticationApp
                 {
                     // Deserialize the response to a list of tickets
                     var jsonResponse = await response.Content.ReadAsStringAsync();
-                    var tickets = JsonConvert.DeserializeObject<List<Ticket>>(jsonResponse);
+                    var tickets = JsonConvert.DeserializeObject<List<Tickets>>(jsonResponse);
 
                     // Bind the data to a UI element (e.g., DataGrid)
                     TicketsDataGrid.ItemsSource = tickets;
@@ -288,6 +288,10 @@ namespace WpfAuthenticationApp
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error);
             }
+        }
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            await LoadMyTicketsAsync();
         }
 
 
