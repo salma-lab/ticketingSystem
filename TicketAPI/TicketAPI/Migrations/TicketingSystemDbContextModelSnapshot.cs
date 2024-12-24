@@ -22,34 +22,38 @@ namespace TicketAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TicketAPI.Models.Commentaire", b =>
+            modelBuilder.Entity("TicketAPI.Models.Emplacement", b =>
                 {
-                    b.Property<int>("CommentaireId")
+                    b.Property<int>("EmplacementId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentaireId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmplacementId"));
 
-                    b.Property<string>("Contenu")
+                    b.Property<string>("NomEmplacement")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateCommentaire")
-                        .HasColumnType("datetime2");
+                    b.HasKey("EmplacementId");
 
-                    b.Property<int>("TicketId")
+                    b.ToTable("Emplacements");
+                });
+
+            modelBuilder.Entity("TicketAPI.Models.Etage", b =>
+                {
+                    b.Property<int>("EtageId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("UtilisateurId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EtageId"));
 
-                    b.HasKey("CommentaireId");
+                    b.Property<string>("NomEtage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("TicketId");
+                    b.HasKey("EtageId");
 
-                    b.HasIndex("UtilisateurId");
-
-                    b.ToTable("Commentaires");
+                    b.ToTable("Etages");
                 });
 
             modelBuilder.Entity("TicketAPI.Models.Role", b =>
@@ -105,13 +109,11 @@ namespace TicketAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Emplacement")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("EmplacementId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Etage")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("EtageId")
+                        .HasColumnType("int");
 
                     b.Property<string>("MotifDemande")
                         .IsRequired()
@@ -123,21 +125,53 @@ namespace TicketAPI.Migrations
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
 
+                    b.Property<int>("TypeAppareilId")
+                        .HasColumnType("int");
+
                     b.Property<int>("TypeInterventionId")
                         .HasColumnType("int");
 
                     b.Property<int>("UtilisateurId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Validation1")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Validation2")
+                        .HasColumnType("bit");
+
                     b.HasKey("TicketId");
 
+                    b.HasIndex("EmplacementId");
+
+                    b.HasIndex("EtageId");
+
                     b.HasIndex("StatusId");
+
+                    b.HasIndex("TypeAppareilId");
 
                     b.HasIndex("TypeInterventionId");
 
                     b.HasIndex("UtilisateurId");
 
                     b.ToTable("Tickets");
+                });
+
+            modelBuilder.Entity("TicketAPI.Models.TypeAppareil", b =>
+                {
+                    b.Property<int>("TypeAppareilId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TypeAppareilId"));
+
+                    b.Property<string>("NomTypeAppareil")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TypeAppareilId");
+
+                    b.ToTable("TypeAppareils");
                 });
 
             modelBuilder.Entity("TicketAPI.Models.TypeIntervention", b =>
@@ -191,30 +225,29 @@ namespace TicketAPI.Migrations
                     b.ToTable("Utilisateurs");
                 });
 
-            modelBuilder.Entity("TicketAPI.Models.Commentaire", b =>
-                {
-                    b.HasOne("TicketAPI.Models.Ticket", "Ticket")
-                        .WithMany("Commentaires")
-                        .HasForeignKey("TicketId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TicketAPI.Models.Utilisateur", "Utilisateur")
-                        .WithMany()
-                        .HasForeignKey("UtilisateurId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Ticket");
-
-                    b.Navigation("Utilisateur");
-                });
-
             modelBuilder.Entity("TicketAPI.Models.Ticket", b =>
                 {
+                    b.HasOne("TicketAPI.Models.Emplacement", "Emplacement")
+                        .WithMany()
+                        .HasForeignKey("EmplacementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TicketAPI.Models.Etage", "Etage")
+                        .WithMany()
+                        .HasForeignKey("EtageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TicketAPI.Models.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TicketAPI.Models.TypeAppareil", "TypeAppareil")
+                        .WithMany()
+                        .HasForeignKey("TypeAppareilId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -230,7 +263,13 @@ namespace TicketAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Emplacement");
+
+                    b.Navigation("Etage");
+
                     b.Navigation("Status");
+
+                    b.Navigation("TypeAppareil");
 
                     b.Navigation("TypeIntervention");
 
@@ -251,11 +290,6 @@ namespace TicketAPI.Migrations
             modelBuilder.Entity("TicketAPI.Models.Role", b =>
                 {
                     b.Navigation("Utilisateurs");
-                });
-
-            modelBuilder.Entity("TicketAPI.Models.Ticket", b =>
-                {
-                    b.Navigation("Commentaires");
                 });
 
             modelBuilder.Entity("TicketAPI.Models.Utilisateur", b =>

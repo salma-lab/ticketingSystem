@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using WpfAuthenticationApp.Models;
 
 
+
 namespace WpfAuthenticationApp
 {
     public partial class AdminDashboard : Window
@@ -22,6 +23,12 @@ namespace WpfAuthenticationApp
         private readonly string _utilisateurApiUrl = "https://localhost:7046/api/UtilisateursController";
         private readonly string _roleApiUrl = "https://localhost:7046/api/RoleController";
         private readonly string _commentApiUrl = "https://localhost:7046/api/CommentairesController";
+        private readonly string _typeAppareilApiUrl = "https://localhost:7046/api/TypeAppareilController";
+        private readonly string _etageApiUrl = "https://localhost:7046/api/EtageController";
+        private readonly string _emplacementApiUrl = "https://localhost:7046/api/EmplacementController";
+
+
+
 
 
 
@@ -33,6 +40,12 @@ namespace WpfAuthenticationApp
         public ObservableCollection<UtilisateurDTO> Utilisateurss { get; set; } = new();
         public ObservableCollection<Role> Roles { get; set; } = new();
         public ObservableCollection<Commentaire> Commentaire { get; set; } = new();
+        public ObservableCollection<Etage> Etages { get; set; } = new();
+        public ObservableCollection<Emplacement> Emplacement { get; set; } = new();
+        public ObservableCollection<TypeAppareil> TypeAppareils { get; set; } = new();
+
+
+
 
 
 
@@ -49,7 +62,11 @@ namespace WpfAuthenticationApp
             LoadTickets();
             LoadUtilisateurs();
             LoadRoles();
-           
+            LoadTypeAppareil();
+            LoadEtages();
+            LoadEmplacements ();
+
+
         }
 /// <summary>
 /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -299,10 +316,303 @@ namespace WpfAuthenticationApp
         }
         #endregion
 
-/// <summary>
-/// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// /////////////////////////////////////: Ticket//////////////////////////////////////////////////////////////////
-/// </summary>
+        /// <summary>
+        /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// /////////////////////////////////////: Ticket//////////////////////////////////////////////////////////////////
+        /// </summary>
+
+
+
+
+
+        private async void LoadTypeAppareil()
+        {
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
+                var response = await client.GetAsync(_typeAppareilApiUrl);
+                response.EnsureSuccessStatusCode();
+
+                var json = await response.Content.ReadAsStringAsync();
+                var outerObject = JsonSerializer.Deserialize<OuterObject<TypeAppareil>>(json, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+                var typeAppareils = outerObject?.Values ?? new List<TypeAppareil>();
+
+                TypeAppareils.Clear();
+                foreach (var typeAppareil in typeAppareils)
+                {
+                    TypeAppareils.Add(typeAppareil);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Error fetching data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (JsonException ex)
+            {
+                MessageBox.Show($"Error parsing data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private async void AddTypeAppareil_Click(object sender, RoutedEventArgs e)
+        {
+            var name = NewTypeAppNameTextBox.Text.Trim();
+
+            if (string.IsNullOrEmpty(name))
+            {
+                MessageBox.Show("Please enter a name for the Appareil Type.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var newTypeAppareil = new TypeAppareil { NomTypeAppareil = name };
+
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+                var json = JsonSerializer.Serialize(newTypeAppareil);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync(_typeAppareilApiUrl, content);
+                response.EnsureSuccessStatusCode();
+
+                // Reload the interventions after adding
+                LoadTypeAppareil();
+
+                // Clear the TextBox after adding the new intervention
+                NewTypeNameTextBox.Clear();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Error adding type intervention: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private async void DeleteTypeAppareil_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedAppareil = TypeAppareilDataGrid.SelectedItem as TypeAppareil;
+            if (selectedAppareil == null)
+            {
+                MessageBox.Show("Please select an intervention to delete.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
+                var response = await client.DeleteAsync($"{_typeAppareilApiUrl}/{selectedAppareil.TypeAppareilId}");
+                response.EnsureSuccessStatusCode();
+
+                // Reload the interventions after deletion
+                LoadTypeAppareil();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Error deleting TypeAppareil: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+        private async void LoadEtages()
+        {
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
+                var response = await client.GetAsync(_etageApiUrl);
+                response.EnsureSuccessStatusCode();
+
+                var json = await response.Content.ReadAsStringAsync();
+                var outerObject = JsonSerializer.Deserialize<OuterObject<Etage>>(json, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+                var etages = outerObject?.Values ?? new List<Etage>();
+
+                Etages.Clear();
+                foreach (var etage in etages)
+                {
+                    Etages.Add(etage);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Error fetching data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (JsonException ex)
+            {
+                MessageBox.Show($"Error parsing data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private async void AddEtage_Click(object sender, RoutedEventArgs e)
+        {
+            var name = NewEtageNameTextBox.Text.Trim();
+
+            if (string.IsNullOrEmpty(name))
+            {
+                MessageBox.Show("Please enter a name for the type intervention.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var newEtage = new Etage { NomEtage = name };
+
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+                var json = JsonSerializer.Serialize(newEtage);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync(_etageApiUrl, content);
+                response.EnsureSuccessStatusCode();
+
+                // Reload the interventions after adding
+                LoadEtages();
+
+                // Clear the TextBox after adding the new intervention
+                NewEtageNameTextBox.Clear();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Error adding Etage: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private async void DeleteEtage_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedEtage = EtageDataGrid.SelectedItem as Etage;
+            if (selectedEtage == null)
+            {
+                MessageBox.Show("Please select an intervention to delete.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
+                var response = await client.DeleteAsync($"{_etageApiUrl}/{selectedEtage.EtageId}");
+                response.EnsureSuccessStatusCode();
+
+                // Reload the interventions after deletion
+                LoadEtages();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Error deleting type intervention: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+        private async void LoadEmplacements()
+        {
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
+                var response = await client.GetAsync(_emplacementApiUrl);
+                response.EnsureSuccessStatusCode();
+
+                var json = await response.Content.ReadAsStringAsync();
+                var outerObject = JsonSerializer.Deserialize<OuterObject<Emplacement>>(json, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+                var emplacements = outerObject?.Values ?? new List<Emplacement>();
+
+                Emplacement.Clear();
+                foreach (var emplacement in emplacements)
+                {
+                    Emplacement.Add(emplacement);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Error fetching data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (JsonException ex)
+            {
+                MessageBox.Show($"Error parsing data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private async void AddEmplacement_Click(object sender, RoutedEventArgs e)
+        {
+            var name = NewEmplacementNameTextBox.Text.Trim();
+
+            if (string.IsNullOrEmpty(name))
+            {
+                MessageBox.Show("Please enter a name for the emplacement.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var newEmplacement = new Emplacement { NomEmplacement = name };
+
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+                var json = JsonSerializer.Serialize(newEmplacement);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync(_emplacementApiUrl, content);
+                response.EnsureSuccessStatusCode();
+
+                // Reload the emplacements after adding
+                LoadEmplacements();
+
+                // Clear the TextBox after adding the new emplacement
+                NewEmplacementNameTextBox.Clear();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Error adding emplacement: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private async void DeleteEmplacement_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedEmplacement = EmplacementDataGrid.SelectedItem as Emplacement;
+            if (selectedEmplacement == null)
+            {
+                MessageBox.Show("Please select an emplacement to delete.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
+                var response = await client.DeleteAsync($"{_emplacementApiUrl}/{selectedEmplacement.EmplacementId}");
+                response.EnsureSuccessStatusCode();
+
+                // Reload the emplacements after deletion
+                LoadEmplacements();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Error deleting emplacement: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+
+
+
 
 
         private int SelectedTicketId = 0;
@@ -327,61 +637,17 @@ namespace WpfAuthenticationApp
 
         //private void TicketList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{
-          //  var selectedTicket = TicketList.SelectedItem as Ticket; // Replace with your data type
-           // if (selectedTicket != null)
-            //{
-               // Console.WriteLine($"Selected TicketId: {selectedTicket.TicketId}");
-               // await LoadTicketComments(selectedTicket.TicketId);
-           // }
-       // }
+        //  var selectedTicket = TicketList.SelectedItem as Ticket; // Replace with your data type
+        // if (selectedTicket != null)
+        //{
+        // Console.WriteLine($"Selected TicketId: {selectedTicket.TicketId}");
+        // await LoadTicketComments(selectedTicket.TicketId);
+        // }
+        // }
 
 
 
-        private async void AddComment_Click(object sender, RoutedEventArgs e)
-        {
-            // Ensure a ticket is selected
-            if (SelectedTicketId == 0)
-            {
-                MessageBox.Show("Please select a ticket to add a comment.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
 
-            // Get the content of the new comment
-            var commentContent = NewCommentTextBox.Text.Trim();
-
-            if (string.IsNullOrEmpty(commentContent))
-            {
-                MessageBox.Show("Please enter a comment.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            var commentaireDto = new CommentaireDto
-            {
-                TicketId = SelectedTicketId,
-                Contenu = commentContent
-            };
-
-            try
-            {
-                using var client = new HttpClient();
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
-                var json = JsonSerializer.Serialize(commentaireDto);
-                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-
-                var response = await client.PostAsync(_commentApiUrl, content);
-                response.EnsureSuccessStatusCode();
-
-                // Clear the comment input field
-                NewCommentTextBox.Clear();
-
-                // Optionally, you can reload or refresh the ticket's comments list
-                LoadTicketComments(SelectedTicketId);
-            }
-            catch (HttpRequestException ex)
-            {
-                MessageBox.Show($"Error adding comment: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
 
 
 
@@ -391,14 +657,18 @@ namespace WpfAuthenticationApp
             var description = NewTicketDescriptionTextBox.Text.Trim();
             var oralement = NewTicketOralementCheckBox.IsChecked ?? false; // Check if Oralement is checked
             var appareilNom = NewTicketAppareilNomTextBox.Text.Trim();
-            var etage = NewTicketEtageTextBox.Text.Trim();
-            var emplacement = NewTicketEmplacementTextBox.Text.Trim();
+            var etage = NewTicketEtageComboBox.SelectedItem as Etage;
+            var emplacement = NewTicketEmplacementComboBox.SelectedItem as Emplacement;
             var motif = NewTicketMotifTextBox.Text.Trim();
             var type = NewTicketTypeComboBox.SelectedItem as TypeIntervention; // Assuming you have TypeInterventions in the ViewModel
             var status = TicketStatusComboBox.SelectedItem as Status;
+            var typeApp = NewTypeAppareilComboBox.SelectedItem as TypeAppareil; // Assuming you have TypeInterventions in the ViewModel
+
+            // Get the selected date from the DatePicker
+            var selectedDate = NewTicketDatePicker.SelectedDate ?? DateTime.Now;
 
             // Validate input
-            if (string.IsNullOrEmpty(description) || string.IsNullOrEmpty(appareilNom) || string.IsNullOrEmpty(etage) || string.IsNullOrEmpty(emplacement) || string.IsNullOrEmpty(motif) || type == null || status == null)
+            if (string.IsNullOrEmpty(description) || string.IsNullOrEmpty(motif) || type == null || status == null || typeApp == null || etage == null || emplacement == null)
             {
                 MessageBox.Show("Please fill all the required fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -410,11 +680,13 @@ namespace WpfAuthenticationApp
                 Description = description,
                 Oralement = oralement,
                 AppareilNom = appareilNom,
-                Etage = etage,
-                Emplacement = emplacement,
+                EtageId = etage.EtageId,
+                EmplacementId = emplacement.EmplacementId,
+                TypeAppareilId = typeApp.TypeAppareilId,
                 MotifDemande = motif,
-                TypeInterventionId = type.TypeInterventionId, // Assuming TypeIntervention has an Id
-                StatusId = status.StatusId // Assuming Status has an Id
+                TypeInterventionId = type.TypeInterventionId,
+                StatusId = status.StatusId,
+                DateCreation = selectedDate // Use the selected date
             };
 
             try
@@ -435,11 +707,15 @@ namespace WpfAuthenticationApp
                 NewTicketDescriptionTextBox.Clear();
                 NewTicketOralementCheckBox.IsChecked = false;
                 NewTicketAppareilNomTextBox.Clear();
-                NewTicketEtageTextBox.Clear();
-                NewTicketEmplacementTextBox.Clear();
+                NewTicketEtageComboBox.SelectedIndex = -1;
+                NewTicketEmplacementComboBox.SelectedIndex = -1;
                 NewTicketMotifTextBox.Clear();
                 NewTicketTypeComboBox.SelectedIndex = -1;
+                NewTypeAppareilComboBox.SelectedIndex = -1;
                 TicketStatusComboBox.SelectedIndex = -1;
+
+                // Reset the DatePicker
+                NewTicketDatePicker.SelectedDate = null;
             }
             catch (HttpRequestException ex)
             {
@@ -448,56 +724,9 @@ namespace WpfAuthenticationApp
         }
 
 
-        private async Task LoadTicketComments(int ticketId)
-        {
-            // Ensure ticketId is valid
-            if (ticketId <= 0)
-            {
-                MessageBox.Show("ID de ticket invalide.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
 
-            try
-            {
-                // Set up the HttpClient with the Bearer token
-                using var client = new HttpClient();
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
 
-                // Make the API call to retrieve comments for the specific ticket
-                var response = await client.GetAsync($"https://localhost:7046/api/CommentairesController/{ticketId}");
 
-                // Check if the response is successful
-                if (response.IsSuccessStatusCode)
-                {
-                    // Read and deserialize the response content
-                    var commentsJson = await response.Content.ReadAsStringAsync();
-                    var comments = JsonSerializer.Deserialize<List<CommentaireResponseDto>>(commentsJson, new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true // Ensure case-insensitive matching of JSON properties
-                    });
-
-                    // Bind the deserialized comments to the UI (e.g., a DataGrid)
-                    TicketCommentsDataGrid.ItemsSource = comments ?? new List<CommentaireResponseDto>();
-                }
-                else
-                {
-                    // Display an error message with the status code and reason
-                    var errorMessage = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Erreur lors du chargement des commentaires : {response.StatusCode} - {response.ReasonPhrase}\n{errorMessage}",
-                                    "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                // Handle potential network errors
-                MessageBox.Show($"Erreur de connexion : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (Exception ex)
-            {
-                // Handle unexpected errors
-                MessageBox.Show($"Une erreur inattendue est survenue : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
 
 
         private async void LoadTickets()
@@ -643,7 +872,7 @@ namespace WpfAuthenticationApp
                 response.EnsureSuccessStatusCode();
 
                 MessageBox.Show("Utilisateur created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-
+                LoadUtilisateurs();
                 // Clear the input fields after successful creation
                 NomTextBox.Clear();
                 PrenomTextBox.Clear();
@@ -688,7 +917,9 @@ namespace WpfAuthenticationApp
 
         }
 
-        private void NewCommentTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        
+
+        private void StatusDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
@@ -719,8 +950,11 @@ namespace WpfAuthenticationApp
 
         public bool Oralement { get; set; }
         public string AppareilNom { get; set; }
-        public string Etage { get; set; }
-        public string Emplacement { get; set; }
+        public string NomEtage { get; set; }
+        public string NomEmplacement { get; set; }
+
+
+        public string NomTypeAppareil { get; set; }
         public string MotifDemande { get; set; }
         public string NomType { get; set; }
         public string NomStatus { get; set; }
@@ -734,10 +968,15 @@ namespace WpfAuthenticationApp
         public bool Oralement { get; set; }
         public string AppareilNom { get; set; }
         public string Etage { get; set; }
+        public DateTime DateCreation { get; set; } = DateTime.Now;
+
         public string Emplacement { get; set; }
         public string MotifDemande { get; set; }
         public int TypeInterventionId { get; set; }
         public int StatusId { get; set; }
+        public int EtageId { get; set; }
+        public int EmplacementId { get; set; }
+        public int TypeAppareilId   { get; set; }
     }
 
     public class Utilisateur
@@ -773,38 +1012,28 @@ namespace WpfAuthenticationApp
 
     }
 
-    public class Commentaire
-    {
-        public int CommentaireId { get; set; }
-        public int TicketId { get; set; }
-        public string Contenu { get; set; }
-        public DateTime DateCommentaire { get; set; } = DateTime.Now;
+    
 
-        public Ticket Ticket { get; set; }
-        public int UtilisateurId { get; set; }
-        public Utilisateur Utilisateur { get; set; }
+   
+
+ 
+
+    public class Emplacement
+    {
+
+        public int EmplacementId { get; set; }
+        public string NomEmplacement { get; set; }
+
     }
-
-    public class CommentaireResponseDto
+    public class TypeAppareil
     {
-        public int CommentaireId { get; set; }
-        public int TicketId { get; set; }
-        public string Contenu { get; set; }
-        public DateTime DateCommentaire { get; set; }
-        public int UtilisateurId { get; set; }
-        public string Nom { get; set; }
-        public string Prenom { get; set; }
+        public int TypeAppareilId { get; set; }
+        public string NomTypeAppareil { get; set; }
     }
-
-    public class CommentaireDto
+    public class Etage
     {
-        public int CommentaireId { get; set; }
-        public int TicketId { get; set; }
-        public string Contenu { get; set; }
-        public DateTime DateCommentaire { get; set; }
-        public int UtilisateurId { get; set; }
-        public string Nom { get; set; }
-        public string Prenom { get; set; }
+        public int EtageId { get; set; }
+        public string NomEtage { get; set; }
     }
 
 

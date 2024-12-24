@@ -25,6 +25,8 @@ namespace WpfAuthenticationApp
         private readonly string _roleApiUrl = "https://localhost:7046/api/RoleController";
         private readonly string _commentApiUrl = "https://localhost:7046/api/CommentairesController";
         private readonly string baseUrl = "https://localhost:7046"; // Replace with your API base URL
+        private readonly string _MyTickets = "https://localhost:7046/api/MyTickets";
+
 
 
 
@@ -233,6 +235,36 @@ namespace WpfAuthenticationApp
                 MessageBox.Show($"Error adding ticket: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
+
+        private async void DeleteTickets_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedTicket = TicketsDataGrid.SelectedItem as Ticket;
+            if (selectedTicket == null)
+            {
+                MessageBox.Show("Please select a ticket to delete.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
+                var response = await client.DeleteAsync($"{_MyTickets}/{selectedTicket.TicketId}");
+                response.EnsureSuccessStatusCode();
+
+                // Reload the tickets after deletion
+                LoadMyTicketsAsync();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Error deleting ticket: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
 
 
 

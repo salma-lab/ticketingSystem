@@ -17,7 +17,7 @@ namespace TicketAPI.Controllers
 {
     [Route("api/UtilisateursController")]
     [ApiController]
-    [Authorize] 
+    //[Authorize] 
     public class UtilisateursController : ControllerBase
     {
         private readonly TicketingSystemDbContext _context;
@@ -72,7 +72,7 @@ namespace TicketAPI.Controllers
 
         // POST: api/utilisateurs
         [HttpPost]
-       [Authorize(Policy = "RequireAdminRole")]
+      // [Authorize(Policy = "RequireAdminRole")]
         public async Task<ActionResult<UtilisateurDTO>> CreateUtilisateur(CreateUtilisateurDTO utilisateurDto)
         {
             if (!ModelState.IsValid)
@@ -259,8 +259,8 @@ namespace TicketAPI.Controllers
                 NomStatus = t.Status.NomStatus,
                 NomType = t.TypeIntervention.NomType,
                 AppareilNom = t.AppareilNom,
-                Etage = t.Etage,
-                Emplacement = t.Emplacement,
+                NomEtage = t.Etage.NomEtage,
+                NomEmplacement = t.Emplacement.NomEmplacement,
                 MotifDemande = t.MotifDemande,
                 Oralement = t.Oralement,
                 UtilisateurId = t.UtilisateurId

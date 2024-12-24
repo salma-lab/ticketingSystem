@@ -7,11 +7,16 @@
         public string Description { get; set; }
         public bool Oralement { get; set; }
         public string AppareilNom { get; set; }
-        public string Etage { get; set; }
-        public string Emplacement { get; set; }
+        public int EtageId { get; set; }
+        public int EmplacementId { get; set; }
+
+
         public string MotifDemande { get; set; }
 
         public int StatusId { get; set; }
+
+        public int TypeAppareilId { get; set; }
+
         public DateTime DateCreation { get; set; } = DateTime.Now;
 
         public int TypeInterventionId { get; set; }

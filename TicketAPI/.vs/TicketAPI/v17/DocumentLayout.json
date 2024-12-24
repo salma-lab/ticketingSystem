@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\ticketapi\\ticketapi\\controllers\\my_tickets.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|solutionrelative:ticketapi\\controllers\\my_tickets.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\ticketapi\\ticketapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|solutionrelative:ticketapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\ticketapi\\ticketapi\\controllers\\typesinterventioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|solutionrelative:ticketapi\\controllers\\typesinterventioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\ticketapi\\ticketapi\\services\\passwordservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|solutionrelative:ticketapi\\services\\passwordservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\ticketapi\\ticketapi\\controllers\\ticketscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|solutionrelative:ticketapi\\controllers\\ticketscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\ticketapi\\ticketapi\\models\\ticket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|solutionrelative:ticketapi\\models\\ticket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,32 +26,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "TypesInterventionController.cs",
-              "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Controllers\\TypesInterventionController.cs",
-              "RelativeDocumentMoniker": "TicketAPI\\Controllers\\TypesInterventionController.cs",
-              "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Controllers\\TypesInterventionController.cs",
-              "RelativeToolTip": "TicketAPI\\Controllers\\TypesInterventionController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "PasswordService.cs",
+              "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Services\\PasswordService.cs",
+              "RelativeDocumentMoniker": "TicketAPI\\Services\\PasswordService.cs",
+              "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Services\\PasswordService.cs",
+              "RelativeToolTip": "TicketAPI\\Services\\PasswordService.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-14T10:35:19.089Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "My_tickets.cs",
-              "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Controllers\\My_tickets.cs",
-              "RelativeDocumentMoniker": "TicketAPI\\Controllers\\My_tickets.cs",
-              "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Controllers\\My_tickets.cs",
-              "RelativeToolTip": "TicketAPI\\Controllers\\My_tickets.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEUAAAAHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-09T16:34:21.809Z",
+              "WhenOpened": "2024-12-24T16:53:15.239Z",
               "EditorCaption": ""
             },
             {
@@ -58,9 +49,36 @@
               "RelativeDocumentMoniker": "TicketAPI\\Controllers\\TicketsController.cs",
               "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Controllers\\TicketsController.cs",
               "RelativeToolTip": "TicketAPI\\Controllers\\TicketsController.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAuwBEAAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAACEAAAAAAAAAAAAgwDgAAABVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-06T11:17:59.924Z"
+              "WhenOpened": "2024-12-24T16:22:29.29Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Program.cs",
+              "RelativeDocumentMoniker": "TicketAPI\\Program.cs",
+              "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Program.cs",
+              "RelativeToolTip": "TicketAPI\\Program.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAEMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-24T15:55:27.89Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Ticket.cs",
+              "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Models\\Ticket.cs",
+              "RelativeDocumentMoniker": "TicketAPI\\Models\\Ticket.cs",
+              "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Models\\Ticket.cs",
+              "RelativeToolTip": "TicketAPI\\Models\\Ticket.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-24T14:43:16.192Z",
+              "EditorCaption": ""
             }
           ]
         }

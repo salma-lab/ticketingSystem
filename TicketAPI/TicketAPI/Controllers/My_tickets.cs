@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -56,23 +55,43 @@ namespace TicketAPI.Controllers
 
 
         // GET: My_tickets/Details/5
-      
+
 
         // GET: My_tickets/Create
-       
+
 
         // POST: My_tickets/Create
-       
 
-        
+
+
 
         // POST: My_tickets/Edit/5
-       
+
 
         // GET: My_tickets/Delete/5
-       
+        [HttpDelete("{id}")]
+        [Authorize]
+
+        public async Task<IActionResult> DeleteTicket(int id)
+        {
+            var ticket = await _context.Tickets.FindAsync(id);
+            if (ticket == null)
+            {
+                return NotFound();
+            }
+
+            _context.Tickets.Remove(ticket);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool TicketExists(int id)
+        {
+            return _context.Tickets.Any(e => e.TicketId == id);
+        }
 
         // POST: My_tickets/Delete/5
-        
+
     }
 }

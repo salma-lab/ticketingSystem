@@ -5,6 +5,7 @@ using TicketAPI.Data;
 using System.Text;
 using TicketAPI.Services;
 using Microsoft.OpenApi.Models;
+using TicketAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,7 +65,9 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
     options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+
 });
+
 
 // Configure Swagger with JWT support
 builder.Services.AddEndpointsApiExplorer();

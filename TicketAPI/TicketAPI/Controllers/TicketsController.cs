@@ -32,25 +32,33 @@ namespace TicketAPI.Controllers
         [Authorize]
         public async Task<ActionResult<IEnumerable<TicketDTO>>> GetTickets()
         {
-            return await _context.Tickets
+            var tickets = await _context.Tickets
                 .Include(t => t.Status)
+                .Include(t => t.TypeAppareil)
+                .Include(t => t.Etage)
+                .Include(t => t.Emplacement)
                 .Include(t => t.TypeIntervention)
-                .Include(t => t.Commentaires)
                 .Include(t => t.Utilisateur) // Include the Utilisateur entity
                 .Select(t => new TicketDTO
                 {
                     TicketId = t.TicketId,
                     Description = t.Description,
                     AppareilNom = t.AppareilNom,
-                    Etage = t.Etage,
-                    Emplacement = t.Emplacement,
                     MotifDemande = t.MotifDemande,
                     Oralement = t.Oralement,
+                    Validation1 = t.Validation1,
+                    Validation2 = t.Validation2,
+                    NomEtage = t.Etage.NomEtage,
+                    NomEmplacement = t.Emplacement.NomEmplacement,
                     NomType = t.TypeIntervention.NomType,
                     NomStatus = t.Status.NomStatus,
-                    Email = t.Utilisateur.Email // Map the email property
+                    NomTypeAppareil = t.TypeAppareil.NomTypeAppareil,
+                    Email = t.Utilisateur.Email, // Map the email property
+                    DateCreation = t.DateCreation == DateTime.MinValue ? DateTime.Now : t.DateCreation // Handle DateCreation formatting
                 })
                 .ToListAsync();
+
+            return tickets;
         }
 
 
@@ -77,7 +85,7 @@ namespace TicketAPI.Controllers
             var ticket = await _context.Tickets
                 .Include(t => t.Status)
                 .Include(t => t.TypeIntervention)
-                .Include(t => t.Commentaires)
+                .Include(t=>t.TypeAppareil)
                 .Include(t => t.Utilisateur)
                 .FirstOrDefaultAsync(t => t.TicketId == id);
 
@@ -114,9 +122,11 @@ namespace TicketAPI.Controllers
             {
                 Description = createTicketDto.Description,
                 StatusId = createTicketDto.StatusId,
+                TypeAppareilId= createTicketDto.TypeAppareilId,
+                DateCreation = createTicketDto.DateCreation, // Use the provided date
                 Oralement = createTicketDto.Oralement,
-                Etage = createTicketDto.Etage,
-                Emplacement = createTicketDto.Emplacement,
+                EtageId = createTicketDto.EtageId,
+                EmplacementId = createTicketDto.EmplacementId,
                 MotifDemande = createTicketDto.MotifDemande,
                 AppareilNom = createTicketDto.AppareilNom,
                 TypeInterventionId = createTicketDto.TypeInterventionId,
@@ -209,6 +219,7 @@ namespace TicketAPI.Controllers
             var userTickets = await _context.Tickets
                 .Where(t => t.UtilisateurId == utilisateurId)
                 .Include(t => t.Status) // Include related entities if needed
+                .Include(t =>t.TypeAppareil)
                 .Include(t => t.TypeIntervention)
                 .ToListAsync();
 

@@ -101,6 +101,8 @@
                             <Button Content="Add Ticket" Width="150" Margin="10,15,0,0" 
                                     HorizontalAlignment="Left" Click="AddTicket_Click" 
                                     Background="#007ACC" Foreground="White" FontWeight="Bold" Height="30"/>
+                            <Button Content="Delete Type Intervention" Margin="10" Width="200" Click="DeleteTickets_Click"/>
+
                         </StackPanel>
 
                         <Border Grid.Row="1" Background="#f1f1f1" CornerRadius="5" Margin="10" BorderBrush="#D3D3D3" BorderThickness="1">
@@ -122,6 +124,7 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Border>
+
 
 
 

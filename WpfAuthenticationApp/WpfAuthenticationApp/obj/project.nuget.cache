@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "QQXLbA3hWrk=",
+  "dgSpecHash": "n4+z69/uUZ8=",
   "success": true,
   "projectFilePath": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\WpfAuthenticationApp.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\salma\\.nuget\\packages\\extended.wpf.toolkit\\4.6.1\\extended.wpf.toolkit.4.6.1.nupkg.sha512",
     "C:\\Users\\salma\\.nuget\\packages\\microsoft.aspnet.webapi\\5.3.0\\microsoft.aspnet.webapi.5.3.0.nupkg.sha512",
     "C:\\Users\\salma\\.nuget\\packages\\microsoft.aspnet.webapi.client\\6.0.0\\microsoft.aspnet.webapi.client.6.0.0.nupkg.sha512",
     "C:\\Users\\salma\\.nuget\\packages\\microsoft.aspnet.webapi.core\\5.3.0\\microsoft.aspnet.webapi.core.5.3.0.nupkg.sha512",

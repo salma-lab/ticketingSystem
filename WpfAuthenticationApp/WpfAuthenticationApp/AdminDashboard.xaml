@@ -1,188 +1,318 @@
 ﻿<Window x:Class="WpfAuthenticationApp.AdminDashboard"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Admin Dashboard" Height="738" Width="900">
+        Title="Admin Dashboard" Height="738" Width="900" Background="AliceBlue">
+
+    <Window.Resources>
+        <!-- Custom TabItem Style -->
+        <Style TargetType="TabItem">
+            <Setter Property="Background" Value="LightBlue" />
+            <Setter Property="Foreground" Value="DarkBlue" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="BorderBrush" Value="SteelBlue" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Style.Triggers>
+                <!-- Change background on mouse hover -->
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="SkyBlue" />
+                </Trigger>
+                <!-- Change background when selected -->
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="DodgerBlue" />
+                    <Setter Property="Foreground" Value="Black" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+
     <Grid Margin="0,0,0,-171">
         <!-- TabControl to organize TypeIntervention, Status, and Ticket management -->
-        <TabControl Margin="10,10,10,169" SelectionChanged="TabControl_SelectionChanged">
+        <TabControl Margin="10,10,10,169" SelectionChanged="TabControl_SelectionChanged" Background="AliceBlue">
             <!-- Tab for Type Intervention Management -->
-            <TabItem Header="Type Intervention">
-                <StackPanel Margin="10">
-                    <!-- DataGrid for displaying TypeIntervention -->
-                    <DataGrid Name="TypeInterventionDataGrid" AutoGenerateColumns="True" 
-                              Height="200" Margin="10" 
-                              ItemsSource="{Binding TypeInterventions}" />
+            <TabItem Header="Admin" Margin="-2,-2,-2,2"  >
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                    <!-- Input for adding new TypeIntervention -->
-                    <StackPanel Orientation="Horizontal" Margin="10">
-                        <TextBox Name="NewTypeNameTextBox" Width="200" Margin="0,0,10,0" />
-                        <Button Content="Add Type" Width="120" Click="AddTypeIntervention_Click" />
-                    </StackPanel>
+                    <!-- Tabbed Section for Compact Layout -->
+                    <TabControl Grid.Row="0" Margin="0,0,0,10" Height="300">
 
-                    <Button Content="Delete Type Intervention" Margin="10" Width="200" Click="DeleteTypeIntervention_Click"/>
-                </StackPanel>
+                        <!-- Type Intervention Section -->
+                        <TabItem Header="Type d'intervention">
+                            <StackPanel>
+                                <DataGrid Name="TypeInterventionDataGrid" AutoGenerateColumns="False" Height="200" Margin="5" ItemsSource="{Binding TypeInterventions}" SelectionMode="Single">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Type" Binding="{Binding NomType}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                                    <Label Content="Nouveau type d'intervention:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                    <TextBox Name="NewTypeNameTextBox" Width="200" Margin="0,0,10,0"/>
+                                    <Button Content="Ajouter" Width="75" Margin="5" Background="DodgerBlue" Foreground="White" FontWeight="Bold" BorderBrush="DodgerBlue" Click="AddTypeIntervention_Click"/>
+                                    <Button Content="Supprimer" Width="75" Margin="5" Background="Red" Foreground="White" FontWeight="Bold" BorderBrush="Red" Click="DeleteTypeIntervention_Click"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </TabItem>
+
+                        <!-- Type Appareil Section -->
+                        <TabItem Header="Type d'appareil">
+                            <StackPanel>
+                                <DataGrid Name="TypeAppareilDataGrid" AutoGenerateColumns="False" Height="200" Margin="5" ItemsSource="{Binding TypeAppareils}" SelectionMode="Single">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Type d'appareil" Binding="{Binding NomTypeAppareil}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                                    <Label Content="Nouveau type d'appareil:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                    <TextBox Name="NewTypeAppNameTextBox" Width="200" Margin="0,0,10,0"/>
+                                    <Button Content="Ajouter" Width="75" Margin="5" Background="DodgerBlue" Foreground="White" FontWeight="Bold" BorderBrush="DodgerBlue" Click="AddTypeAppareil_Click"/>
+                                    <Button Content="Supprimer" Width="75" Margin="5" Background="Red" Foreground="White" FontWeight="Bold" BorderBrush="Red" Click="DeleteTypeAppareil_Click"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </TabItem>
+
+                        <!-- Etage Section -->
+                        <TabItem Header="Etage">
+                            <StackPanel>
+                                <DataGrid Name="EtageDataGrid" AutoGenerateColumns="False" Height="200" Margin="5" ItemsSource="{Binding Etages}" SelectionMode="Single">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Nom d'etage" Binding="{Binding NomEtage}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                                    <Label Content="Numero d'etage:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                    <TextBox Name="NewEtageNameTextBox" Width="200" Margin="0,0,10,0"/>
+                                    <Button Content="Ajouter" Width="75" Margin="5" Background="DodgerBlue" Foreground="White" FontWeight="Bold" BorderBrush="DodgerBlue" Click="AddEtage_Click"/>
+                                    <Button Content="Supprimer" Width="75" Margin="5" Background="Red" Foreground="White" FontWeight="Bold" BorderBrush="Red" Click="DeleteEtage_Click"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </TabItem>
+
+                        <!-- Emplacement Section -->
+                        <TabItem Header="Emplacement">
+                            <StackPanel>
+                                <DataGrid Name="EmplacementDataGrid" AutoGenerateColumns="False" Height="200" Margin="5" ItemsSource="{Binding Emplacement}" SelectionMode="Single">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Emplacement" Binding="{Binding NomEmplacement}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                                    <Label Content="Nouveau emplacement:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                    <TextBox Name="NewEmplacementNameTextBox" Width="200" Margin="0,0,10,0"/>
+                                    <Button Content="Ajouter" Width="75" Margin="5" Background="DodgerBlue" Foreground="White" FontWeight="Bold" BorderBrush="DodgerBlue" Click="AddEmplacement_Click"/>
+                                    <Button Content="Supprimer" Width="75" Margin="5" Background="Red" Foreground="White" FontWeight="Bold" BorderBrush="Red" Click="DeleteEmplacement_Click"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </TabItem>
+
+                        <!-- Status Section -->
+                        <TabItem Header="Status">
+                            <StackPanel>
+                                <DataGrid Name="StatusDataGrid" AutoGenerateColumns="False" Height="200" Margin="5" ItemsSource="{Binding Statuses}" SelectionMode="Single">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Status" Binding="{Binding NomStatus}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                                    <Label Content="Nouveau status:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                    <TextBox Name="NewStatusNameTextBox" Width="200" Margin="0,0,10,0"/>
+                                    <Button Content="Ajouter" Width="75" Margin="5" Background="DodgerBlue" Foreground="White" FontWeight="Bold" BorderBrush="DodgerBlue" Click="AddStatus_Click"/>
+                                    <Button Content="Supprimer" Width="75" Margin="5" Background="Red" Foreground="White" FontWeight="Bold" BorderBrush="Red" Click="DeleteStatus_Click"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </TabItem>
+
+                    </TabControl>
+                </Grid>
             </TabItem>
 
-            <!-- Tab for Status Management -->
-            <TabItem Header="Status">
-                <StackPanel Margin="10">
-                    <!-- DataGrid for displaying Status -->
-                    <DataGrid Name="StatusDataGrid" AutoGenerateColumns="True" 
-                              Height="200" Margin="10" 
-                              ItemsSource="{Binding Statuses}" />
 
-                    <!-- Input for adding new Status -->
-                    <StackPanel Orientation="Horizontal" Margin="10">
-                        <TextBox Name="NewStatusNameTextBox" Width="200" Margin="0,0,10,0" />
-                        <Button Content="Add Status" Width="120" Click="AddStatus_Click" />
-                    </StackPanel>
 
-                    <Button Content="Delete Status" Margin="10" Width="200" Click="DeleteStatus_Click"/>
-                </StackPanel>
-            </TabItem>
 
-            <TabItem Header="Tickets" Height="20" VerticalAlignment="Bottom">
-                <StackPanel Margin="2,0,18,0" Height="704" VerticalAlignment="Top">
+
+
+
+            <TabItem Header="Liste des demandes d'interventions" Height="20" VerticalAlignment="Bottom">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <!-- DataGrid -->
+                        <RowDefinition Height="*"/>
+                        <!-- Form Section -->
+                    </Grid.RowDefinitions>
+
                     <!-- DataGrid for displaying Tickets -->
-                    <DataGrid Name="TicketDataGrid" AutoGenerateColumns="False" 
-                  Height="119" Margin="10" 
-                  ItemsSource="{Binding Tickets}" 
-                  SelectionMode="Single">
+                    <DataGrid Name="TicketDataGrid" Grid.Row="0" AutoGenerateColumns="False" Height="200" Margin="5"
+                  ItemsSource="{Binding Tickets}" SelectionMode="Single">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" />
-                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
-                            <DataGridTextColumn Header="Date Création" Binding="{Binding DateCreation}" />
-                            <DataGridTextColumn Header="Oralement" Binding="{Binding Oralement}" />
-                            <DataGridTextColumn Header="Appareil" Binding="{Binding AppareilNom}" />
-                            <DataGridTextColumn Header="Étage" Binding="{Binding Etage}" />
-                            <DataGridTextColumn Header="Emplacement" Binding="{Binding Emplacement}" />
-                            <DataGridTextColumn Header="Motif" Binding="{Binding MotifDemande}" />
-                            <DataGridTextColumn Header="Type" Binding="{Binding NomType}" />
-                            <DataGridTextColumn Header="Statut" Binding="{Binding NomStatus}" />
-                            <!-- Button to show comments -->
-                            <DataGridTemplateColumn Header="Actions">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Content="View Comments" Command="{Binding DataContext.LoadCommentsCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                    CommandParameter="{Binding}" />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*" />
+                            <DataGridTextColumn Header="Motif" Binding="{Binding MotifDemande}" Width="*" />
+                            <DataGridTextColumn Header="Statut" Binding="{Binding NomStatus}" Width="*" />
+                            <DataGridTextColumn Header="Date Création" Binding="{Binding DateCreation, StringFormat='{}{0:yyyy/MM/dd HH:mm}'}" Width="*" />
+                            <DataGridTextColumn Header="Oralement" Binding="{Binding Oralement}" Width="*" />
+                            <DataGridTextColumn Header="Appareil" Binding="{Binding AppareilNom}" Width="*" />
+                            <DataGridTextColumn Header="Étage" Binding="{Binding NomEtage}" Width="*" />
+                            <DataGridTextColumn Header="Emplacement" Binding="{Binding NomEmplacement}" Width="*" />
+                            <DataGridTextColumn Header="Type" Binding="{Binding NomType}" Width="*" />
+
                         </DataGrid.Columns>
                     </DataGrid>
 
-                    <!-- DataGrid for displaying Comments -->
-                    <DataGrid Name="TicketCommentsDataGrid" AutoGenerateColumns="False" Height="99" Margin="10"
-                  ItemsSource="{Binding SelectedTicketComments}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Contenu" Binding="{Binding Contenu}" />
-                            <DataGridTextColumn Header="Date Commentaire" Binding="{Binding DateCommentaire}" />
-                            <DataGridTextColumn Header="Utilisateur" Binding="{Binding Nom}" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-               
-          
+                    <!-- Form for adding new Ticket -->
+                    <GroupBox Header="Ajouter/Gérer Interventions" Grid.Row="1" Margin="10">
+                        <Grid Margin="10">
+                            <!-- Define Rows and Columns -->
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="250" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="250" />
+                            </Grid.ColumnDefinitions>
 
+                            <!-- Motif -->
+                            <TextBlock Text="Motif:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" />
+                            <TextBox x:Name="NewTicketMotifTextBox" Grid.Row="0" Grid.Column="1" Margin="5" />
 
-            <!-- Form for adding new Ticket -->
-                    <StackPanel Orientation="Vertical" Margin="10" Height="278">
-                        <!-- Your existing ticket input fields here -->
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Description:" VerticalAlignment="Center" Width="100"/>
-                            <TextBox x:Name="NewTicketDescriptionTextBox" Width="200" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Oralement:" VerticalAlignment="Center" Width="100"/>
-                            <CheckBox x:Name="NewTicketOralementCheckBox" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Appareil Nom:" VerticalAlignment="Center" Width="100"/>
-                            <TextBox x:Name="NewTicketAppareilNomTextBox" Width="200" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Étage:" VerticalAlignment="Center" Width="100"/>
-                            <TextBox x:Name="NewTicketEtageTextBox" Width="200" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Emplacement:" VerticalAlignment="Center" Width="100"/>
-                            <TextBox x:Name="NewTicketEmplacementTextBox" Width="200" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Motif:" VerticalAlignment="Center" Width="100"/>
-                            <TextBox x:Name="NewTicketMotifTextBox" Width="200" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Type:" VerticalAlignment="Center" Width="100"/>
-                            <ComboBox x:Name="NewTicketTypeComboBox" Width="200"
-              ItemsSource="{Binding TypeInterventions}" DisplayMemberPath="NomType" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Statut:" VerticalAlignment="Center" Width="100"/>
-                            <ComboBox x:Name="TicketStatusComboBox" Width="200" 
-           ItemsSource="{Binding Statuses}" DisplayMemberPath="NomStatus" Margin="5,0,0,0" />
-                        </StackPanel>
+                            <!-- Oralement -->
+                            <TextBlock Text="Oralement:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" />
+                            <CheckBox x:Name="NewTicketOralementCheckBox" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="5" />
 
-                        <Button Content="Add Ticket" Margin="10" Width="200" Click="AddTicket_Click"/>
-                        <Button Content="Delete Ticket" Margin="10" Width="200" Click="DeleteTicket_Click"/>
-                    </StackPanel>
+                            <!-- Appareil Nom and Date -->
+                            <TextBlock Text="Nom d'Appareil:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" />
+                            <TextBox x:Name="NewTicketAppareilNomTextBox" Grid.Row="2" Grid.Column="1" Margin="5" />
+                            <TextBlock Text="Date:" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" />
+                            <TextBlock Text="Date and Time:" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" />
 
-                    <!-- Comment Section -->
-                    <StackPanel Orientation="Vertical" Margin="10" Height="115" Width="456">
-                        <TextBlock Text="Add a Comment:" VerticalAlignment="Center" Margin="0,10"/>
+                            <!-- Date Picker for Date -->
+                            <DatePicker x:Name="NewTicketDatePicker" Grid.Row="2" Grid.Column="3" Margin="5" />
 
-                        <!-- TextBox for entering comment -->
-                        <TextBox x:Name="NewCommentTextBox" Width="300" Height="25" VerticalScrollBarVisibility="Auto" Margin="0,5"/>
+                            
+                           
+                           
 
-                        <!-- Button to submit the comment -->
-                        <Button Content="Add Comment" Width="200" Click="AddComment_Click" Margin="10"/>
-                    </StackPanel>
+                            <!-- Étage and Emplacement -->
+                            <TextBlock Text="Étage:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" />
+                            <ComboBox x:Name="NewTicketEtageComboBox" Grid.Row="3" Grid.Column="1" Margin="5"
+                  ItemsSource="{Binding Etages}" DisplayMemberPath="NomEtage" />
+                            <TextBlock Text="Emplacement:" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" />
+                            <ComboBox x:Name="NewTicketEmplacementComboBox" Grid.Row="3" Grid.Column="3" Margin="5"
+                  ItemsSource="{Binding Emplacement}" DisplayMemberPath="NomEmplacement" />
 
-                </StackPanel>
+                            <!-- Type Appareil and Description -->
+                            <TextBlock Text="Type Appareil:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" />
+                            <ComboBox x:Name="NewTypeAppareilComboBox" Grid.Row="4" Grid.Column="1" Margin="5"
+                  ItemsSource="{Binding TypeAppareils}" DisplayMemberPath="NomTypeAppareil" />
+                            <TextBlock Text="Description:" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" />
+                            <TextBox x:Name="NewTicketDescriptionTextBox" Grid.Row="4" Grid.Column="3" Margin="5" />
+
+                            <!-- Type and Status -->
+                            <TextBlock Text="Type:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" />
+                            <ComboBox x:Name="NewTicketTypeComboBox" Grid.Row="5" Grid.Column="1" Margin="5"
+                  ItemsSource="{Binding TypeInterventions}" DisplayMemberPath="NomType" />
+                            <TextBlock Text="Statut:" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" />
+                            <ComboBox x:Name="TicketStatusComboBox" Grid.Row="5" Grid.Column="3" Margin="5"
+                  ItemsSource="{Binding Statuses}" DisplayMemberPath="NomStatus" />
+
+                            <!-- Buttons -->
+                            <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.ColumnSpan="4" HorizontalAlignment="Center" Margin="10">
+                                <Button Content="Ajouter l'intervention" Width="200" Margin="5" Background="DodgerBlue" Foreground="White"
+                    Click="AddTicket_Click" />
+                                <Button Content="Supprimer l'intervention" Width="200" Margin="5" Background="Red" Foreground="White"
+                    Click="DeleteTicket_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+
+                </Grid>
             </TabItem>
+
 
 
 
             <!-- Tab for Create Utilisateur -->
-            <TabItem Header="Utilisateurs">
-                <StackPanel Margin="10">
-                    <!-- DataGrid for displaying Utilisateurs -->
-                    <DataGrid Name="UtilisateurDataGrid" AutoGenerateColumns="True" 
-                              Height="120" Margin="10" 
-                              ItemsSource="{Binding Utilisateurss}" Width="833" HorizontalAlignment="Left" />
+            <TabItem Header="Les utilisateurs">
+    <StackPanel Margin="10">
+        <!-- DataGrid for displaying Utilisateurs -->
+                    <DataGrid Name="UtilisateurDataGrid" AutoGenerateColumns="False" 
+                  Height="150" Width="Auto" Margin="10" 
+                  ItemsSource="{Binding Utilisateurss}" 
+                  HorizontalAlignment="Stretch"
+                  SelectionMode="Single">
+                        <DataGrid.Columns>
+                                <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="*"/>
+                            <DataGridTextColumn Header="Prénom" Binding="{Binding Prenom}" Width="*"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+                            <DataGridTextColumn Header="Role d'utilisateur" Binding="{Binding RoleName}" Width="*"/>
 
-                    <!-- Form for input fields -->
-                    <StackPanel Margin="10">
-                        <TextBlock Text="Nom:" Margin="5" Width="102" HorizontalAlignment="Left"/>
-                        <TextBox Name="NomTextBox" Width="150" Margin="5" Padding="10" BorderBrush="Gray" BorderThickness="1" Height="44" HorizontalAlignment="Left" />
 
-                        <TextBlock Text="Prenom:" Margin="5" Width="102" HorizontalAlignment="Left"/>
-                        <TextBox Name="PrenomTextBox" Width="146" Margin="5" Padding="10" BorderBrush="Gray" BorderThickness="1" Height="42" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5" >
-                            <TextBox.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform/>
-                                    <SkewTransform AngleX="-0.445"/>
-                                    <RotateTransform/>
-                                    <TranslateTransform X="0.007"/>
-                                </TransformGroup>
-                            </TextBox.RenderTransform>
-                        </TextBox>
 
-                        <TextBlock Text="Email:" Margin="5" Width="102" HorizontalAlignment="Left"/>
-                        <TextBox Name="EmailTextBox" Width="145" Margin="5" Padding="10" BorderBrush="Gray" BorderThickness="1" Height="42" HorizontalAlignment="Left" />
+                        </DataGrid.Columns>
+                        </DataGrid>
 
-                        <TextBlock Text="Password:" Margin="5" Width="102" HorizontalAlignment="Left"/>
-                        <PasswordBox Name="PasswordBox" Width="142" Margin="5" Padding="10" BorderBrush="Gray" BorderThickness="1" Height="41" HorizontalAlignment="Left" />
+                        <!-- Form for input fields -->
+        <GroupBox Header="Ajouter / Modifier Utilisateur" Margin="10">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-                        <TextBlock Text="Role:" Margin="5" Width="102" HorizontalAlignment="Left"/>
-                        <ComboBox Name="RoleComboBox" Width="142" Margin="5" Padding="10" BorderBrush="Gray" BorderThickness="1" Height="33" HorizontalAlignment="Left"
-                                  ItemsSource="{Binding Roles}" DisplayMemberPath="RoleName" />
-                    </StackPanel>
+                <!-- Nom -->
+                <TextBlock Text="Nom:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
+                <TextBox Name="NomTextBox" Grid.Row="0" Grid.Column="1" Width="200" Margin="5" 
+                         Padding="5" BorderBrush="Gray" BorderThickness="1"/>
 
-                    <!-- Button to trigger Utilisateur creation -->
-                    <Button Content="Ajouter Utilisateur" Margin="10" Width="200" Height="40" HorizontalAlignment="Center" 
-                            Background="DodgerBlue" Foreground="White" BorderBrush="DodgerBlue" BorderThickness="1" Click="CreateUtilisateur_Click"/>
-                </StackPanel>
-            </TabItem>
+                <!-- Prenom -->
+                <TextBlock Text="Prénom:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
+                <TextBox Name="PrenomTextBox" Grid.Row="1" Grid.Column="1" Width="200" Margin="5" 
+                         Padding="5" BorderBrush="Gray" BorderThickness="1"/>
+
+                <!-- Email -->
+                <TextBlock Text="Email:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
+                <TextBox Name="EmailTextBox" Grid.Row="2" Grid.Column="1" Width="200" Margin="5" 
+                         Padding="5" BorderBrush="Gray" BorderThickness="1"/>
+
+                <!-- Password -->
+                <TextBlock Text="Mot de Passe:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
+                <PasswordBox Name="PasswordBox" Grid.Row="3" Grid.Column="1" Width="200" Margin="5" 
+                             Padding="5" BorderBrush="Gray" BorderThickness="1"/>
+
+                <!-- Role -->
+                <TextBlock Text="Rôle:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
+                <ComboBox Name="RoleComboBox" Grid.Row="4" Grid.Column="1" Width="200" Margin="5" 
+                          Padding="5" BorderBrush="Gray" BorderThickness="1"
+                          ItemsSource="{Binding Roles}" DisplayMemberPath="Role"/>
+            </Grid>
+        </GroupBox>
+
+        <!-- Button to trigger Utilisateur creation -->
+        <Button Content="Ajouter" Width="200" Height="40" Margin="10" 
+                HorizontalAlignment="Center" 
+                Background="DodgerBlue" Foreground="White" 
+                BorderBrush="DodgerBlue" BorderThickness="1" 
+                Click="CreateUtilisateur_Click"/>
+    </StackPanel>
+</TabItem>
+
         </TabControl>
     </Grid>
 </Window>
