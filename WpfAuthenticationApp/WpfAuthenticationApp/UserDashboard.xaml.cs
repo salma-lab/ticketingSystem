@@ -201,8 +201,7 @@ namespace WpfAuthenticationApp
                 Description = description,
                 Oralement = oralement,
                 AppareilNom = appareilNom,
-                Etage = etage,
-                Emplacement = emplacement,
+               
                 MotifDemande = motif,
                 TypeInterventionId = type.TypeInterventionId, // Ensure TypeInterventionId is being used
                 StatusId = 5 // Set to "En cours" by default

@@ -131,10 +131,6 @@
 
 
 
-
-
-
-
             <TabItem Header="Liste des demandes d'interventions" Height="20" VerticalAlignment="Bottom">
                 <Grid Margin="5">
                     <Grid.RowDefinitions>
@@ -146,7 +142,7 @@
 
                     <!-- DataGrid for displaying Tickets -->
                     <DataGrid Name="TicketDataGrid" Grid.Row="0" AutoGenerateColumns="False" Height="200" Margin="5"
-                  ItemsSource="{Binding Tickets}" SelectionMode="Single">
+          ItemsSource="{Binding Tickets}" SelectionMode="Single">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*" />
                             <DataGridTextColumn Header="Motif" Binding="{Binding MotifDemande}" Width="*" />
@@ -157,9 +153,30 @@
                             <DataGridTextColumn Header="Étage" Binding="{Binding NomEtage}" Width="*" />
                             <DataGridTextColumn Header="Emplacement" Binding="{Binding NomEmplacement}" Width="*" />
                             <DataGridTextColumn Header="Type" Binding="{Binding NomType}" Width="*" />
+                            <DataGridCheckBoxColumn Header="Validated" Binding="{Binding Validation2}" Width="*" />
+                            <DataGridCheckBoxColumn Header="Validated" Binding="{Binding Validation1}" Width="*" />
 
+                            <!-- New Column with Button -->
+                            <DataGridTemplateColumn Header="Actions" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Details/Update" Click="DetailsButton_Click" Tag="{Binding}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
+
+                    <!-- Ticket Detail Section for Inline Editing -->
+                    
+
+
+
+
+
+
+
+
 
                     <!-- Form for adding new Ticket -->
                     <GroupBox Header="Ajouter/Gérer Interventions" Grid.Row="1" Margin="10">

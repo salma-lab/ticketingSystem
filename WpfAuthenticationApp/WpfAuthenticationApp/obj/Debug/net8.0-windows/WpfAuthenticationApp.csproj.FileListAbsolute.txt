@@ -109,3 +109,5 @@ C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticat
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\ru\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\sv\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\obj\Debug\net8.0-windows\EditTicketWindow.g.cs
+C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\obj\Debug\net8.0-windows\EditTicketWindow.baml

@@ -646,6 +646,52 @@ namespace WpfAuthenticationApp
         // }
 
 
+        private Ticket _selectedTicket;
+
+        private void DetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Get the selected ticket from the Button's Tag property
+            if (sender is Button button && button.Tag is Ticket selectedTicket)
+            {
+                _selectedTicket = selectedTicket;
+
+                // Populate the fields with the ticket details
+                EmailTextBox.Text = selectedTicket.Email;
+                MotifTextBox.Text = selectedTicket.MotifDemande;
+                StatutTextBox.Text = selectedTicket.NomStatus;
+                AppareilTextBox.Text = selectedTicket.AppareilNom;
+
+                // Optionally disable or hide the DataGrid if you want to focus on the details
+                TicketDataGrid.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void SaveChangesButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedTicket != null)
+            {
+                // Update the ticket details with the new values from the TextBoxes
+                _selectedTicket.Email = EmailTextBox.Text;
+                _selectedTicket.MotifDemande = MotifTextBox.Text;
+                _selectedTicket.NomStatus = StatutTextBox.Text;
+                _selectedTicket.AppareilNom = AppareilTextBox.Text;
+
+                // Optionally: Save changes to your data source (e.g., update database)
+
+                // Refresh the DataGrid
+                TicketDataGrid.Items.Refresh();
+
+                // Optionally show the DataGrid again
+                TicketDataGrid.Visibility = Visibility.Visible;
+            }
+        }
+
+
+
+
+
+
+
 
 
 
@@ -793,6 +839,11 @@ namespace WpfAuthenticationApp
 
 
 
+      
+
+
+
+       
 
 
 
@@ -890,18 +941,24 @@ namespace WpfAuthenticationApp
             }
         }
 
-/// <summary>
+        /// <summary>
         /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////:///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// Utilisateur////////////////////////////////////////////////////////////////////////////:::
-// </summary>
+        // </summary>
 
 
 
+        
     
 
 
-        // Helper class to represent the JSON structure
-        public class OuterObject<T>
+
+
+
+
+
+    // Helper class to represent the JSON structure
+    public class OuterObject<T>
         {
             [JsonPropertyName("$values")]
             public List<T> Values { get; set; }
@@ -919,11 +976,11 @@ namespace WpfAuthenticationApp
 
         
 
-        private void StatusDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+       private void StatusDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
-    }
+   }
 
     // TypeIntervention class
     public class TypeIntervention
@@ -952,14 +1009,18 @@ namespace WpfAuthenticationApp
         public string AppareilNom { get; set; }
         public string NomEtage { get; set; }
         public string NomEmplacement { get; set; }
+        public bool Validation1 { get; set; }
+        public bool Validation2 { get; set; }
 
+        public int TypeInterventionId { get; set; }
 
         public string NomTypeAppareil { get; set; }
         public string MotifDemande { get; set; }
         public string NomType { get; set; }
         public string NomStatus { get; set; }
-    
-}
+        public int StatusId { get; set; }
+
+    }
     
 
     public class TicketCreateDto
@@ -967,16 +1028,51 @@ namespace WpfAuthenticationApp
         public string Description { get; set; }
         public bool Oralement { get; set; }
         public string AppareilNom { get; set; }
-        public string Etage { get; set; }
         public DateTime DateCreation { get; set; } = DateTime.Now;
 
-        public string Emplacement { get; set; }
         public string MotifDemande { get; set; }
         public int TypeInterventionId { get; set; }
         public int StatusId { get; set; }
         public int EtageId { get; set; }
         public int EmplacementId { get; set; }
         public int TypeAppareilId   { get; set; }
+        public bool Validation1 { get; set; }
+        public bool Validation2 { get; set; }
+    }
+    public class TicketUpdateDto
+    {
+        public int TicketId { get; set; }
+
+        public string? Description { get; set; }
+        public bool? Oralement { get; set; }
+        public string? AppareilNom { get; set; }
+        public int? EtageId { get; set; }
+        public int? EmplacementId { get; set; }
+
+
+        public string? MotifDemande { get; set; }
+
+        public int? StatusId { get; set; }
+        public bool? Validation1 { get; set; }
+        public bool? Validation2 { get; set; }
+
+        public int? TypeAppareilId { get; set; }
+        public string? Email { get; set; }
+        public DateTime? DateCreation { get; set; }
+
+
+
+
+        public int? TypeInterventionId { get; set; }
+        public int? UtilisateurId { get; set; }
+
+
+
+
+
+
+
+
     }
 
     public class Utilisateur

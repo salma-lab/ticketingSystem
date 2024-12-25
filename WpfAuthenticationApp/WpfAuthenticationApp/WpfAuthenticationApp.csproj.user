@@ -10,6 +10,9 @@
     <Compile Update="AdminDashboard.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="EditTicketWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="LoginWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -25,6 +28,9 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="AdminDashboard.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="EditTicketWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="LoginWindow.xaml">
