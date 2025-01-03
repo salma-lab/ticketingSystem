@@ -103,7 +103,9 @@ namespace TicketAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCreation")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -137,8 +139,8 @@ namespace TicketAPI.Migrations
                     b.Property<bool>("Validation1")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("Validation2")
-                        .HasColumnType("bit");
+                    b.Property<DateTime?>("ValidationTime")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("TicketId");
 

@@ -365,8 +365,29 @@
         "IsRequired": true
       },
       {
-        "Name": "ticket",
-        "Type": "TicketAPI.Models.Ticket",
+        "Name": "ticketDto",
+        "Type": "TicketAPI.Models.TicketUpdateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.TicketController",
+    "Method": "PatchTicket",
+    "RelativePath": "api/TicketsController/{id}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "ticketDto",
+        "Type": "TicketAPI.Models.TicketUpdateDto",
         "IsRequired": true
       }
     ],

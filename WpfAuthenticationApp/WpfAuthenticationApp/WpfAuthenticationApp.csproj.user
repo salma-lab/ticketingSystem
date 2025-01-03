@@ -10,10 +10,10 @@
     <Compile Update="AdminDashboard.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="EditTicketWindow.xaml.cs">
+    <Compile Update="LoginWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="LoginWindow.xaml.cs">
+    <Compile Update="TicketDetailsWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UserDashboard.xaml.cs">
@@ -30,13 +30,13 @@
     <Page Update="AdminDashboard.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="EditTicketWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="LoginWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TicketDetailsWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UserDashboard.xaml">

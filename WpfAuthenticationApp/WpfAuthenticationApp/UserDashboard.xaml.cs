@@ -251,7 +251,7 @@ namespace WpfAuthenticationApp
                 using var client = new HttpClient();
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
 
-                var response = await client.DeleteAsync($"{_MyTickets}/{selectedTicket.TicketId}");
+                var response = await client.DeleteAsync($"{_MyTickets}/{selectedTicket.ticketId}");
                 response.EnsureSuccessStatusCode();
 
                 // Reload the tickets after deletion

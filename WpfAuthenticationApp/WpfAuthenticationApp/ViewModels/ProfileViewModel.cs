@@ -28,14 +28,14 @@ namespace WpfAuthenticationApp.ViewModels
             {
                 new Ticket
                 {
-                    TicketId = 1,
+                    ticketId = 1,
                     Description = "UI Bug Fix",
                     AppareilNom = "Printer",
                     NomStatus = "Open"
                 },
                 new Ticket
                 {
-                    TicketId = 2,
+                    ticketId = 2,
                     Description = "Add Dark Mode",
                     AppareilNom = "Website",
                     NomStatus = "Pending"
@@ -53,7 +53,7 @@ namespace WpfAuthenticationApp.ViewModels
             {
                 Comments.Add(new Commentaire
                 {
-                    TicketId = ticket.TicketId,
+                    TicketId = ticket.ticketId,
                     Contenu = NewCommentContent,
                     DateCommentaire = System.DateTime.Now
                 });

@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\App.xaml
-7371623489
+7-848097855
 138852545
-25450297932
+25629678605
 214-1892935973
-AdminDashboard.xaml;EditTicketWindow.xaml;LoginWindow.xaml;MainWindow.xaml;UserDashboard.xaml;Views\CreateTicketPage.xaml;Views\ProfilePage.xaml;
+AdminDashboard.xaml;LoginWindow.xaml;MainWindow.xaml;TicketDetailsWindow.xaml;UserDashboard.xaml;Views\CreateTicketPage.xaml;Views\ProfilePage.xaml;
 
 False
 

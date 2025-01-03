@@ -40,7 +40,7 @@ namespace WpfAuthenticationApp.ViewModels
         {
             var newTicket = new Ticket
             {
-                TicketId = new Random().Next(1000),
+                ticketId = new Random().Next(1000),
                 Description = Description,
                 AppareilNom = AppareilNom,
                 DateCreation = DateTime.Now,

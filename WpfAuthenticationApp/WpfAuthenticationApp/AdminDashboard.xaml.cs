@@ -2,13 +2,17 @@
 using System.Data;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using WpfAuthenticationApp.Models;
+
+using System.Windows.Media;
 
 
 
@@ -626,7 +630,7 @@ namespace WpfAuthenticationApp
             if (selectedTicket != null)
             {
                 // Store the selected ticket's ID
-                SelectedTicketId = selectedTicket.TicketId; // Assuming TicketId is a property in the Ticket model
+                SelectedTicketId = selectedTicket.ticketId; // Assuming TicketId is a property in the Ticket model
             }
             else
             {
@@ -646,45 +650,32 @@ namespace WpfAuthenticationApp
         // }
 
 
-        private Ticket _selectedTicket;
+        //private Ticket _selectedTicket;
 
-        private void DetailsButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Get the selected ticket from the Button's Tag property
-            if (sender is Button button && button.Tag is Ticket selectedTicket)
-            {
-                _selectedTicket = selectedTicket;
 
-                // Populate the fields with the ticket details
-                EmailTextBox.Text = selectedTicket.Email;
-                MotifTextBox.Text = selectedTicket.MotifDemande;
-                StatutTextBox.Text = selectedTicket.NomStatus;
-                AppareilTextBox.Text = selectedTicket.AppareilNom;
 
-                // Optionally disable or hide the DataGrid if you want to focus on the details
-                TicketDataGrid.Visibility = Visibility.Collapsed;
-            }
-        }
+      private void DetailsButton_Click(object sender, RoutedEventArgs e)
+{
+    if (TicketDataGrid.SelectedItem is Ticket selectedTicket)
+    {
+        // Pass the selected ticket and the Statuses list to the TicketDetailsWindow
+        TicketDetailsWindow detailsWindow = new TicketDetailsWindow(selectedTicket, Statuses);
+        detailsWindow.ShowDialog();
+    }
+    else
+    {
+        MessageBox.Show("Please select a ticket to view details.", "No Selection", MessageBoxButton.OK, MessageBoxImage.Warning);
+    }
+}
 
-        private void SaveChangesButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (_selectedTicket != null)
-            {
-                // Update the ticket details with the new values from the TextBoxes
-                _selectedTicket.Email = EmailTextBox.Text;
-                _selectedTicket.MotifDemande = MotifTextBox.Text;
-                _selectedTicket.NomStatus = StatutTextBox.Text;
-                _selectedTicket.AppareilNom = AppareilTextBox.Text;
 
-                // Optionally: Save changes to your data source (e.g., update database)
 
-                // Refresh the DataGrid
-                TicketDataGrid.Items.Refresh();
 
-                // Optionally show the DataGrid again
-                TicketDataGrid.Visibility = Visibility.Visible;
-            }
-        }
+
+
+
+
+
 
 
 
@@ -825,7 +816,7 @@ namespace WpfAuthenticationApp
                 using var client = new HttpClient();
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
 
-                var response = await client.DeleteAsync($"{_ticketApiUrl}/{selectedTicket.TicketId}");
+                var response = await client.DeleteAsync($"{_ticketApiUrl}/{selectedTicket.ticketId}");
                 response.EnsureSuccessStatusCode();
 
                 // Reload the tickets after deletion
@@ -980,7 +971,12 @@ namespace WpfAuthenticationApp
         {
 
         }
-   }
+
+        private void NewTicketMotifTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+    }
 
     // TypeIntervention class
     public class TypeIntervention
@@ -989,28 +985,64 @@ namespace WpfAuthenticationApp
         public string NomType { get; set; }
     }
 
+
+    
+
+
     // Status class
     public class Status
     {
         public int StatusId { get; set; }
         public string NomStatus { get; set; }
     }
+
+    public class TicketUpdateDto
+    {
+        public int ticketId { get; set; }
+
+        public string? Description { get; set; }
+        public bool? Oralement { get; set; }
+        public string? AppareilNom { get; set; }
+        public int? EtageId { get; set; }
+        public int? EmplacementId { get; set; }
+        public DateTime? ValidationTime { get; set; }
+
+
+        public string? MotifDemande { get; set; }
+
+        public int? StatusId { get; set; }
+        public bool? Validation1 { get; set; }
+        public bool? Validation2 { get; set; }
+
+        public int? TypeAppareilId { get; set; }
+        public string? Email { get; set; }
+        public DateTime? DateCreation { get; set; }
+
+
+
+
+        public int? TypeInterventionId { get; set; }
+        public int? UtilisateurId { get; set; }
+        //public DateTime DateValidation { get; set; }
+
+    }
+
+
     // Ticket class
     public class Ticket
     {
-        public int TicketId { get; set; }
+        public int ticketId { get; set; }
         public string Email { get; set; }
 
 
         public string Description { get; set; }
         public DateTime DateCreation { get; set; } = DateTime.Now;
-
+        public DateTime? ValidationTime { get; set; }
         public bool Oralement { get; set; }
         public string AppareilNom { get; set; }
         public string NomEtage { get; set; }
         public string NomEmplacement { get; set; }
         public bool Validation1 { get; set; }
-        public bool Validation2 { get; set; }
 
         public int TypeInterventionId { get; set; }
 
@@ -1019,6 +1051,11 @@ namespace WpfAuthenticationApp
         public string NomType { get; set; }
         public string NomStatus { get; set; }
         public int StatusId { get; set; }
+        // Nested objects
+        public Status Status { get; set; }
+        public TypeIntervention TypeIntervention { get; set; }
+        public Utilisateur Utilisateur { get; set; }
+        public TypeAppareil TypeAppareil { get; set; }
 
     }
     
@@ -1039,44 +1076,12 @@ namespace WpfAuthenticationApp
         public bool Validation1 { get; set; }
         public bool Validation2 { get; set; }
     }
-    public class TicketUpdateDto
-    {
-        public int TicketId { get; set; }
-
-        public string? Description { get; set; }
-        public bool? Oralement { get; set; }
-        public string? AppareilNom { get; set; }
-        public int? EtageId { get; set; }
-        public int? EmplacementId { get; set; }
-
-
-        public string? MotifDemande { get; set; }
-
-        public int? StatusId { get; set; }
-        public bool? Validation1 { get; set; }
-        public bool? Validation2 { get; set; }
-
-        public int? TypeAppareilId { get; set; }
-        public string? Email { get; set; }
-        public DateTime? DateCreation { get; set; }
-
-
-
-
-        public int? TypeInterventionId { get; set; }
-        public int? UtilisateurId { get; set; }
-
-
-
-
-
-
-
-
-    }
+  
 
     public class Utilisateur
     {
+        
+
         public int UtilisateurId { get; set; }
         public string Nom { get; set; }
         public string Prenom { get; set; }

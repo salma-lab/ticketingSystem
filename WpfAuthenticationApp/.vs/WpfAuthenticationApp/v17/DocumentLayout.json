@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\wpfauthenticationapp\\wpfauthenticationapp\\ticketdetailswindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|solutionrelative:wpfauthenticationapp\\ticketdetailswindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\wpfauthenticationapp\\wpfauthenticationapp\\ticketdetailswindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|solutionrelative:wpfauthenticationapp\\ticketdetailswindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\wpfauthenticationapp\\wpfauthenticationapp\\admindashboard.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|solutionrelative:wpfauthenticationapp\\admindashboard.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
@@ -11,8 +19,8 @@
       "RelativeMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|solutionrelative:wpfauthenticationapp\\admindashboard.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\wpfauthenticationapp\\wpfauthenticationapp\\models\\etage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|solutionrelative:wpfauthenticationapp\\models\\etage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\wpfauthenticationapp\\wpfauthenticationapp\\models\\ticket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|solutionrelative:wpfauthenticationapp\\models\\ticket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,24 +30,15 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AdminDashboard.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\AdminDashboard.xaml.cs",
-              "RelativeDocumentMoniker": "WpfAuthenticationApp\\AdminDashboard.xaml.cs",
-              "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\AdminDashboard.xaml.cs",
-              "RelativeToolTip": "WpfAuthenticationApp\\AdminDashboard.xaml.cs",
-              "ViewState": "AgIAALYCAAAAAAAAAAAgwNMCAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-24T17:27:25.967Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "AdminDashboard.xaml",
               "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\AdminDashboard.xaml",
               "RelativeDocumentMoniker": "WpfAuthenticationApp\\AdminDashboard.xaml",
@@ -51,15 +50,53 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Etage.cs",
-              "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\Models\\Etage.cs",
-              "RelativeDocumentMoniker": "WpfAuthenticationApp\\Models\\Etage.cs",
-              "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\Models\\Etage.cs",
-              "RelativeToolTip": "WpfAuthenticationApp\\Models\\Etage.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAXAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "TicketDetailsWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\TicketDetailsWindow.xaml",
+              "RelativeDocumentMoniker": "WpfAuthenticationApp\\TicketDetailsWindow.xaml",
+              "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\TicketDetailsWindow.xaml",
+              "RelativeToolTip": "WpfAuthenticationApp\\TicketDetailsWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-12-28T08:45:44.028Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TicketDetailsWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\TicketDetailsWindow.xaml.cs",
+              "RelativeDocumentMoniker": "WpfAuthenticationApp\\TicketDetailsWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\TicketDetailsWindow.xaml.cs",
+              "RelativeToolTip": "WpfAuthenticationApp\\TicketDetailsWindow.xaml.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAUwD8AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-23T15:27:05.65Z",
+              "WhenOpened": "2024-12-28T10:55:45.671Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AdminDashboard.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\AdminDashboard.xaml.cs",
+              "RelativeDocumentMoniker": "WpfAuthenticationApp\\AdminDashboard.xaml.cs",
+              "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\AdminDashboard.xaml.cs",
+              "RelativeToolTip": "WpfAuthenticationApp\\AdminDashboard.xaml.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-24T17:27:25.967Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Ticket.cs",
+              "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\Models\\Ticket.cs",
+              "RelativeDocumentMoniker": "WpfAuthenticationApp\\Models\\Ticket.cs",
+              "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\Models\\Ticket.cs",
+              "RelativeToolTip": "WpfAuthenticationApp\\Models\\Ticket.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-03T10:56:08.625Z",
               "EditorCaption": ""
             }
           ]
