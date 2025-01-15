@@ -5,6 +5,8 @@ using TicketAPI.Data;
 using TicketAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using System.Configuration;
+using System.Runtime.InteropServices;
 
 
 
@@ -12,24 +14,24 @@ namespace TicketAPI.Controllers
 {
     [Route("api/TicketsController")]
     [ApiController]
-    [Authorize] 
+    //[Authorize] 
 
     public class TicketController : ControllerBase
     {
         private readonly TicketingSystemDbContext _context;
-        private readonly IConfiguration _configuration; 
+        private readonly IConfiguration _configuration;
 
 
         public TicketController(TicketingSystemDbContext context, IConfiguration configuration)
         {
             _context = context;
-            _configuration = configuration; 
+            _configuration = configuration;
 
         }
 
         // GET: api/ticket
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<IEnumerable<TicketDTO>>> GetTickets()
         {
             try
@@ -91,14 +93,14 @@ namespace TicketAPI.Controllers
 
         // GET: api/ticket/5
         [HttpGet("{id}")]
-        [Authorize] 
+        //[Authorize] 
 
         public async Task<ActionResult<Ticket>> GetTicket(int id)
         {
             var ticket = await _context.Tickets
                 .Include(t => t.Status)
                 .Include(t => t.TypeIntervention)
-                .Include(t=>t.TypeAppareil)
+                .Include(t => t.TypeAppareil)
                 .Include(t => t.Utilisateur)
                 .FirstOrDefaultAsync(t => t.TicketId == id);
 
@@ -112,7 +114,7 @@ namespace TicketAPI.Controllers
 
         // POST: api/ticket
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<Ticket>> CreateTicket(CreateTicketDto createTicketDto)
         {
             if (createTicketDto == null)
@@ -135,7 +137,7 @@ namespace TicketAPI.Controllers
             {
                 Description = createTicketDto.Description,
                 StatusId = createTicketDto.StatusId,
-                TypeAppareilId= createTicketDto.TypeAppareilId,
+                TypeAppareilId = createTicketDto.TypeAppareilId,
                 DateCreation = createTicketDto.DateCreation, // Use the provided date
                 Oralement = createTicketDto.Oralement,
                 EtageId = createTicketDto.EtageId,
@@ -154,162 +156,41 @@ namespace TicketAPI.Controllers
 
 
 
+
+
+
+
         [HttpPut("{id}")]
-        [Authorize]
-        public async Task<IActionResult> PutTicket(int id, TicketUpdateDto ticketDto)
+        public async Task<IActionResult> UpdateTicket(int id, [FromBody] CreateTicketDto updatedTicket)
         {
-            if (id != ticketDto.ticketId)
-            {
-                return BadRequest("Ticket ID mismatch.");
-            }
-
-            var ticket = await _context.Tickets.FindAsync(id);
-            if (ticket == null)
+            var existingTicket = await _context.Tickets.FindAsync(id);
+            if (existingTicket == null)
             {
                 return NotFound();
             }
 
-            // Update properties provided in the DTO
-            if (ticketDto.Description != null)
-            {
-                ticket.Description = ticketDto.Description;
-            }
-            if (ticketDto.Oralement.HasValue)
-            {
-                ticket.Oralement = ticketDto.Oralement.Value;
-            }
-            if (ticketDto.AppareilNom != null)
-            {
-                ticket.AppareilNom = ticketDto.AppareilNom;
-            }
-            if (ticketDto.EtageId.HasValue)
-            {
-                ticket.EtageId = ticketDto.EtageId.Value;
-            }
-            if (ticketDto.EmplacementId.HasValue)
-            {
-                ticket.EmplacementId = ticketDto.EmplacementId.Value;
-            }
-            if (ticketDto.ValidationTime.HasValue)
-            {
-                ticket.ValidationTime = ticketDto.ValidationTime.Value;
-            }
-            if (ticketDto.MotifDemande != null)
-            {
-                ticket.MotifDemande = ticketDto.MotifDemande;
-            }
-            if (ticketDto.StatusId.HasValue)
-            {
-                ticket.StatusId = ticketDto.StatusId.Value;
-            }
-            if (ticketDto.Validation1.HasValue)
-            {
-                ticket.Validation1 = ticketDto.Validation1.Value;
+            // Update the existing ticket fields
+            existingTicket.Description = updatedTicket.Description;
+            existingTicket.Oralement = updatedTicket.Oralement;
+            existingTicket.AppareilNom = updatedTicket.AppareilNom;
+            existingTicket.EtageId = updatedTicket.EtageId;
+            existingTicket.EmplacementId = updatedTicket.EmplacementId;
+            existingTicket.TypeAppareilId = updatedTicket.TypeAppareilId;
+            existingTicket.MotifDemande = updatedTicket.MotifDemande;
+            existingTicket.TypeInterventionId = updatedTicket.TypeInterventionId;
+            existingTicket.StatusId = updatedTicket.StatusId;
+            existingTicket.DateCreation = updatedTicket.DateCreation;
 
-                // Automatically set ValidationTime if Validation1 is set to true
-                if (ticketDto.Validation1.Value && !ticket.ValidationTime.HasValue)
-                {
-                    ticket.ValidationTime = DateTime.UtcNow; // Use UtcNow for consistency
-                }
-                else if (!ticketDto.Validation1.Value)
-                {
-                    ticket.ValidationTime = null; // Clear ValidationTime if Validation1 is set to false
-                }
-            }
-            if (ticketDto.TypeAppareilId.HasValue)
-            {
-                ticket.TypeAppareilId = ticketDto.TypeAppareilId.Value;
-            }
-           
-            if (ticketDto.DateCreation.HasValue)
-            {
-                ticket.DateCreation = ticketDto.DateCreation.Value;
-            }
-            if (ticketDto.TypeInterventionId.HasValue)
-            {
-                ticket.TypeInterventionId = ticketDto.TypeInterventionId.Value;
-            }
-            if (ticketDto.UtilisateurId.HasValue)
-            {
-                ticket.UtilisateurId = ticketDto.UtilisateurId.Value;
-            }
+            await _context.SaveChangesAsync();
 
-            _context.Entry(ticket).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TicketExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(existingTicket);
         }
-
-        [HttpPatch("{id}")]
-        [Authorize]
-        public async Task<IActionResult> PatchTicketValidation(int id, [FromBody] TicketUpdateDto ticketDto)
-        {
-            var ticket = await _context.Tickets.FindAsync(id);
-            if (ticket == null)
-            {
-                return NotFound();
-            }
-
-            // Update only Validation1
-            if (ticketDto.Validation1.HasValue)
-            {
-                ticket.Validation1 = ticketDto.Validation1.Value;
-
-                // Automatically set ValidationTime if Validation1 is true
-                if (ticketDto.Validation1.Value && !ticket.ValidationTime.HasValue)
-                {
-                    ticket.ValidationTime = DateTime.UtcNow;
-                }
-                else if (!ticketDto.Validation1.Value)
-                {
-                    ticket.ValidationTime = null;
-                }
-            }
-
-            _context.Entry(ticket).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Tickets.Any(t => t.Id == id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-
-
 
 
 
         // DELETE: api/ticket/5
         [HttpDelete("{id}")]
-        [Authorize] 
+        [Authorize]
 
         public async Task<IActionResult> DeleteTicket(int id)
         {
@@ -352,7 +233,7 @@ namespace TicketAPI.Controllers
             var userTickets = await _context.Tickets
                 .Where(t => t.UtilisateurId == utilisateurId)
                 .Include(t => t.Status) // Include related entities if needed
-                .Include(t =>t.TypeAppareil)
+                .Include(t => t.TypeAppareil)
                 .Include(t => t.TypeIntervention)
                 .ToListAsync();
 

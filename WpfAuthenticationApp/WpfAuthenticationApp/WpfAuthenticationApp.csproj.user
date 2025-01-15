@@ -19,12 +19,6 @@
     <Compile Update="UserDashboard.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\CreateTicketPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\ProfilePage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="AdminDashboard.xaml">
@@ -40,12 +34,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UserDashboard.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\CreateTicketPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\ProfilePage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

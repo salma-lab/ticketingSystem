@@ -13,6 +13,7 @@ using System.Windows.Documents;
 using WpfAuthenticationApp.Models;
 
 using System.Windows.Media;
+using System.Globalization;
 
 
 
@@ -68,14 +69,14 @@ namespace WpfAuthenticationApp
             LoadRoles();
             LoadTypeAppareil();
             LoadEtages();
-            LoadEmplacements ();
+            LoadEmplacements();
 
 
         }
-/// <summary>
-/// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// //////////////////////// ROLE:://////////////////////////////////////////////////////////////////////////////////////////
-/// </summary>
+        /// <summary>
+        /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// //////////////////////// ROLE:://////////////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
         private async void LoadRoles()
         {
             try
@@ -120,10 +121,10 @@ namespace WpfAuthenticationApp
         }
 
 
-/// <summary>
-/// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////:
-/// TYPEINTERVENTION :::::://////////////////////////////////////////////////////////////////////////////////
-/// </summary>
+        /// <summary>
+        /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////:
+        /// TYPEINTERVENTION :::::://////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
         #region Type Intervention Methods
         private async void LoadTypeInterventions()
         {
@@ -219,10 +220,10 @@ namespace WpfAuthenticationApp
             }
         }
         #endregion
-/// <summary>
-/// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Status/////////////////////////////////////////////////////////////////////////////////////////
-/// </summary>
+        /// <summary>
+        /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// Status/////////////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
 
         #region Status Methods
         private async void LoadStatuses()
@@ -422,6 +423,14 @@ namespace WpfAuthenticationApp
                 MessageBox.Show($"Error deleting TypeAppareil: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
+
+       
+
+       
+
+
 
 
         private async void LoadEtages()
@@ -654,19 +663,19 @@ namespace WpfAuthenticationApp
 
 
 
-      private void DetailsButton_Click(object sender, RoutedEventArgs e)
-{
-    if (TicketDataGrid.SelectedItem is Ticket selectedTicket)
-    {
-        // Pass the selected ticket and the Statuses list to the TicketDetailsWindow
-        TicketDetailsWindow detailsWindow = new TicketDetailsWindow(selectedTicket, Statuses);
-        detailsWindow.ShowDialog();
-    }
-    else
-    {
-        MessageBox.Show("Please select a ticket to view details.", "No Selection", MessageBoxButton.OK, MessageBoxImage.Warning);
-    }
-}
+        private void DetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (TicketDataGrid.SelectedItem is Ticket selectedTicket)
+            {
+                // Pass the selected ticket and the Statuses list to the TicketDetailsWindow
+                TicketDetailsWindow detailsWindow = new TicketDetailsWindow(selectedTicket, Statuses);
+                detailsWindow.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Please select a ticket to view details.", "No Selection", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
 
 
 
@@ -830,11 +839,11 @@ namespace WpfAuthenticationApp
 
 
 
-      
 
 
 
-       
+
+
 
 
 
@@ -939,8 +948,67 @@ namespace WpfAuthenticationApp
 
 
 
-        
-    
+        private async void UpdateTicket_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedTicket = TicketDataGrid.SelectedItem as Ticket;
+            if (selectedTicket == null)
+            {
+                MessageBox.Show("Please select a ticket to update.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var description = NewTicketDescriptionTextBox.Text.Trim();
+            var oralement = NewTicketOralementCheckBox.IsChecked ?? false;
+            var appareilNom = NewTicketAppareilNomTextBox.Text.Trim();
+            var etage = NewTicketEtageComboBox.SelectedItem as Etage;
+            var emplacement = NewTicketEmplacementComboBox.SelectedItem as Emplacement;
+            var motif = NewTicketMotifTextBox.Text.Trim();
+            var type = NewTicketTypeComboBox.SelectedItem as TypeIntervention;
+            var status = TicketStatusComboBox.SelectedItem as Status;
+            var typeApp = NewTypeAppareilComboBox.SelectedItem as TypeAppareil;
+            var selectedDate = NewTicketDatePicker.SelectedDate ?? DateTime.Now;
+
+            if (string.IsNullOrEmpty(description) || string.IsNullOrEmpty(motif) || type == null || status == null || typeApp == null || etage == null || emplacement == null)
+            {
+                MessageBox.Show("Please fill all the required fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var updatedTicket = new TicketCreateDto
+            {
+                Description = description,
+                Oralement = oralement,
+                AppareilNom = appareilNom,
+                EtageId = etage.EtageId,
+                EmplacementId = emplacement.EmplacementId,
+                TypeAppareilId = typeApp.TypeAppareilId,
+                MotifDemande = motif,
+                TypeInterventionId = type.TypeInterventionId,
+                StatusId = status.StatusId,
+                DateCreation = selectedDate
+            };
+
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+                var json = JsonSerializer.Serialize(updatedTicket);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync($"{_ticketApiUrl}/{selectedTicket.ticketId}", content);
+                response.EnsureSuccessStatusCode();
+                MessageBox.Show("Ticket updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadTickets();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Error updating ticket: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (JsonException ex)
+            {
+                MessageBox.Show($"Error serializing ticket data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
 
 
@@ -948,8 +1016,10 @@ namespace WpfAuthenticationApp
 
 
 
-    // Helper class to represent the JSON structure
-    public class OuterObject<T>
+
+
+        // Helper class to represent the JSON structure
+        public class OuterObject<T>
         {
             [JsonPropertyName("$values")]
             public List<T> Values { get; set; }
@@ -965,9 +1035,9 @@ namespace WpfAuthenticationApp
 
         }
 
-        
 
-       private void StatusDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        private void StatusDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
@@ -986,7 +1056,7 @@ namespace WpfAuthenticationApp
     }
 
 
-    
+
 
 
     // Status class
@@ -1058,7 +1128,7 @@ namespace WpfAuthenticationApp
         public TypeAppareil TypeAppareil { get; set; }
 
     }
-    
+
 
     public class TicketCreateDto
     {
@@ -1072,15 +1142,15 @@ namespace WpfAuthenticationApp
         public int StatusId { get; set; }
         public int EtageId { get; set; }
         public int EmplacementId { get; set; }
-        public int TypeAppareilId   { get; set; }
+        public int TypeAppareilId { get; set; }
         public bool Validation1 { get; set; }
         public bool Validation2 { get; set; }
     }
-  
+
 
     public class Utilisateur
     {
-        
+
 
         public int UtilisateurId { get; set; }
         public string Nom { get; set; }
@@ -1113,11 +1183,11 @@ namespace WpfAuthenticationApp
 
     }
 
-    
 
-   
 
- 
+
+
+
 
     public class Emplacement
     {

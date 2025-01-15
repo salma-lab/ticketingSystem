@@ -7,7 +7,6 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using WpfAuthenticationApp.Models;
-using WpfAuthenticationApp.Views;
 using Newtonsoft.Json;
 
 

@@ -87,11 +87,7 @@ C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticat
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\obj\Debug\net8.0-windows\ref\WpfAuthenticationApp.dll
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\obj\Debug\net8.0-windows\WpfAuthenticationApp_Content.g.cs
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\images\logo.png
-C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\obj\Debug\net8.0-windows\Views\CreateTicketPage.g.cs
-C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\obj\Debug\net8.0-windows\Views\ProfilePage.g.cs
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
-C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\obj\Debug\net8.0-windows\Views\CreateTicketPage.baml
-C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\obj\Debug\net8.0-windows\Views\ProfilePage.baml
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\Xceed.Wpf.AvalonDock.Themes.Aero.dll
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\Xceed.Wpf.AvalonDock.Themes.Metro.dll
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\Xceed.Wpf.AvalonDock.Themes.VS2010.dll

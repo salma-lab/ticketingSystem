@@ -11,6 +11,8 @@
         public int EmplacementId { get; set; }
         public TimeSpan? ValidationDuration { get; set; } // Add this property
         public DateTime? ValidationTime { get; set; }
+        public bool? Validation1 { get; set; }
+
 
 
 

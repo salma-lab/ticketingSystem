@@ -2,7 +2,7 @@
 {
     public class TicketUpdateDto
     {
-        public int ticketId { get; set; }
+        public int TicketId { get; set; }
 
         public string ? Description { get; set; }
         public bool ? Oralement { get; set; }

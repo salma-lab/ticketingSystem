@@ -1,7 +1,52 @@
 ﻿<Window x:Class="WpfAuthenticationApp.TicketDetailsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Ticket Details" Height="500" Width="600">
+        Title="Ticket Details" Height="500" Width="600" Background="#E3F2FD">
+
+    <!-- Window Resources for Styling -->
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,3,0,3"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="Margin" Value="0,3,0,5"/>
+            <Setter Property="Background" Value="#BBDEFB"/>
+            <Setter Property="BorderBrush" Value="#90CAF9"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="Margin" Value="0,3,0,5"/>
+            <Setter Property="Background" Value="#BBDEFB"/>
+            <Setter Property="BorderBrush" Value="#90CAF9"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Background" Value="#64B5F6"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="BorderBrush" Value="#42A5F5"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style TargetType="CheckBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,3,0,5"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -10,56 +55,70 @@
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        <TextBlock Text="Ticket Details" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="10" />
+        <TextBlock Text="Ticket Details" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" Margin="10" Grid.Row="0" />
 
         <!-- Content -->
-        <ScrollViewer Grid.Row="1" Margin="10" VerticalScrollBarVisibility="Auto">
-            <StackPanel>
-                <TextBlock Text="Email:" FontWeight="Bold" />
-                <TextBox Text="{Binding SelectedTicket.Email}" IsReadOnly="True" />
+        <Grid Grid.Row="1" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-                <TextBlock Text="Nom Etage:" FontWeight="Bold" Margin="0,10,0,0" />
-                <TextBox Text="{Binding SelectedTicket.NomEtage}" IsReadOnly="True" />
+            <TextBlock Text="Email:" Grid.Row="0" />
+            <TextBox Text="{Binding SelectedTicket.Email}" IsReadOnly="True" Grid.Row="1"/>
 
-                <TextBlock Text="Description:" FontWeight="Bold" Margin="0,10,0,0" />
-                <TextBox Text="{Binding SelectedTicket.Description}" />
+            <TextBlock Text="Nom Etage:" Grid.Row="2" />
+            <TextBox Text="{Binding SelectedTicket.NomEtage}" IsReadOnly="True" Grid.Row="3"/>
 
-                <TextBlock Text="Status:" FontWeight="Bold" Margin="0,10,0,0" />
-                <TextBox Text="{Binding SelectedTicket.NomStatus}" 
-                           />
+            <TextBlock Text="Description:" Grid.Row="4" />
+            <TextBox Text="{Binding SelectedTicket.Description}" Grid.Row="5"/>
 
-                <TextBlock Text="Motif:" FontWeight="Bold" Margin="0,10,0,0" />
-                <TextBox Text="{Binding SelectedTicket.MotifDemande}" />
+            <TextBlock Text="Statut:" Grid.Row="6" />
+            <ComboBox x:Name="TicketStatusComboBox" ItemsSource="{Binding Statuses}" DisplayMemberPath="NomStatus" Grid.Row="7"/>
 
-                <TextBlock Text="Date Creation:" FontWeight="Bold" Margin="0,10,0,0" />
-                <TextBox Text="{Binding SelectedTicket.DateCreation, StringFormat=yyyy/MM/dd HH:mm}" IsReadOnly="True" />
+            <TextBlock Text="Motif:" Grid.Row="8" />
+            <TextBox Text="{Binding SelectedTicket.MotifDemande}" Grid.Row="9"/>
 
-                <TextBlock Text="Oralement:" FontWeight="Bold" Margin="0,10,0,0" />
-                <CheckBox IsChecked="{Binding SelectedTicket.Oralement}" />
-                <TextBlock Text="Oralement:" FontWeight="Bold" Margin="0,10,0,0" />
-                <CheckBox IsChecked="{Binding SelectedTicket.Validation1}" />
-                <TextBlock Text="Type Appareil:" FontWeight="Bold" Margin="0,10,0,0" />
-                <TextBox Text="{Binding SelectedTicket.NomTypeAppareil}" IsReadOnly="True" />
+            <TextBlock Text="Date Creation:" Grid.Row="10" />
+            <TextBox Text="{Binding SelectedTicket.DateCreation, StringFormat=yyyy/MM/dd HH:mm}" IsReadOnly="True" Grid.Row="11"/>
 
-                <TextBlock Text="Emplacement:" FontWeight="Bold" Margin="0,10,0,0" />
-                <TextBox Text="{Binding SelectedTicket.NomEmplacement}" IsReadOnly="True" />
+            <TextBlock Text="Oralement:" Grid.Row="12" />
+            <CheckBox IsChecked="{Binding SelectedTicket.Oralement}" Grid.Row="13"/>
 
-                <TextBlock Text="Appareil Nom:" FontWeight="Bold" Margin="0,10,0,0" />
-                <TextBox Text="{Binding SelectedTicket.AppareilNom}" />
+            <TextBlock Text="Validé:" Grid.Row="14" />
+            <CheckBox IsChecked="{Binding SelectedTicket.Validation1}" Grid.Row="15"/>
 
-                <TextBlock Text="Type Intervention:" FontWeight="Bold" Margin="0,10,0,0" />
-                <TextBox Text="{Binding SelectedTicket.NomType}" />
+            <TextBlock Text="Type Appareil:" Grid.Row="16" />
+            <TextBox Text="{Binding SelectedTicket.NomTypeAppareil}" IsReadOnly="True" Grid.Row="17"/>
 
-                <TextBlock Text="Validation Time:" FontWeight="Bold" Margin="0,10,0,0" />
-                <TextBox Text="{Binding SelectedTicket.ValidationTime, StringFormat=yyyy/MM/dd HH:mm}" IsReadOnly="True" />
-            </StackPanel>
-        </ScrollViewer>
+            <TextBlock Text="Emplacement:" Grid.Row="18" />
+            <TextBox Text="{Binding SelectedTicket.NomEmplacement}" IsReadOnly="True" Grid.Row="19"/>
+
+            <TextBlock Text="Appareil Nom:" Grid.Row="20" />
+            <TextBox Text="{Binding SelectedTicket.AppareilNom}" Grid.Row="21"/>
+
+            <TextBlock Text="Type Intervention:" Grid.Row="22" />
+            <TextBox Text="{Binding SelectedTicket.NomType}" Grid.Row="23"/>
+
+            <TextBlock Text="Validation Time:" Grid.Row="24" />
+            <TextBox Text="{Binding SelectedTicket.ValidationTime, StringFormat=yyyy/MM/dd HH:mm}" IsReadOnly="True" Grid.Row="25"/>
+        </Grid>
 
         <!-- Buttons -->
         <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Margin="10">
-            <Button Content="Save" Width="100" Margin="5" Click="SaveButton_Click" />
-            <Button Content="Print" Width="100" Margin="5" Click="PrintButton_Click" />
-            <Button Content="Close" Width="100" Margin="5" Click="CloseButton_Click" />
+            <Button Content="Save" Click="SaveButton_Click" />
+            <Button Content="Print" Click="PrintButton_Click" />
+            <Button Content="Close" Click="CloseButton_Click" />
         </StackPanel>
     </Grid>
 </Window>
