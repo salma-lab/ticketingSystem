@@ -1,28 +1,30 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace WpfAuthenticationApp
 {
     public partial class TicketDetailsWindow : Window
     {
-        public ObservableCollection<Status> Statuses { get; set; }
         public Ticket SelectedTicket { get; set; }
 
         private readonly string _ticketApiUrl = "https://localhost:7046/api/TicketsController";
 
-        public TicketDetailsWindow(Ticket ticket, ObservableCollection<Status> statuses)
+        public TicketDetailsWindow(Ticket ticket)
         {
             InitializeComponent();
+
             SelectedTicket = ticket;
-            Statuses = statuses;
-            DataContext = this;
+            DataContext = SelectedTicket;  // Bind the SelectedTicket to the DataContext of the window
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close(); // Close the window
         }
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -30,7 +32,7 @@ namespace WpfAuthenticationApp
             try
             {
                 using var client = new HttpClient();
-                client.BaseAddress = new Uri("https://localhost:7046/api/TicketsController");
+                client.BaseAddress = new Uri(_ticketApiUrl);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -66,50 +68,6 @@ namespace WpfAuthenticationApp
             {
                 MessageBox.Show($"Erreur inattendue : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
-
-
-
-        private void PrintButton_Click(object sender, RoutedEventArgs e)
-        {
-            PrintDialog printDialog = new PrintDialog();
-            if (printDialog.ShowDialog() == true)
-            {
-                FlowDocument doc = new FlowDocument
-                {
-                    FontFamily = new System.Windows.Media.FontFamily("Arial"),
-                    FontSize = 12,
-                    PagePadding = new Thickness(20),
-                };
-
-                doc.Blocks.Add(new Paragraph(new Run("Ticket Details"))
-                {
-                    FontSize = 16,
-                    FontWeight = FontWeights.Bold,
-                    TextAlignment = TextAlignment.Center
-                });
-
-                doc.Blocks.Add(new Paragraph(new Run($"Email: {SelectedTicket.Email}")));
-                doc.Blocks.Add(new Paragraph(new Run($"Nom Etage: {SelectedTicket.NomEtage}")));
-                doc.Blocks.Add(new Paragraph(new Run($"Description: {SelectedTicket.Description}")));
-                doc.Blocks.Add(new Paragraph(new Run($"Motif Demande: {SelectedTicket.MotifDemande}")));
-                doc.Blocks.Add(new Paragraph(new Run($"Status: {SelectedTicket.NomStatus}")));
-                doc.Blocks.Add(new Paragraph(new Run($"Oralement: {SelectedTicket.Oralement}")));
-                doc.Blocks.Add(new Paragraph(new Run($"Appareil Nom: {SelectedTicket.AppareilNom}")));
-                doc.Blocks.Add(new Paragraph(new Run($"Type Appareil: {SelectedTicket.NomTypeAppareil}")));
-                doc.Blocks.Add(new Paragraph(new Run($"Emplacement: {SelectedTicket.NomEmplacement}")));
-                doc.Blocks.Add(new Paragraph(new Run($"Type Intervention: {SelectedTicket.NomType}")));
-                doc.Blocks.Add(new Paragraph(new Run($"Validation Time: {SelectedTicket.ValidationTime:yyyy/MM/dd HH:mm}")));
-                doc.Blocks.Add(new Paragraph(new Run($"Date Creation: {SelectedTicket.DateCreation:yyyy/MM/dd HH:mm}")));
-
-                IDocumentPaginatorSource idocument = doc;
-                printDialog.PrintDocument(idocument.DocumentPaginator, "Ticket Details");
-            }
-        }
-
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
     }
 }

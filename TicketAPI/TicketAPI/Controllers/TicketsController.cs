@@ -14,7 +14,7 @@ namespace TicketAPI.Controllers
 {
     [Route("api/TicketsController")]
     [ApiController]
-    //[Authorize] 
+    [Authorize] 
 
     public class TicketController : ControllerBase
     {
@@ -50,8 +50,9 @@ namespace TicketAPI.Controllers
                         AppareilNom = t.AppareilNom,
                         MotifDemande = t.MotifDemande,
                         Oralement = t.Oralement,
-                        Validation1 = t.Validation1,
+                        Validation1 =t.Validation1,
                         NomEtage = t.Etage.NomEtage,
+                        
                         NomEmplacement = t.Emplacement.NomEmplacement,
                         NomType = t.TypeIntervention.NomType,
                         NomStatus = t.Status.NomStatus,
@@ -114,7 +115,7 @@ namespace TicketAPI.Controllers
 
         // POST: api/ticket
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public async Task<ActionResult<Ticket>> CreateTicket(CreateTicketDto createTicketDto)
         {
             if (createTicketDto == null)
@@ -159,9 +160,8 @@ namespace TicketAPI.Controllers
 
 
 
-
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTicket(int id, [FromBody] CreateTicketDto updatedTicket)
+        public async Task<IActionResult> UpdateTicket(int id, [FromBody] TicketUpdateDto updatedTicket)
         {
             var existingTicket = await _context.Tickets.FindAsync(id);
             if (existingTicket == null)
@@ -170,21 +170,30 @@ namespace TicketAPI.Controllers
             }
 
             // Update the existing ticket fields
-            existingTicket.Description = updatedTicket.Description;
-            existingTicket.Oralement = updatedTicket.Oralement;
-            existingTicket.AppareilNom = updatedTicket.AppareilNom;
-            existingTicket.EtageId = updatedTicket.EtageId;
-            existingTicket.EmplacementId = updatedTicket.EmplacementId;
-            existingTicket.TypeAppareilId = updatedTicket.TypeAppareilId;
-            existingTicket.MotifDemande = updatedTicket.MotifDemande;
-            existingTicket.TypeInterventionId = updatedTicket.TypeInterventionId;
-            existingTicket.StatusId = updatedTicket.StatusId;
-            existingTicket.DateCreation = updatedTicket.DateCreation;
+            if (updatedTicket.Validation1.HasValue)
+            {
+                existingTicket.Validation1 = updatedTicket.Validation1.Value;
 
+                // Set ValidationTime if the ticket is validated
+                if (updatedTicket.Validation1.Value && !existingTicket.ValidationTime.HasValue)
+                {
+                    existingTicket.ValidationTime = DateTime.Now;
+                }
+                else if (!updatedTicket.Validation1.Value)
+                {
+                    existingTicket.ValidationTime = null; // Reset ValidationTime if unchecked
+                }
+            }
+
+            existingTicket.StatusId = updatedTicket.StatusId;
+
+            // Save changes to the database
             await _context.SaveChangesAsync();
 
             return Ok(existingTicket);
         }
+
+
 
 
 
@@ -244,6 +253,48 @@ namespace TicketAPI.Controllers
 
             return Ok(userTickets);
         }
+
+        [HttpGet("Validated")]
+        public async Task<IActionResult> GetValidatedTickets()
+        {
+            var validatedTickets = await _context.Tickets
+                .Where(t => t.Validation1.HasValue && t.Validation1.Value) // Ensure Validation1 is not null and is true
+                .ToListAsync();
+
+            return Ok(validatedTickets);
+        }
+
+        [HttpPut("Validate/{id}")]
+        public async Task<IActionResult> ValidateTicket(int id)
+        {
+            var ticket = await _context.Tickets.FindAsync(id);
+            if (ticket == null) return NotFound("Ticket not found.");
+
+            if (ticket.ValidationTime.HasValue)
+                return BadRequest("This ticket has already been validated.");
+
+            ticket.ValidationTime = DateTime.Now;
+            ticket.Validation1 = true;
+
+            _context.Tickets.Update(ticket);
+            await _context.SaveChangesAsync();
+
+            // Include duration in the response
+            return Ok(new
+            {
+                ticket.TicketId,
+                ticket.Description,
+                ticket.DateCreation,
+                ticket.ValidationTime,
+                Duration = ticket.ValidationTime.Value - ticket.DateCreation
+            });
+        }
+
+
+
+
+
+
 
 
 

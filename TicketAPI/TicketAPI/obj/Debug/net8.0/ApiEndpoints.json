@@ -366,7 +366,7 @@
       },
       {
         "Name": "updatedTicket",
-        "Type": "TicketAPI.Models.CreateTicketDto",
+        "Type": "TicketAPI.Models.TicketUpdateDto",
         "IsRequired": true
       }
     ],
@@ -407,6 +407,32 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.TicketController",
+    "Method": "ValidateTicket",
+    "RelativePath": "api/TicketsController/Validate/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.TicketController",
+    "Method": "GetValidatedTickets",
+    "RelativePath": "api/TicketsController/Validated",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "TicketAPI.Controllers.TypeAppareilController",

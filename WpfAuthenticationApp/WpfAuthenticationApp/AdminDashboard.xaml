@@ -151,18 +151,35 @@
                             <DataGridTextColumn Header="Emplacement" Binding="{Binding NomEmplacement}" Width="*" />
                             <DataGridTextColumn Header="Type" Binding="{Binding NomType}" Width="*" />
                             <DataGridCheckBoxColumn Header="Validation" Binding="{Binding Validation1}" Width="*" />
+                            <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="*" />
+                            <DataGridTemplateColumn Header="Efficacité">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Efficacity}" 
+                               Background="{Binding EfficacityColor}" 
+                               Foreground="White" 
+                               Padding="5"
+                               TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+
                             <DataGridTemplateColumn Header="Actions" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Content="Details" Click="DetailsButton_Click" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="Details" Click="DetailsButton_Click" Margin="0,0,5,0" />
+                                            <Button Content="Validate" Click="ValidateTicket_Click" />
+                                        </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
 
-                    <!-- Form for adding/managing demands -->
-                    <GroupBox Header="Ajouter/Gérer Interventions" Grid.Row="1" Margin="10">
+                    <!-- managing demands -->
+                    <GroupBox Header="Gérer Interventions" Grid.Row="1" Margin="10">
                         <Grid Margin="10">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -181,40 +198,83 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Labels and Input Fields -->
-                            <TextBlock Text="Motif:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" />
-                            <TextBox x:Name="NewTicketMotifTextBox" Grid.Row="0" Grid.Column="1" Margin="5" ToolTip="Entrez le motif de la demande." />
+                            
 
-                            <TextBlock Text="Oralement:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" />
-                            <CheckBox x:Name="NewTicketOralementCheckBox" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="5" />
+                       
 
-                            <TextBlock Text="Nom d'Appareil:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" />
-                            <TextBox x:Name="NewTicketAppareilNomTextBox" Grid.Row="2" Grid.Column="1" Margin="5" />
-                            <TextBlock Text="Date:" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" />
-                            <DatePicker x:Name="NewTicketDatePicker" Grid.Row="2" Grid.Column="3" Margin="5" />
-
-                            <TextBlock Text="Étage:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" />
-                            <ComboBox x:Name="NewTicketEtageComboBox" Grid.Row="3" Grid.Column="1" Margin="5" ItemsSource="{Binding Etages}" DisplayMemberPath="NomEtage" />
-                            <TextBlock Text="Emplacement:" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" />
-                            <ComboBox x:Name="NewTicketEmplacementComboBox" Grid.Row="3" Grid.Column="3" Margin="5" ItemsSource="{Binding Emplacement}" DisplayMemberPath="NomEmplacement" />
-
-                            <TextBlock Text="Type Appareil:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" />
-                            <ComboBox x:Name="NewTypeAppareilComboBox" Grid.Row="4" Grid.Column="1" Margin="5" ItemsSource="{Binding TypeAppareils}" DisplayMemberPath="NomTypeAppareil" />
-                            <TextBlock Text="Description:" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" />
-                            <TextBox x:Name="NewTicketDescriptionTextBox" Grid.Row="4" Grid.Column="3" Margin="5" />
-
-                            <TextBlock Text="Type:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" />
-                            <ComboBox x:Name="NewTicketTypeComboBox" Grid.Row="5" Grid.Column="1" Margin="5" ItemsSource="{Binding TypeInterventions}" DisplayMemberPath="NomType" />
+                            
                             <TextBlock Text="Statut:" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" />
-                            <ComboBox x:Name="TicketStatusComboBox" Grid.Row="5" Grid.Column="3" Margin="5" ItemsSource="{Binding Statuses}" DisplayMemberPath="NomStatus" />
+                            <ComboBox x:Name="TicketStatussComboBox" Grid.Row="5" Grid.Column="3" Margin="5" ItemsSource="{Binding Statuses}" DisplayMemberPath="NomStatus" />
+
+                           
+                            
 
                             <!-- Buttons -->
-                            <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.ColumnSpan="4" HorizontalAlignment="Center" Margin="10">
-                                <Button Content="Ajouter" Width="150" Margin="5" Background="#1E90FF" Foreground="White" Click="AddTicket_Click" />
+                            <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.ColumnSpan="20" HorizontalAlignment="Center" Margin="20">
                                 <Button Content="Supprimer" Width="150" Margin="5" Background="#FF4500" Foreground="White" Click="DeleteTicket_Click" />
+                                
+                                
                                 <Button Content="Mettre à jour" Width="150" Margin="5" Background="#32CD32" Foreground="White" Click="UpdateTicket_Click" />
                             </StackPanel>
                         </Grid>
                     </GroupBox>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Nouvelle Demande">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Motif -->
+                    <TextBlock Text="Motif:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="5" />
+                    <TextBox x:Name="NewTicketMotifTextBox" Grid.Row="0" Grid.Column="1" Margin="5" ToolTip="Entrez le motif de la demande." />
+
+                    <!-- Oralement -->
+                    <TextBlock Text="Oralement:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="5" />
+                    <CheckBox x:Name="NewTicketOralementCheckBox" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="5" />
+
+                    <!-- Nom d'Appareil and Date -->
+                    <TextBlock Text="Nom d'Appareil:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5" />
+                    <TextBox x:Name="NewTicketAppareilNomTextBox" Grid.Row="2" Grid.Column="1" Margin="5" />
+                    <TextBlock Text="Date:" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="5" />
+                    <DatePicker x:Name="NewTicketDatePicker" Grid.Row="2" Grid.Column="3" Margin="5" />
+
+                    <!-- Étage and Emplacement -->
+                    <TextBlock Text="Étage:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="5" />
+                    <ComboBox x:Name="NewTicketEtageComboBox" Grid.Row="3" Grid.Column="1" Margin="5" ItemsSource="{Binding Etages}" DisplayMemberPath="NomEtage" />
+                    <TextBlock Text="Emplacement:" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" Margin="5" />
+                    <ComboBox x:Name="NewTicketEmplacementComboBox" Grid.Row="3" Grid.Column="3" Margin="5" ItemsSource="{Binding Emplacement}" DisplayMemberPath="NomEmplacement" />
+
+                    <!-- Type Appareil and Description -->
+                    <TextBlock Text="Type Appareil:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="5" />
+                    <ComboBox x:Name="NewTypeAppareilComboBox" Grid.Row="4" Grid.Column="1" Margin="5" ItemsSource="{Binding TypeAppareils}" DisplayMemberPath="NomTypeAppareil" />
+                    <TextBlock Text="Description:" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Margin="5" />
+                    <TextBox x:Name="NewTicketDescriptionTextBox" Grid.Row="4" Grid.Column="3" Margin="5" />
+
+                    <!-- Type and Statut -->
+                    <TextBlock Text="Type:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Margin="5" />
+                    <ComboBox x:Name="NewTicketTypeComboBox" Grid.Row="5" Grid.Column="1" Margin="5" ItemsSource="{Binding TypeInterventions}" DisplayMemberPath="NomType" />
+                    <TextBlock Text="Statut:" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" Margin="5" />
+                    <ComboBox x:Name="TicketStatusComboBox" Grid.Row="5" Grid.Column="3" Margin="5" ItemsSource="{Binding Statuses}" DisplayMemberPath="NomStatus" />
+
+                    <!-- Buttons -->
+                    <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.ColumnSpan="4" HorizontalAlignment="Center" Margin="10">
+                        <Button Content="Ajouter" Width="150" Margin="5" Background="#1E90FF" Foreground="White" Click="AddTicket_Click" />
+                    </StackPanel>
                 </Grid>
             </TabItem>
 
@@ -223,7 +283,7 @@
 
 
 
-            <!-- Tab for Create Utilisateur -->
+
             <!-- Tab for Create Utilisateur -->
             <TabItem Header="Les utilisateurs">
                 <StackPanel Margin="10">

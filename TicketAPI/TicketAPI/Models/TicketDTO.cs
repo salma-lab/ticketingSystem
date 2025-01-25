@@ -7,7 +7,7 @@
         public DateTime DateCreation { get; set; }
         public string NomType { get; set; }
         public bool Oralement { get; set; }
-        public bool Validation1 { get; set; }
+        public bool? Validation1 { get; set; }
         public TimeSpan? ValidationDuration { get; set; } // Add this property
         public DateTime? ValidationTime { get; set; }
 

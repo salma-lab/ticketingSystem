@@ -11,8 +11,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using WpfAuthenticationApp.Models;
-
 using System.Windows.Media;
+
+
 using System.Globalization;
 
 
@@ -31,6 +32,7 @@ namespace WpfAuthenticationApp
         private readonly string _typeAppareilApiUrl = "https://localhost:7046/api/TypeAppareilController";
         private readonly string _etageApiUrl = "https://localhost:7046/api/EtageController";
         private readonly string _emplacementApiUrl = "https://localhost:7046/api/EmplacementController";
+
 
 
 
@@ -668,7 +670,7 @@ namespace WpfAuthenticationApp
             if (TicketDataGrid.SelectedItem is Ticket selectedTicket)
             {
                 // Pass the selected ticket and the Statuses list to the TicketDetailsWindow
-                TicketDetailsWindow detailsWindow = new TicketDetailsWindow(selectedTicket, Statuses);
+                TicketDetailsWindow detailsWindow = new TicketDetailsWindow(selectedTicket);
                 detailsWindow.ShowDialog();
             }
             else
@@ -676,24 +678,6 @@ namespace WpfAuthenticationApp
                 MessageBox.Show("Please select a ticket to view details.", "No Selection", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -716,7 +700,7 @@ namespace WpfAuthenticationApp
             // Validate input
             if (string.IsNullOrEmpty(description) || string.IsNullOrEmpty(motif) || type == null || status == null || typeApp == null || etage == null || emplacement == null)
             {
-                MessageBox.Show("Please fill all the required fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Veuillez remplir tous les champs obligatoires.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -762,12 +746,92 @@ namespace WpfAuthenticationApp
 
                 // Reset the DatePicker
                 NewTicketDatePicker.SelectedDate = null;
+
+                // Show success message
+                MessageBox.Show("Ticket ajouté avec succès !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Error adding ticket: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de l'ajout du ticket: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        private async void ValidateTicket_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedTicket = TicketDataGrid.SelectedItem as Ticket;
+            if (selectedTicket == null)
+            {
+                MessageBox.Show("Please select a ticket to validate.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var validateTicketDto = new TicketUpdateDto
+            {
+                Validation1 = true
+            };
+
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
+                var json = JsonSerializer.Serialize(validateTicketDto);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                // Validate the ticket via API
+                var response = await client.PutAsync($"{_ticketApiUrl}/Validate/{selectedTicket.ticketId}", content);
+                response.EnsureSuccessStatusCode();
+
+                // Get the updated ticket details from the response
+                var updatedTicketJson = await response.Content.ReadAsStringAsync();
+                var updatedTicket = JsonSerializer.Deserialize<Ticket>(updatedTicketJson);
+
+                // Update the selected ticket in the DataGrid
+                if (updatedTicket != null)
+                {
+                    selectedTicket.Validation1 = updatedTicket.Validation1;
+                    selectedTicket.ValidationTime = updatedTicket.ValidationTime;
+                    selectedTicket.Duration = updatedTicket.Duration; // Update Duration property
+                }
+
+                MessageBox.Show("Ticket validated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                TicketDataGrid.Items.Refresh(); // Refresh DataGrid to display updated data
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Error validating ticket: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (JsonException ex)
+            {
+                MessageBox.Show($"Error serializing validation data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -796,8 +860,15 @@ namespace WpfAuthenticationApp
                 Tickets.Clear();
                 foreach (var ticket in tickets)
                 {
+                    // Ensure the Duration is correctly set (it should already be set by the API)
+                    if (ticket.ValidationTime.HasValue)
+                    {
+                        ticket.Duration = ticket.ValidationTime.Value - ticket.DateCreation;
+                    }
                     Tickets.Add(ticket);
                 }
+
+                TicketDataGrid.Items.Refresh(); // Refresh the DataGrid to reflect updated data
             }
             catch (HttpRequestException ex)
             {
@@ -808,6 +879,7 @@ namespace WpfAuthenticationApp
                 MessageBox.Show($"Error parsing tickets data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
 
 
@@ -957,35 +1029,17 @@ namespace WpfAuthenticationApp
                 return;
             }
 
-            var description = NewTicketDescriptionTextBox.Text.Trim();
-            var oralement = NewTicketOralementCheckBox.IsChecked ?? false;
-            var appareilNom = NewTicketAppareilNomTextBox.Text.Trim();
-            var etage = NewTicketEtageComboBox.SelectedItem as Etage;
-            var emplacement = NewTicketEmplacementComboBox.SelectedItem as Emplacement;
-            var motif = NewTicketMotifTextBox.Text.Trim();
-            var type = NewTicketTypeComboBox.SelectedItem as TypeIntervention;
-            var status = TicketStatusComboBox.SelectedItem as Status;
-            var typeApp = NewTypeAppareilComboBox.SelectedItem as TypeAppareil;
-            var selectedDate = NewTicketDatePicker.SelectedDate ?? DateTime.Now;
 
-            if (string.IsNullOrEmpty(description) || string.IsNullOrEmpty(motif) || type == null || status == null || typeApp == null || etage == null || emplacement == null)
-            {
-                MessageBox.Show("Please fill all the required fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
+            var status = TicketStatussComboBox.SelectedItem as Status;
 
-            var updatedTicket = new TicketCreateDto
+            
+
+            var updatedTicket = new TicketUpdateDto
             {
-                Description = description,
-                Oralement = oralement,
-                AppareilNom = appareilNom,
-                EtageId = etage.EtageId,
-                EmplacementId = emplacement.EmplacementId,
-                TypeAppareilId = typeApp.TypeAppareilId,
-                MotifDemande = motif,
-                TypeInterventionId = type.TypeInterventionId,
+                
+               
                 StatusId = status.StatusId,
-                DateCreation = selectedDate
+                
             };
 
             try
@@ -1009,6 +1063,11 @@ namespace WpfAuthenticationApp
                 MessageBox.Show($"Error serializing ticket data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        
+
+
+
 
 
 
@@ -1069,31 +1128,17 @@ namespace WpfAuthenticationApp
     public class TicketUpdateDto
     {
         public int ticketId { get; set; }
-
-        public string? Description { get; set; }
-        public bool? Oralement { get; set; }
-        public string? AppareilNom { get; set; }
-        public int? EtageId { get; set; }
-        public int? EmplacementId { get; set; }
-        public DateTime? ValidationTime { get; set; }
-
-
-        public string? MotifDemande { get; set; }
-
         public int? StatusId { get; set; }
         public bool? Validation1 { get; set; }
-        public bool? Validation2 { get; set; }
+       
 
-        public int? TypeAppareilId { get; set; }
-        public string? Email { get; set; }
-        public DateTime? DateCreation { get; set; }
-
+       
+        
 
 
 
-        public int? TypeInterventionId { get; set; }
-        public int? UtilisateurId { get; set; }
-        //public DateTime DateValidation { get; set; }
+
+   
 
     }
 
@@ -1120,12 +1165,42 @@ namespace WpfAuthenticationApp
         public string MotifDemande { get; set; }
         public string NomType { get; set; }
         public string NomStatus { get; set; }
+        public TimeSpan Duration { get; set; }
+
         public int StatusId { get; set; }
         // Nested objects
         public Status Status { get; set; }
         public TypeIntervention TypeIntervention { get; set; }
         public Utilisateur Utilisateur { get; set; }
         public TypeAppareil TypeAppareil { get; set; }
+        public string Efficacity
+        {
+            get
+            {
+                if (Duration == default) // Check if Duration is the default value
+                    return "Pas Validée";
+
+                double maxHours = NomStatus == "Urgent" ? 12 : 24;
+                if (Duration.TotalHours <= maxHours)
+                    return "Efficace";
+                return "Inefficace";
+            }
+        }
+
+        public Brush EfficacityColor
+        {
+            get
+            {
+                if (Duration == default) // Check if Duration is the default value
+                    return Brushes.Gray; // Not Validated
+
+                double maxHours = NomStatus == "Urgent" ? 12 : 24;
+                if (Duration.TotalHours <= maxHours)
+                    return Brushes.Green; // Effective
+                return Brushes.Red; // Ineffective
+            }
+        }
+
 
     }
 
