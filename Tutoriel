@@ -1,0 +1,59 @@
+Pour créer le dossier wwwroot dans votre projet ASP.NET Core, voici les étapes détaillées à suivre :
+
+1. Créer le dossier wwwroot dans Visual Studio 2022
+	1.	Ouvrez Visual Studio 2022 et chargez votre projet ASP.NET Core.
+	2.	Dans l’Explorateur de solutions, faites un clic droit sur le nom de votre projet (par exemple : ProductApi).
+	3.	Sélectionnez Ajouter > Nouveau dossier.
+	4.	Nommez le dossier wwwroot (assurez-vous qu’il est exactement orthographié en minuscule, car .NET le reconnaît ainsi).
+
+2. Ajouter les sous-dossiers pour CSS et JS
+	1.	Faites un clic droit sur le dossier wwwroot que vous venez de créer.
+	2.	Ajoutez deux sous-dossiers :
+	•	css : pour les fichiers de styles (par exemple, styles.css).
+	•	js : pour les fichiers JavaScript (par exemple, app.js).
+
+Votre structure devrait ressembler à ceci dans l’Explorateur de solutions :
+
+ProductApi
+│
+├── wwwroot
+│   ├── css
+│   │   └── styles.css
+│   ├── js
+│   │   └── app.js
+
+3. Ajouter un fichier HTML pour le frontend
+	1.	Dans le dossier wwwroot, faites un clic droit.
+	2.	Sélectionnez Ajouter > Fichier HTML.
+	3.	Nommez ce fichier index.html.
+	4.	Ajoutez le contenu HTML à ce fichier comme décrit plus haut.
+
+4. Configurer Visual Studio pour servir les fichiers statiques
+
+Assurez-vous que votre projet est configuré pour reconnaître les fichiers dans le dossier wwwroot :
+	1.	Dans Program.cs, ajoutez les lignes suivantes (si ce n’est pas déjà fait) :
+
+var app = builder.Build();
+
+// Servir les fichiers statiques depuis wwwroot
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+app.MapControllers();
+app.Run();
+
+	2.	Ces configurations permettent à ASP.NET Core de servir automatiquement les fichiers HTML, CSS et JavaScript placés dans wwwroot.
+
+5. Tester l’accès à vos fichiers frontend
+	1.	Lancez votre projet en appuyant sur F5 dans Visual Studio.
+	2.	Une fois le projet démarré, ouvrez un navigateur et accédez à l’URL suivante :
+
+http://localhost:5000/index.html
+
+Vous devriez voir votre interface frontend.
+
+Remarque : Ajouter des fichiers existants
+
+Si vous avez déjà des fichiers CSS, JS ou HTML prêts, vous pouvez simplement les glisser-déposer dans le dossier wwwroot depuis votre explorateur de fichiers.
+
+Besoin d’aide pour un problème particulier ?
