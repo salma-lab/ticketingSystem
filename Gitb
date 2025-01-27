@@ -1,0 +1,58 @@
+Voici les étapes pour ajouter votre projet ASP.NET Core à GitHub en utilisant Git et Visual Studio 2022 :
+
+Étape 1 : Initialiser Git dans votre projet
+	1.	Ouvrez votre projet ASP.NET Core dans Visual Studio 2022.
+	2.	Dans l’Explorateur de solutions, faites un clic droit sur le projet (par exemple, ProductApi).
+	3.	Cliquez sur Git > Ajouter au contrôle de source.
+
+Cela initialise un dépôt Git local dans votre projet.
+
+Étape 2 : Créer un dépôt GitHub
+	1.	Connectez-vous à votre compte GitHub.
+	2.	Cliquez sur le bouton New en haut à droite pour créer un nouveau dépôt.
+	3.	Remplissez les détails :
+	•	Nom du dépôt : Par exemple, ProductApi.
+	•	Description : Optionnel.
+	•	Choisissez Public ou Private selon vos besoins.
+	4.	Ne cochez aucune option pour README, .gitignore ou licence (ces fichiers seront générés par Visual Studio).
+	5.	Cliquez sur Create Repository.
+
+GitHub vous fournira une URL de type :
+
+https://github.com/votre-nom-utilisateur/ProductApi.git
+
+Étape 3 : Lier le projet local à GitHub
+	1.	Revenez à Visual Studio 2022.
+	2.	Allez dans Affichage > Contrôle Git (ou ouvrez l’onglet “Git Changes”).
+	3.	Cliquez sur les trois points dans le coin supérieur droit, puis sélectionnez Paramètres de dépôt.
+	4.	Ajoutez l’URL de votre dépôt GitHub sous la section Push to Remote Repository :
+	•	URL distante : https://github.com/votre-nom-utilisateur/ProductApi.git
+	•	Cliquez sur Save.
+
+Étape 4 : Ajouter et valider les modifications
+	1.	Dans l’onglet Git Changes, vous verrez une liste de fichiers non suivis.
+	2.	Ajoutez ces fichiers au dépôt :
+	•	Entrez un message de validation dans la zone texte, par exemple : Initial commit.
+	•	Cliquez sur Commit All.
+
+Étape 5 : Pousser les modifications vers GitHub
+	1.	Une fois que vous avez validé les modifications localement, cliquez sur Push dans l’onglet Git Changes.
+	2.	Visual Studio enverra alors votre projet local vers le dépôt GitHub.
+
+Étape 6 : Vérifiez votre dépôt sur GitHub
+	1.	Ouvrez votre navigateur et allez à votre dépôt GitHub.
+	2.	Vous devriez maintenant voir tous les fichiers de votre projet dans le dépôt GitHub.
+
+Étape 7 : Gestion des modifications futures
+	1.	Pour chaque nouvelle modification :
+	•	Ajoutez vos fichiers via Commit dans l’onglet Git Changes.
+	•	Cliquez sur Push pour synchroniser avec GitHub.
+	2.	Si vous collaborez avec une équipe, n’oubliez pas de Pull les modifications de vos coéquipiers avant de commencer à travailler.
+
+Remarque : Utilisation de GitHub Desktop (Optionnel)
+
+Si vous préférez utiliser une interface graphique pour gérer Git :
+	1.	Téléchargez GitHub Desktop.
+	2.	Liez votre projet en sélectionnant le dossier local et en configurant le dépôt distant.
+
+Souhaitez-vous des détails sur une étape spécifique ou sur l’utilisation d’Azure DevOps avec Git ?
