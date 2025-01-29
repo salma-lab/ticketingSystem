@@ -7,7 +7,6 @@
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Margin" Value="0,3,0,3"/>
         </Style>
 
@@ -34,18 +33,21 @@
     </Window.Resources>
 
     <Grid Margin="20">
-        <!-- ScrollViewer to allow scrolling -->
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <TextBlock Text="Détails du Ticket" FontSize="24" FontWeight="Bold" Margin="0,0,0,20" HorizontalAlignment="Center"/>
 
                 <!-- Basic Ticket Information Section -->
-                <GroupBox Header="Informations de Base" Margin="0,0,0,15" Background="White" BorderBrush="#90CAF9" BorderThickness="1">
+                <GroupBox Margin="0,0,0,15" Background="White" BorderBrush="#90CAF9" BorderThickness="1">
+                    <GroupBox.Header>
+                        <TextBlock Text="Informations de Base" FontWeight="Bold" FontSize="14"/>
+                    </GroupBox.Header>
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="150"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
+
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -53,51 +55,59 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Text="Email:" Grid.Row="0" Grid.Column="0" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding Email}" Grid.Row="0" Grid.Column="1" Margin="0,0,0,10"/>
+                        <TextBlock Text="Email:" Grid.Row="0" Grid.Column="0"/>
+                        <TextBlock Text="{Binding Email}" Grid.Row="0" Grid.Column="1"/>
 
-                        <TextBlock Text="Description:" Grid.Row="1" Grid.Column="0" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding Description}" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10"/>
+                        <TextBlock Text="Description:" Grid.Row="1" Grid.Column="0"/>
+                        <TextBlock Text="{Binding Description}" Grid.Row="1" Grid.Column="1"/>
 
-                        <TextBlock Text="Date de Création:" Grid.Row="2" Grid.Column="0" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding DateCreation, StringFormat=yyyy/MM/dd HH:mm}" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10"/>
+                        <TextBlock Text="Date de Création:" Grid.Row="2" Grid.Column="0"/>
+                        <TextBlock Text="{Binding DateCreation, StringFormat=yyyy/MM/dd HH:mm}" Grid.Row="2" Grid.Column="1"/>
 
-                        <TextBlock Text="Temps de Validation:" Grid.Row="3" Grid.Column="0" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding ValidationTime, StringFormat=yyyy/MM/dd HH:mm}" Grid.Row="3" Grid.Column="1" Margin="0,0,0,10"/>
+                        <TextBlock Text="Temps de Validation:" Grid.Row="3" Grid.Column="0"/>
+                        <TextBlock Text="{Binding ValidationTime, StringFormat=yyyy/MM/dd HH:mm}" Grid.Row="3" Grid.Column="1"/>
                     </Grid>
                 </GroupBox>
 
                 <!-- Device and Location Information Section -->
-                <GroupBox Header="Appareil et Emplacement" Margin="0,0,0,15" Background="White" BorderBrush="#90CAF9" BorderThickness="1">
+                <GroupBox Margin="0,0,0,15" Background="White" BorderBrush="#90CAF9" BorderThickness="1">
+                    <GroupBox.Header>
+                        <TextBlock Text="Appareil et Emplacement" FontWeight="Bold" FontSize="14"/>
+                    </GroupBox.Header>
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="150"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
+
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Text="Nom de l'Appareil:" Grid.Row="0" Grid.Column="0" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding AppareilNom}" Grid.Row="0" Grid.Column="1" Margin="0,0,0,10"/>
+                        <TextBlock Text="Nom de l'Appareil:" Grid.Row="0" Grid.Column="0"/>
+                        <TextBlock Text="{Binding AppareilNom}" Grid.Row="0" Grid.Column="1"/>
 
-                        <TextBlock Text="Etage:" Grid.Row="1" Grid.Column="0" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding NomEtage}" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10"/>
+                        <TextBlock Text="Etage:" Grid.Row="1" Grid.Column="0"/>
+                        <TextBlock Text="{Binding NomEtage}" Grid.Row="1" Grid.Column="1"/>
 
-                        <TextBlock Text="Emplacement:" Grid.Row="2" Grid.Column="0" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding NomEmplacement}" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10"/>
+                        <TextBlock Text="Emplacement:" Grid.Row="2" Grid.Column="0"/>
+                        <TextBlock Text="{Binding NomEmplacement}" Grid.Row="2" Grid.Column="1"/>
                     </Grid>
                 </GroupBox>
 
                 <!-- Request and Status Information Section -->
-                <GroupBox Header="Détails de la Demande et Statut" Margin="0,0,0,15" Background="White" BorderBrush="#90CAF9" BorderThickness="1">
+                <GroupBox Margin="0,0,0,15" Background="White" BorderBrush="#90CAF9" BorderThickness="1">
+                    <GroupBox.Header>
+                        <TextBlock Text="Détails de la Demande et Statut" FontWeight="Bold" FontSize="14"/>
+                    </GroupBox.Header>
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="150"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
+
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -107,23 +117,23 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Text="Motif de la Demande:" Grid.Row="0" Grid.Column="0" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding MotifDemande}" Grid.Row="0" Grid.Column="1" Margin="0,0,0,10"/>
+                        <TextBlock Text="Motif de la Demande:" Grid.Row="0" Grid.Column="0"/>
+                        <TextBlock Text="{Binding MotifDemande}" Grid.Row="0" Grid.Column="1"/>
 
-                        <TextBlock Text="Type d'Intervention:" Grid.Row="1" Grid.Column="0" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding NomType}" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10"/>
+                        <TextBlock Text="Type d'Intervention:" Grid.Row="1" Grid.Column="0"/>
+                        <TextBlock Text="{Binding NomType}" Grid.Row="1" Grid.Column="1"/>
 
-                        <TextBlock Text="Type d'Appareil:" Grid.Row="2" Grid.Column="0" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding NomTypeAppareil}" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10"/>
+                        <TextBlock Text="Type d'Appareil:" Grid.Row="2" Grid.Column="0"/>
+                        <TextBlock Text="{Binding NomTypeAppareil}" Grid.Row="2" Grid.Column="1"/>
 
-                        <TextBlock Text="Statut:" Grid.Row="3" Grid.Column="0" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding NomStatus}" Grid.Row="3" Grid.Column="1" Margin="0,0,0,10"/>
+                        <TextBlock Text="Statut:" Grid.Row="3" Grid.Column="0"/>
+                        <TextBlock Text="{Binding NomStatus}" Grid.Row="3" Grid.Column="1"/>
 
-                        <TextBlock Text="Efficacité:" Grid.Row="4" Grid.Column="0" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding Efficacity}" Grid.Row="4" Grid.Column="1" Margin="0,0,0,10" Foreground="{Binding EfficacityColor}"/>
+                        <TextBlock Text="Efficacité:" Grid.Row="4" Grid.Column="0"/>
+                        <TextBlock Text="{Binding Efficacity}" Grid.Row="4" Grid.Column="1" Foreground="{Binding EfficacityColor}"/>
 
-                        <TextBlock Text="Durée:" Grid.Row="5" Grid.Column="0" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding Duration}" Grid.Row="5" Grid.Column="1" Margin="0,0,0,10"/>
+                        <TextBlock Text="Durée:" Grid.Row="5" Grid.Column="0"/>
+                        <TextBlock Text="{Binding Duration}" Grid.Row="5" Grid.Column="1"/>
                     </Grid>
                 </GroupBox>
 
@@ -132,6 +142,9 @@
         </ScrollViewer>
     </Grid>
 </Window>
+
+
+
 
 
 

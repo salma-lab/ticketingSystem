@@ -27,8 +27,12 @@
 
 
     <Grid Margin="0,0,0,-171">
+
         <!-- TabControl to organize TypeIntervention, Status, and Ticket management -->
         <TabControl Margin="10,10,10,169" SelectionChanged="TabControl_SelectionChanged" Background="AliceBlue">
+
+
+
             <!-- Tab for Type Intervention Management -->
             <TabItem Header="Configuration" Margin="-2,-2,-2,2"  >
                 <Grid Margin="10">
@@ -144,7 +148,7 @@
                             <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*" />
                             <DataGridTextColumn Header="Motif" Binding="{Binding MotifDemande}" Width="*" />
                             <DataGridTextColumn Header="Statut" Binding="{Binding NomStatus}" Width="*" />
-                         
+
                             <DataGridTextColumn Header="Date Création" Binding="{Binding DateCreation, StringFormat='{}{0:yyyy/MM/dd HH:mm}'}" Width="*" />
                             <DataGridTextColumn Header="Appareil" Binding="{Binding AppareilNom}" Width="*" />
                             <DataGridTextColumn Header="Étage" Binding="{Binding NomEtage}" Width="*" />
@@ -198,23 +202,23 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Labels and Input Fields -->
-                            
 
-                       
 
-                            
+
+
+
                             <TextBlock Text="Statut:" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" />
                             <ComboBox x:Name="TicketStatussComboBox" Grid.Row="5" Grid.Column="3" Margin="5" ItemsSource="{Binding Statuses}" DisplayMemberPath="NomStatus" />
 
-                           
-                            
+
+
 
                             <!-- Buttons -->
                             <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.ColumnSpan="20" HorizontalAlignment="Center" Margin="20">
-                                <Button Content="Supprimer" Width="150" Margin="5" Background="#FF4500" Foreground="White" Click="DeleteTicket_Click" />
-                                
-                                
-                                <Button Content="Mettre à jour" Width="150" Margin="5" Background="#32CD32" Foreground="White" Click="UpdateTicket_Click" />
+                                <Button Content="Supprimer" Width="150" Margin="5" Background="DarkRed" Foreground="White" Click="DeleteTicket_Click" />
+
+
+                                <Button Content="Mettre à jour" Width="150" Margin="5" Background="Green" Foreground="White" Click="UpdateTicket_Click" />
                             </StackPanel>
                         </Grid>
                     </GroupBox>
@@ -358,6 +362,10 @@
 
 
         </TabControl>
+        <Button Content="Déconnexion" Width="99" Height="26" Margin="0,10,10,0"
+HorizontalAlignment="Right" VerticalAlignment="Top"
+Background="Green" Foreground="White" FontWeight="Bold"
+Click="LogoutButton_Click"/>
     </Grid>
 </Window>
 

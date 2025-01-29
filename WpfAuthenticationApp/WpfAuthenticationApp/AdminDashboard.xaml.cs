@@ -107,13 +107,31 @@ namespace WpfAuthenticationApp
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Error fetching roles: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la récupération des rôles : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (JsonException ex)
             {
-                MessageBox.Show($"Error parsing roles data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de l'analyse des données des rôles : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Show confirmation dialog
+            var result = MessageBox.Show("Voulez-vous vraiment vous déconnecter ?", "Déconnexion", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                // Close current window and return to login
+                this.Close();
+
+                // Open the login window
+                var loginWindow = new LoginWindow();  // Ensure you have a LoginWindow created
+                loginWindow.Show();
+            }
+        }
+
 
 
         public class OuterObjectWithValues<T>
@@ -358,11 +376,11 @@ namespace WpfAuthenticationApp
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Error fetching data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la récupération des données : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (JsonException ex)
             {
-                MessageBox.Show($"Error parsing data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de l'analyse des données : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -372,7 +390,7 @@ namespace WpfAuthenticationApp
 
             if (string.IsNullOrEmpty(name))
             {
-                MessageBox.Show("Please enter a name for the Appareil Type.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Veuillez entrer un nom pour le type d'appareil.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -396,7 +414,7 @@ namespace WpfAuthenticationApp
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Error adding type intervention: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de l'ajout du type d'intervention : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -405,7 +423,7 @@ namespace WpfAuthenticationApp
             var selectedAppareil = TypeAppareilDataGrid.SelectedItem as TypeAppareil;
             if (selectedAppareil == null)
             {
-                MessageBox.Show("Please select an intervention to delete.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Veuillez sélectionner une intervention à supprimer.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -422,7 +440,7 @@ namespace WpfAuthenticationApp
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Error deleting TypeAppareil: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la suppression du TypeAppareil : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -461,11 +479,11 @@ namespace WpfAuthenticationApp
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Error fetching data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la récupération des données : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (JsonException ex)
             {
-                MessageBox.Show($"Error parsing data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de l'analyse des données : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -475,7 +493,7 @@ namespace WpfAuthenticationApp
 
             if (string.IsNullOrEmpty(name))
             {
-                MessageBox.Show("Please enter a name for the type intervention.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Veuillez entrer un nom pour le type d'intervention.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -499,7 +517,7 @@ namespace WpfAuthenticationApp
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Error adding Etage: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de l'ajout de l'étage : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -508,7 +526,7 @@ namespace WpfAuthenticationApp
             var selectedEtage = EtageDataGrid.SelectedItem as Etage;
             if (selectedEtage == null)
             {
-                MessageBox.Show("Please select an intervention to delete.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Veuillez sélectionner une intervention à supprimer.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -525,7 +543,7 @@ namespace WpfAuthenticationApp
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Error deleting type intervention: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la suppression du type d'intervention : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -556,11 +574,11 @@ namespace WpfAuthenticationApp
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Error fetching data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la récupération des données : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (JsonException ex)
             {
-                MessageBox.Show($"Error parsing data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de l'analyse des données : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -570,7 +588,7 @@ namespace WpfAuthenticationApp
 
             if (string.IsNullOrEmpty(name))
             {
-                MessageBox.Show("Please enter a name for the emplacement.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Veuillez entrer un nom pour l'emplacement.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -594,7 +612,7 @@ namespace WpfAuthenticationApp
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Error adding emplacement: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de l'ajout de l'emplacement : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -603,7 +621,7 @@ namespace WpfAuthenticationApp
             var selectedEmplacement = EmplacementDataGrid.SelectedItem as Emplacement;
             if (selectedEmplacement == null)
             {
-                MessageBox.Show("Please select an emplacement to delete.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Veuillez sélectionner un emplacement à supprimer.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -620,7 +638,7 @@ namespace WpfAuthenticationApp
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Error deleting emplacement: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la suppression de l'emplacement : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -650,19 +668,6 @@ namespace WpfAuthenticationApp
             }
         }
 
-        //private void TicketList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //  var selectedTicket = TicketList.SelectedItem as Ticket; // Replace with your data type
-        // if (selectedTicket != null)
-        //{
-        // Console.WriteLine($"Selected TicketId: {selectedTicket.TicketId}");
-        // await LoadTicketComments(selectedTicket.TicketId);
-        // }
-        // }
-
-
-        //private Ticket _selectedTicket;
-
 
 
         private void DetailsButton_Click(object sender, RoutedEventArgs e)
@@ -675,7 +680,7 @@ namespace WpfAuthenticationApp
             }
             else
             {
-                MessageBox.Show("Please select a ticket to view details.", "No Selection", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Veuillez sélectionner un ticket pour voir les détails.", "Aucune sélection", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -778,7 +783,7 @@ namespace WpfAuthenticationApp
             var selectedTicket = TicketDataGrid.SelectedItem as Ticket;
             if (selectedTicket == null)
             {
-                MessageBox.Show("Please select a ticket to validate.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Veuillez sélectionner un ticket à valider.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -811,16 +816,18 @@ namespace WpfAuthenticationApp
                     selectedTicket.Duration = updatedTicket.Duration; // Update Duration property
                 }
 
-                MessageBox.Show("Ticket validated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Ticket validé avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
                 TicketDataGrid.Items.Refresh(); // Refresh DataGrid to display updated data
+                LoadTickets();
+
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Error validating ticket: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la validation du ticket. {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (JsonException ex)
             {
-                MessageBox.Show($"Error serializing validation data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la sérialisation des données de validation. {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -872,11 +879,11 @@ namespace WpfAuthenticationApp
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Error fetching tickets: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la récupération des tickets. {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (JsonException ex)
             {
-                MessageBox.Show($"Error parsing tickets data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de l'analyse des données des tickets. {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -888,7 +895,7 @@ namespace WpfAuthenticationApp
             var selectedTicket = TicketDataGrid.SelectedItem as Ticket;
             if (selectedTicket == null)
             {
-                MessageBox.Show("Please select a ticket to delete.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Veuillez sélectionner un ticket à supprimer.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -905,7 +912,7 @@ namespace WpfAuthenticationApp
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Error deleting ticket: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la suppression du ticket. {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -1025,21 +1032,20 @@ namespace WpfAuthenticationApp
             var selectedTicket = TicketDataGrid.SelectedItem as Ticket;
             if (selectedTicket == null)
             {
-                MessageBox.Show("Please select a ticket to update.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Veuillez sélectionner un ticket à mettre à jour.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-
             var status = TicketStatussComboBox.SelectedItem as Status;
-
-            
+            if (status == null)
+            {
+                MessageBox.Show("Veuillez sélectionner un statut valide pour le ticket.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             var updatedTicket = new TicketUpdateDto
             {
-                
-               
                 StatusId = status.StatusId,
-                
             };
 
             try
@@ -1051,20 +1057,21 @@ namespace WpfAuthenticationApp
 
                 var response = await client.PutAsync($"{_ticketApiUrl}/{selectedTicket.ticketId}", content);
                 response.EnsureSuccessStatusCode();
-                MessageBox.Show("Ticket updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Ticket mis à jour avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
                 LoadTickets();
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Error updating ticket: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la mise à jour du ticket : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (JsonException ex)
             {
-                MessageBox.Show($"Error serializing ticket data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la sérialisation des données du ticket : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        
+
+
 
 
 
@@ -1197,7 +1204,7 @@ namespace WpfAuthenticationApp
                 double maxHours = NomStatus == "Urgent" ? 12 : 24;
                 if (Duration.TotalHours <= maxHours)
                     return Brushes.Green; // Effective
-                return Brushes.Red; // Ineffective
+                return Brushes.DarkRed; // Ineffective
             }
         }
 
