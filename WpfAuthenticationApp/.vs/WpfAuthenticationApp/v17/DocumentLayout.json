@@ -3,20 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\wpfauthenticationapp\\wpfauthenticationapp\\ticketdetailswindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|solutionrelative:wpfauthenticationapp\\ticketdetailswindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\wpfauthenticationapp\\wpfauthenticationapp\\admindashboard.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|solutionrelative:wpfauthenticationapp\\admindashboard.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\wpfauthenticationapp\\wpfauthenticationapp\\models\\typeintervention.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|solutionrelative:wpfauthenticationapp\\models\\typeintervention.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\wpfauthenticationapp\\wpfauthenticationapp\\admindashboard.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|solutionrelative:wpfauthenticationapp\\admindashboard.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\wpfauthenticationapp\\wpfauthenticationapp\\admindashboard.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|solutionrelative:wpfauthenticationapp\\admindashboard.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\wpfauthenticationapp\\wpfauthenticationapp\\models\\status.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|solutionrelative:wpfauthenticationapp\\models\\status.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\wpfauthenticationapp\\wpfauthenticationapp\\ticketdetailswindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|solutionrelative:wpfauthenticationapp\\ticketdetailswindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\wpfauthenticationapp\\wpfauthenticationapp\\ticketdetailswindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|solutionrelative:wpfauthenticationapp\\ticketdetailswindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\wpfauthenticationapp\\wpfauthenticationapp\\models\\etage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C020BA87-E121-4D03-A80B-8A24DE1020A2}|WpfAuthenticationApp\\WpfAuthenticationApp.csproj|solutionrelative:wpfauthenticationapp\\models\\etage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,7 +46,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
+              "Title": "Status.cs",
+              "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\Models\\Status.cs",
+              "RelativeDocumentMoniker": "WpfAuthenticationApp\\Models\\Status.cs",
+              "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\Models\\Status.cs",
+              "RelativeToolTip": "WpfAuthenticationApp\\Models\\Status.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-30T16:29:17.544Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Etage.cs",
+              "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\Models\\Etage.cs",
+              "RelativeDocumentMoniker": "WpfAuthenticationApp\\Models\\Etage.cs",
+              "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\Models\\Etage.cs",
+              "RelativeToolTip": "WpfAuthenticationApp\\Models\\Etage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-30T16:17:31.694Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TypeIntervention.cs",
+              "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\Models\\TypeIntervention.cs",
+              "RelativeDocumentMoniker": "WpfAuthenticationApp\\Models\\TypeIntervention.cs",
+              "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\Models\\TypeIntervention.cs",
+              "RelativeToolTip": "WpfAuthenticationApp\\Models\\TypeIntervention.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-30T16:12:02.345Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "TicketDetailsWindow.xaml",
               "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\TicketDetailsWindow.xaml",
               "RelativeDocumentMoniker": "WpfAuthenticationApp\\TicketDetailsWindow.xaml",
@@ -50,20 +97,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "TicketDetailsWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\TicketDetailsWindow.xaml.cs",
-              "RelativeDocumentMoniker": "WpfAuthenticationApp\\TicketDetailsWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\TicketDetailsWindow.xaml.cs",
-              "RelativeToolTip": "WpfAuthenticationApp\\TicketDetailsWindow.xaml.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAgwEkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-24T16:38:13.823Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "AdminDashboard.xaml",
               "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\AdminDashboard.xaml",
               "RelativeDocumentMoniker": "WpfAuthenticationApp\\AdminDashboard.xaml",
@@ -75,13 +109,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "AdminDashboard.xaml.cs",
               "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\AdminDashboard.xaml.cs",
               "RelativeDocumentMoniker": "WpfAuthenticationApp\\AdminDashboard.xaml.cs",
               "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\WpfAuthenticationApp\\WpfAuthenticationApp\\AdminDashboard.xaml.cs",
               "RelativeToolTip": "WpfAuthenticationApp\\AdminDashboard.xaml.cs",
-              "ViewState": "AgIAAJwEAAAAAAAAAAA8wLYEAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAAC8CAAAAAAAAAAAwwDYCAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-08T17:26:50.025Z",
               "EditorCaption": ""

@@ -40,6 +40,7 @@ namespace WpfAuthenticationApp
 
 
 
+
         public ObservableCollection<TypeIntervention> TypeInterventions { get; set; } = new();
         public ObservableCollection<Status> Statuses { get; set; } = new();
         public ObservableCollection<Ticket> Tickets { get; set; } = new();
@@ -123,11 +124,11 @@ namespace WpfAuthenticationApp
 
             if (result == MessageBoxResult.Yes)
             {
-                // Close current window and return to login
+                
                 this.Close();
 
-                // Open the login window
-                var loginWindow = new LoginWindow();  // Ensure you have a LoginWindow created
+                
+                var loginWindow = new LoginWindow();  
                 loginWindow.Show();
             }
         }
@@ -486,6 +487,237 @@ namespace WpfAuthenticationApp
                 MessageBox.Show($"Erreur lors de l'analyse des données : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private async void UpdateStatus_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedStatus = StatusDataGrid.SelectedItem as Status;
+            if (selectedStatus == null)
+            {
+                MessageBox.Show("Veuillez sélectionner un statut à mettre à jour.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(NewStatusNameTextBox.Text))
+            {
+                MessageBox.Show("Veuillez entrer un nouveau nom de statut.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var updatedStatus = new Status
+            {
+                NomStatus = NewStatusNameTextBox.Text
+            };
+
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token); // Ensure _token is set
+                var json = JsonSerializer.Serialize(updatedStatus);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync($"{_statusApiUrl}/{selectedStatus.StatusId}", content);
+                response.EnsureSuccessStatusCode();
+
+                MessageBox.Show("Statut mis à jour avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                 LoadStatuses(); // Reload statuses after update
+
+                NewStatusNameTextBox.Clear();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Erreur lors de la mise à jour du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (JsonException ex)
+            {
+                MessageBox.Show($"Erreur lors de la sérialisation des données du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private async void UpdateEtage_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedStatus = EtageDataGrid.SelectedItem as Etage;
+            if (selectedStatus == null)
+            {
+                MessageBox.Show("Veuillez sélectionner un statut à mettre à jour.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(NewEtageNameTextBox.Text))
+            {
+                MessageBox.Show("Veuillez entrer un nouveau nom de statut.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var updatedStatus = new Etage
+            {
+                NomEtage = NewEtageNameTextBox.Text
+            };
+
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token); // Ensure _token is set
+                var json = JsonSerializer.Serialize(updatedStatus);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync($"{_etageApiUrl}/{selectedStatus.EtageId}", content);
+                response.EnsureSuccessStatusCode();
+
+                MessageBox.Show("Statut mis à jour avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadEtages(); // Reload statuses after update
+
+                NewEtageNameTextBox.Clear();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Erreur lors de la mise à jour du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (JsonException ex)
+            {
+                MessageBox.Show($"Erreur lors de la sérialisation des données du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private async void UpdateTypeA_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedStatus = TypeAppareilDataGrid.SelectedItem as TypeAppareil;
+            if (selectedStatus == null)
+            {
+                MessageBox.Show("Veuillez sélectionner un statut à mettre à jour.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(NewTypeAppNameTextBox.Text))
+            {
+                MessageBox.Show("Veuillez entrer un nouveau nom de statut.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var updatedStatus = new TypeAppareil
+            {
+                NomTypeAppareil = NewTypeAppNameTextBox.Text
+            };
+
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token); // Ensure _token is set
+                var json = JsonSerializer.Serialize(updatedStatus);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync($"{_typeAppareilApiUrl}/{selectedStatus.TypeAppareilId}", content);
+                response.EnsureSuccessStatusCode();
+
+                MessageBox.Show("Statut mis à jour avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadTypeAppareil(); // Reload statuses after update
+
+                NewTypeAppNameTextBox.Clear();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Erreur lors de la mise à jour du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (JsonException ex)
+            {
+                MessageBox.Show($"Erreur lors de la sérialisation des données du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private async void UpdateTypeI_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedStatus = TypeInterventionDataGrid.SelectedItem as TypeIntervention;
+            if (selectedStatus == null)
+            {
+                MessageBox.Show("Veuillez sélectionner un type Intervention à mettre à jour.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(NewTypeNameTextBox.Text))
+            {
+                MessageBox.Show("Veuillez entrer un nouveau nom d'intervention.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var updatedStatus = new TypeIntervention
+            {
+                NomType = NewTypeNameTextBox.Text
+            };
+
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token); // Ensure _token is set
+                var json = JsonSerializer.Serialize(updatedStatus);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync($"{_typeInterventionApiUrl}/{selectedStatus.TypeInterventionId}", content);
+                response.EnsureSuccessStatusCode();
+
+                MessageBox.Show("Statut mis à jour avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadTypeInterventions(); // Reload statuses after update
+
+                NewTypeNameTextBox.Clear();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Erreur lors de la mise à jour du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (JsonException ex)
+            {
+                MessageBox.Show($"Erreur lors de la sérialisation des données du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private async void UpdateEmplacement_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedStatus = EmplacementDataGrid.SelectedItem as Emplacement;
+            if (selectedStatus == null)
+            {
+                MessageBox.Show("Veuillez sélectionner un statut à mettre à jour.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(NewEmplacementNameTextBox.Text))
+            {
+                MessageBox.Show("Veuillez entrer un nouveau nom de statut.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var updatedStatus = new Emplacement
+            {
+                NomEmplacement = NewEmplacementNameTextBox.Text
+            };
+
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token); // Ensure _token is set
+                var json = JsonSerializer.Serialize(updatedStatus);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync($"{_statusApiUrl}/{selectedStatus.EmplacementId}", content);
+                response.EnsureSuccessStatusCode();
+
+                MessageBox.Show("Statut mis à jour avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadEmplacements(); // Reload statuses after update
+
+                NewEmplacementNameTextBox.Clear();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Erreur lors de la mise à jour du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (JsonException ex)
+            {
+                MessageBox.Show($"Erreur lors de la sérialisation des données du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+
+
+
+
+
+
+
 
         private async void AddEtage_Click(object sender, RoutedEventArgs e)
         {
@@ -1127,6 +1359,11 @@ namespace WpfAuthenticationApp
 
     // Status class
     public class Status
+    {
+        public int StatusId { get; set; }
+        public string NomStatus { get; set; }
+    }
+    public class StatusUpdateDto
     {
         public int StatusId { get; set; }
         public string NomStatus { get; set; }

@@ -22,7 +22,7 @@ namespace TicketAPI.Controllers
 
         // Get all types of intervention
         [HttpGet]
-        
+
         public async Task<ActionResult<IEnumerable<TypeIntervention>>> GetTypesIntervention()
         {
             return await _context.TypesIntervention.ToListAsync();
@@ -48,6 +48,35 @@ namespace TicketAPI.Controllers
             // Return the created intervention type with a 201 status code
             return CreatedAtAction(nameof(GetTypesIntervention), new { id = typeIntervention.TypeInterventionId }, typeIntervention);
         }
+
+
+        [HttpPut("{id}")]
+        [Authorize(Policy = "RequireAdminRole")]
+        public async Task <IActionResult> PutTypeIntervention(int id, TypeIntervention typeIntervention)
+        {
+            var oldintervention = await _context.TypesIntervention.FindAsync(id);
+            if (oldintervention == null) {
+                return NotFound();
+            }
+            oldintervention.NomType=typeIntervention.NomType;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch(DbUpdateConcurrencyException)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "erroe updating type intervention");
+            }
+
+            return NoContent();
+
+
+        }
+
+
+
+
+
 
         // Delete a type of intervention by its ID
         [HttpDelete("{id}")]

@@ -56,6 +56,8 @@
                                     <Label Content="Nouveau type d'intervention:" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                     <TextBox Name="NewTypeNameTextBox" Width="200" Margin="0,0,10,0"/>
                                     <Button Content="Ajouter" Width="75" Margin="5" Background="DodgerBlue" Foreground="White" FontWeight="Bold" BorderBrush="DodgerBlue" Click="AddTypeIntervention_Click"/>
+                                    <Button Content="Modifier" Width="75" Margin="5" Background="Orange" Foreground="White" FontWeight="Bold" BorderBrush="Orange" Click="UpdateTypeI_Click"/>
+
                                     <Button Content="Supprimer" Width="75" Margin="5" Background="Red" Foreground="White" FontWeight="Bold" BorderBrush="Red" Click="DeleteTypeIntervention_Click"/>
                                 </StackPanel>
                             </StackPanel>
@@ -73,6 +75,8 @@
                                     <Label Content="Nouveau type d'appareil:" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                     <TextBox Name="NewTypeAppNameTextBox" Width="200" Margin="0,0,10,0"/>
                                     <Button Content="Ajouter" Width="75" Margin="5" Background="DodgerBlue" Foreground="White" FontWeight="Bold" BorderBrush="DodgerBlue" Click="AddTypeAppareil_Click"/>
+                                    <Button Content="Modifier" Width="75" Margin="5" Background="Orange" Foreground="White" FontWeight="Bold" BorderBrush="Orange" Click="UpdateTypeA_Click"/>
+
                                     <Button Content="Supprimer" Width="75" Margin="5" Background="Red" Foreground="White" FontWeight="Bold" BorderBrush="Red" Click="DeleteTypeAppareil_Click"/>
                                 </StackPanel>
                             </StackPanel>
@@ -90,6 +94,8 @@
                                     <Label Content="Numero d'etage:" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                     <TextBox Name="NewEtageNameTextBox" Width="200" Margin="0,0,10,0"/>
                                     <Button Content="Ajouter" Width="75" Margin="5" Background="DodgerBlue" Foreground="White" FontWeight="Bold" BorderBrush="DodgerBlue" Click="AddEtage_Click"/>
+                                    <Button Content="Modifier" Width="75" Margin="5" Background="Orange" Foreground="White" FontWeight="Bold" BorderBrush="Orange" Click="UpdateEtage_Click"/>
+
                                     <Button Content="Supprimer" Width="75" Margin="5" Background="Red" Foreground="White" FontWeight="Bold" BorderBrush="Red" Click="DeleteEtage_Click"/>
                                 </StackPanel>
                             </StackPanel>
@@ -107,6 +113,8 @@
                                     <Label Content="Nouveau emplacement:" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                     <TextBox Name="NewEmplacementNameTextBox" Width="200" Margin="0,0,10,0"/>
                                     <Button Content="Ajouter" Width="75" Margin="5" Background="DodgerBlue" Foreground="White" FontWeight="Bold" BorderBrush="DodgerBlue" Click="AddEmplacement_Click"/>
+                                    <Button Content="Modifier" Width="75" Margin="5" Background="Orange" Foreground="White" FontWeight="Bold" BorderBrush="Orange" Click="AddEmplacement_Click"/>
+
                                     <Button Content="Supprimer" Width="75" Margin="5" Background="Red" Foreground="White" FontWeight="Bold" BorderBrush="Red" Click="DeleteEmplacement_Click"/>
                                 </StackPanel>
                             </StackPanel>
@@ -124,6 +132,8 @@
                                     <Label Content="Nouveau status:" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                     <TextBox Name="NewStatusNameTextBox" Width="200" Margin="0,0,10,0"/>
                                     <Button Content="Ajouter" Width="75" Margin="5" Background="DodgerBlue" Foreground="White" FontWeight="Bold" BorderBrush="DodgerBlue" Click="AddStatus_Click"/>
+                                    <Button Content="Modifier" Width="75" Margin="5" Background="Orange" Foreground="White" FontWeight="Bold" BorderBrush="Orange" Click="UpdateStatus_Click"/>
+
                                     <Button Content="Supprimer" Width="75" Margin="5" Background="Red" Foreground="White" FontWeight="Bold" BorderBrush="Red" Click="DeleteStatus_Click"/>
                                 </StackPanel>
                             </StackPanel>

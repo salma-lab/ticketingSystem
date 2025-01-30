@@ -7,79 +7,84 @@ using TicketAPI.Models;
 
 namespace TicketAPI.Controllers
 {
-   
-
     [Route("api/StatusController")]
     [ApiController]
-     
-
     public class StatusController : ControllerBase
     {
         private readonly TicketingSystemDbContext _context;
-        private readonly IConfiguration _configuration; // Add IConfiguration
-
+        private readonly IConfiguration _configuration;
 
         public StatusController(TicketingSystemDbContext context, IConfiguration configuration)
         {
             _context = context;
-            _configuration = configuration; // Assign it
-
-
+            _configuration = configuration;
         }
 
         [HttpGet]
-        [Authorize] 
-
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Status>>> GetStatus()
         {
             return await _context.Status.ToListAsync();
         }
 
         [HttpPost]
-        [Authorize(Policy = "RequireAdminRole")] 
-
+        [Authorize(Policy = "RequireAdminRole")]
         public async Task<ActionResult<Status>> PostStatus(Status status)
         {
-            // Vérifie que le modèle est valide
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            // Ajoute le statut à la base de données
             _context.Status.Add(status);
-
-            // Sauvegarde les changements dans la base de données
             await _context.SaveChangesAsync();
-
-            // Renvoie le statut ajouté avec un code de statut 201 Created
             return CreatedAtAction(nameof(GetStatus), new { id = status.StatusId }, status);
         }
+
+        [HttpPut("{id}")]
+        [Authorize(Policy = "RequireAdminRole")]
+        public async Task<IActionResult> PutStatus(int id, Status status)
+        {
+            //if (id != status.StatusId)
+            //{
+              //  return BadRequest("Status ID mismatch");
+            //}
+
+            var oldStatus = await _context.Status.FindAsync(id);
+            if (oldStatus == null)
+            {
+                return NotFound();
+            }
+
+            oldStatus.NomStatus = status.NomStatus;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error updating status");
+            }
+
+            return NoContent();
+        }
+
         [HttpDelete("{id}")]
         [Authorize(Policy = "RequireAdminRole")]
         public async Task<IActionResult> DeleteStatus(int id)
         {
-            // Find the status by ID
             var status = await _context.Status.FindAsync(id);
-
             if (status == null)
             {
-                // Return a 404 if the status is not found
                 return NotFound();
             }
 
-            // Remove the status from the database
             _context.Status.Remove(status);
-
-            // Save changes to the database
             await _context.SaveChangesAsync();
 
-            // Return a 204 No Content response (indicating successful deletion)
             return NoContent();
         }
-
     }
-
-
-
 }
+

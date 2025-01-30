@@ -51,6 +51,30 @@ namespace TicketAPI.Controllers
             // Renvoie le statut ajouté avec un code de statut 201 Created
             return CreatedAtAction(nameof(GetTypeAppareil), new { id = typeAppareil.TypeAppareilId }, typeAppareil);
         }
+
+
+
+
+        [HttpPut("{id}")]
+        [Authorize(Policy = "RequireAdminRole")]
+        public async Task<IActionResult> PutType (int id, TypeAppareil typeAppareil)
+        {
+            var oldappareil = await _context.TypeAppareils.FindAsync(id);
+            if (oldappareil == null)
+            {
+                return NotFound();
+            }
+            oldappareil.NomTypeAppareil = typeAppareil.NomTypeAppareil;
+            try { await _context.SaveChangesAsync(); }
+            catch (DbUpdateConcurrencyException) 
+            { return StatusCode(StatusCodes.Status500InternalServerError, "error updating TypeAppareil"); }
+            return NoContent();
+
+        }
+
+
+
+
         [HttpDelete("{id}")]
         [Authorize(Policy = "RequireAdminRole")]
         public async Task<IActionResult> DeleteAppareil(int id)

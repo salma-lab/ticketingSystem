@@ -79,6 +79,27 @@
   },
   {
     "ContainingType": "TicketAPI.Controllers.EmplacementController",
+    "Method": "PutEmplacement",
+    "RelativePath": "api/EmplacementController/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "emplacement",
+        "Type": "TicketAPI.Models.Emplacement",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.EmplacementController",
     "Method": "DeleteEmplacement",
     "RelativePath": "api/EmplacementController/{id}",
     "HttpMethod": "DELETE",
@@ -138,6 +159,27 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.EtageController",
+    "Method": "PutEtage",
+    "RelativePath": "api/EtageController/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "etage",
+        "Type": "TicketAPI.Models.Etage",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "TicketAPI.Controllers.EtageController",
@@ -262,6 +304,27 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.StatusController",
+    "Method": "PutStatus",
+    "RelativePath": "api/StatusController/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "status",
+        "Type": "TicketAPI.Models.Status",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "TicketAPI.Controllers.StatusController",
@@ -482,6 +545,27 @@
   },
   {
     "ContainingType": "TicketAPI.Controllers.TypeAppareilController",
+    "Method": "PutType",
+    "RelativePath": "api/TypeAppareilController/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "typeAppareil",
+        "Type": "TicketAPI.Models.TypeAppareil",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.TypeAppareilController",
     "Method": "DeleteAppareil",
     "RelativePath": "api/TypeAppareilController/{id}",
     "HttpMethod": "DELETE",
@@ -541,6 +625,27 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "TicketAPI.Controllers.TypesInterventionController",
+    "Method": "PutTypeIntervention",
+    "RelativePath": "api/TypesInterventionController/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "typeIntervention",
+        "Type": "TicketAPI.Models.TypeIntervention",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "TicketAPI.Controllers.TypesInterventionController",

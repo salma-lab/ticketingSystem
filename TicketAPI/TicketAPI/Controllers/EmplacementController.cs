@@ -51,6 +51,34 @@ namespace TicketAPI.Controllers
             // Renvoie le statut ajouté avec un code de statut 201 Created
             return CreatedAtAction(nameof(GetEmplacement), new { id = emplacement.EmplacementId }, emplacement);
         }
+
+
+
+        [HttpPut("{id}")]
+        [Authorize(Policy = "RequireAdminRole")]
+        public async Task<IActionResult> PutEmplacement(int id, Emplacement emplacement)
+        {
+            var oldEmplacement = await _context.Emplacements.FindAsync(id);
+            if (oldEmplacement == null)
+            {
+                return NotFound();
+
+            }
+            oldEmplacement.NomEmplacement = emplacement.NomEmplacement;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return (StatusCode(StatusCodes.Status500InternalServerError, "Error Updating Emplacement "));
+            }
+            return NoContent();
+
+        }
+
+
+
         [HttpDelete("{id}")]
         [Authorize(Policy = "RequireAdminRole")]
         public async Task<IActionResult> DeleteEmplacement(int id)

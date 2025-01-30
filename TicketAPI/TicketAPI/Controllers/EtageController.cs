@@ -51,6 +51,34 @@ namespace TicketAPI.Controllers
             // Renvoie le statut ajouté avec un code de statut 201 Created
             return CreatedAtAction(nameof(GetEtage), new { id = etage.EtageId }, etage);
         }
+
+
+
+
+        [HttpPut("{id}")]
+        [Authorize(Policy ="RequireAdminRoole")]
+        public async Task<IActionResult> PutEtage(int id, Etage etage)
+        {
+            var oldEtage = await _context.Etages.FindAsync(id);
+            if (oldEtage == null)
+            {
+                return NotFound();
+            }
+            oldEtage.NomEtage = etage.NomEtage;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            return NoContent();
+        }
+
+
+
+
         [HttpDelete("{id}")]
         [Authorize(Policy = "RequireAdminRole")]
         public async Task<IActionResult> DeleteEtage(int id)
