@@ -87,7 +87,6 @@ C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticat
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\obj\Debug\net8.0-windows\ref\WpfAuthenticationApp.dll
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\obj\Debug\net8.0-windows\WpfAuthenticationApp_Content.g.cs
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\images\logo.png
-C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\Xceed.Wpf.AvalonDock.Themes.Aero.dll
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\Xceed.Wpf.AvalonDock.Themes.Metro.dll
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\Xceed.Wpf.AvalonDock.Themes.VS2010.dll
@@ -107,3 +106,11 @@ C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticat
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\obj\Debug\net8.0-windows\TicketDetailsWindow.baml
 C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\obj\Debug\net8.0-windows\TicketDetailsWindow.g.cs
+C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\ClosedXML.dll
+C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\ClosedXML.Parser.dll
+C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\DocumentFormat.OpenXml.dll
+C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\DocumentFormat.OpenXml.Framework.dll
+C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\ExcelNumberFormat.dll
+C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\RBush.dll
+C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\SixLabors.Fonts.dll
+C:\Users\salma\source\repos\Ticketing_system\WpfAuthenticationApp\WpfAuthenticationApp\bin\Debug\net8.0-windows\System.IO.Packaging.dll

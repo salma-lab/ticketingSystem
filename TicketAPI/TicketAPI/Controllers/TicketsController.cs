@@ -124,7 +124,7 @@ namespace TicketAPI.Controllers
             }
 
             // Retrieve the UtilisateurId from the JWT token
-            var utilisateurIdClaim = User.FindFirst(ClaimTypes.NameIdentifier); // This will get the user ID from the JWT token
+            var utilisateurIdClaim = User.FindFirst(ClaimTypes.NameIdentifier); //  get the user ID from the JWT token
             if (utilisateurIdClaim == null)
             {
                 return Unauthorized("User ID is missing from the token.");

@@ -15,6 +15,9 @@ using System.Windows.Media;
 
 
 using System.Globalization;
+using ClosedXML.Excel;
+using Microsoft.Win32;
+using System.Xml;
 
 
 
@@ -538,13 +541,13 @@ namespace WpfAuthenticationApp
             var selectedStatus = EtageDataGrid.SelectedItem as Etage;
             if (selectedStatus == null)
             {
-                MessageBox.Show("Veuillez sélectionner un statut à mettre à jour.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Veuillez sélectionner un Etage à mettre à jour.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(NewEtageNameTextBox.Text))
             {
-                MessageBox.Show("Veuillez entrer un nouveau nom de statut.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Veuillez entrer un nouveau nom d'etage.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -570,11 +573,11 @@ namespace WpfAuthenticationApp
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Erreur lors de la mise à jour du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la mise à jour d'etage : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (JsonException ex)
             {
-                MessageBox.Show($"Erreur lors de la sérialisation des données du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la sérialisation des données d'etage : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private async void UpdateTypeA_Click(object sender, RoutedEventArgs e)
@@ -582,13 +585,13 @@ namespace WpfAuthenticationApp
             var selectedStatus = TypeAppareilDataGrid.SelectedItem as TypeAppareil;
             if (selectedStatus == null)
             {
-                MessageBox.Show("Veuillez sélectionner un statut à mettre à jour.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Veuillez sélectionner un type d'appareil à mettre à jour.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(NewTypeAppNameTextBox.Text))
             {
-                MessageBox.Show("Veuillez entrer un nouveau nom de statut.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Veuillez entrer un nouveau nom de type d'appareil.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -607,18 +610,18 @@ namespace WpfAuthenticationApp
                 var response = await client.PutAsync($"{_typeAppareilApiUrl}/{selectedStatus.TypeAppareilId}", content);
                 response.EnsureSuccessStatusCode();
 
-                MessageBox.Show("Statut mis à jour avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Type d'appareil mis à jour avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
                 LoadTypeAppareil(); // Reload statuses after update
 
                 NewTypeAppNameTextBox.Clear();
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Erreur lors de la mise à jour du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la mise à jour du type d'appareil : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (JsonException ex)
             {
-                MessageBox.Show($"Erreur lors de la sérialisation des données du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la sérialisation des données du type d'appareil : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private async void UpdateTypeI_Click(object sender, RoutedEventArgs e)
@@ -651,18 +654,18 @@ namespace WpfAuthenticationApp
                 var response = await client.PutAsync($"{_typeInterventionApiUrl}/{selectedStatus.TypeInterventionId}", content);
                 response.EnsureSuccessStatusCode();
 
-                MessageBox.Show("Statut mis à jour avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("type d'intervention mis à jour avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
                 LoadTypeInterventions(); // Reload statuses after update
 
                 NewTypeNameTextBox.Clear();
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Erreur lors de la mise à jour du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la mise à jour du type d'intervention : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (JsonException ex)
             {
-                MessageBox.Show($"Erreur lors de la sérialisation des données du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la sérialisation des données du type d'intervention : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private async void UpdateEmplacement_Click(object sender, RoutedEventArgs e)
@@ -670,13 +673,13 @@ namespace WpfAuthenticationApp
             var selectedStatus = EmplacementDataGrid.SelectedItem as Emplacement;
             if (selectedStatus == null)
             {
-                MessageBox.Show("Veuillez sélectionner un statut à mettre à jour.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Veuillez sélectionner un emplacement à mettre à jour.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(NewEmplacementNameTextBox.Text))
             {
-                MessageBox.Show("Veuillez entrer un nouveau nom de statut.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Veuillez entrer un nouveau nom d'emplacement.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -695,18 +698,18 @@ namespace WpfAuthenticationApp
                 var response = await client.PutAsync($"{_statusApiUrl}/{selectedStatus.EmplacementId}", content);
                 response.EnsureSuccessStatusCode();
 
-                MessageBox.Show("Statut mis à jour avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Emplacement mis à jour avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
                 LoadEmplacements(); // Reload statuses after update
 
                 NewEmplacementNameTextBox.Clear();
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Erreur lors de la mise à jour du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la mise à jour d'emplacement : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (JsonException ex)
             {
-                MessageBox.Show($"Erreur lors de la sérialisation des données du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la sérialisation des données d'emplacement : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -935,7 +938,7 @@ namespace WpfAuthenticationApp
             var selectedDate = NewTicketDatePicker.SelectedDate ?? DateTime.Now;
 
             // Validate input
-            if (string.IsNullOrEmpty(description) || string.IsNullOrEmpty(motif) || type == null || status == null || typeApp == null || etage == null || emplacement == null)
+            if ( string.IsNullOrEmpty(motif) || type == null || etage == null || status == null || typeApp == null ||  emplacement == null)
             {
                 MessageBox.Show("Veuillez remplir tous les champs obligatoires.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -995,6 +998,89 @@ namespace WpfAuthenticationApp
 
 
 
+        private void ExportToExcel_Click(object sender, RoutedEventArgs e)
+        {
+            if (TicketDataGrid.ItemsSource == null)
+            {
+                MessageBox.Show("Aucune donnée à exporter.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            try
+            {
+                var tickets = TicketDataGrid.ItemsSource.Cast<Ticket>().ToList(); // Replace TicketModel with your actual model
+
+                using (var workbook = new XLWorkbook())
+                {
+                    var worksheet = workbook.Worksheets.Add("Registre des interventions");
+                    worksheet.Cell("B1").Value = "Registre des interventions informatiques";
+                    worksheet.Cell("B5").Value = "Version : 01";
+                    worksheet.Cell("B6").Value = "Date d'application : 07/07/2021";
+
+                    // Headers
+                    int headerRow = 8;
+                    worksheet.Cell(headerRow, 1).Value = "Demande N°";
+
+                    worksheet.Cell(headerRow, 1).Value = "Date et Heure de demande";
+                    worksheet.Cell(headerRow, 2).Value = "Date et heure debut  d’intervention";
+                    worksheet.Cell(headerRow, 3).Value = "Type matériel";
+                    worksheet.Cell(headerRow, 4).Value = "Description de L’anomalie \r\n(+ Réf. machine ou appareil) ";
+                    worksheet.Cell(headerRow, 5).Value = "Description de l’intervention";
+                    worksheet.Cell(headerRow, 6).Value = "Date et heure fin intervention";
+                    worksheet.Cell(headerRow, 7).Value = "Durée totale d’intervention";
+                    worksheet.Cell(headerRow, 8).Value = "Nom Intervenant ";
+                    worksheet.Cell(headerRow, 9).Value = "Visa du demandeur (validation de la réception)";
+
+
+
+                    int row = headerRow + 1;
+
+
+                    // Data
+                    foreach (var ticket in tickets)
+                    {
+                        worksheet.Cell(row, 1).Value = ticket.DateCreation.ToString("yyyy/MM/dd HH:mm");
+                        worksheet.Cell(row, 2).Value = ticket.DateCreation.ToString("yyyy/MM/dd HH:mm");
+                        
+                        worksheet.Cell(row, 3).Value = ticket.NomTypeAppareil;
+                        worksheet.Cell(row, 4).Value = ticket.MotifDemande;
+                        worksheet.Cell(row, 5).Value = ticket.Description;
+
+                        worksheet.Cell(row, 6).Value = ticket.ValidationTime;
+                        worksheet.Cell(row, 7).Value = ticket.Duration;
+
+                        worksheet.Cell(row, 8).Value = ticket.Email;
+                        
+                        worksheet.Cell(row, 9).Value = ticket.Validation1 ? "Oui" : "Non";
+
+                      
+
+                        row++;
+                    }
+
+                    // Format the table
+                    worksheet.Columns().AdjustToContents();
+
+                    // Save File
+                    var saveFileDialog = new SaveFileDialog
+                    {
+                        Filter = "Excel Files (*.xlsx)|*.xlsx",
+                        Title = "Enregistrer sous",
+                        FileName = "Registre_Interventions.xlsx"
+                    };
+
+                    if (saveFileDialog.ShowDialog() == true)
+                    {
+                        workbook.SaveAs(saveFileDialog.FileName);
+                        MessageBox.Show("Exportation réussie!", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur lors de l'exportation: {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
 
 
@@ -1009,8 +1095,7 @@ namespace WpfAuthenticationApp
 
 
 
-
-        private async void ValidateTicket_Click(object sender, RoutedEventArgs e)
+            private async void ValidateTicket_Click(object sender, RoutedEventArgs e)
         {
             var selectedTicket = TicketDataGrid.SelectedItem as Ticket;
             if (selectedTicket == null)
@@ -1399,7 +1484,7 @@ namespace WpfAuthenticationApp
         public DateTime? ValidationTime { get; set; }
         public bool Oralement { get; set; }
         public string AppareilNom { get; set; }
-        public string NomEtage { get; set; }
+        public string? NomEtage { get; set; }
         public string NomEmplacement { get; set; }
         public bool Validation1 { get; set; }
 
@@ -1459,7 +1544,7 @@ namespace WpfAuthenticationApp
         public string MotifDemande { get; set; }
         public int TypeInterventionId { get; set; }
         public int StatusId { get; set; }
-        public int EtageId { get; set; }
+        public int? EtageId { get; set; }
         public int EmplacementId { get; set; }
         public int TypeAppareilId { get; set; }
         public bool Validation1 { get; set; }

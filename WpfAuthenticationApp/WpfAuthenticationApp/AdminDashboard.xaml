@@ -26,7 +26,7 @@
     </Window.Resources>
 
 
-    <Grid Margin="0,0,0,-171">
+    <Grid Margin="0,0,0,-6">
 
         <!-- TabControl to organize TypeIntervention, Status, and Ticket management -->
         <TabControl Margin="10,10,10,169" SelectionChanged="TabControl_SelectionChanged" Background="AliceBlue">
@@ -177,12 +177,15 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
+                            
 
 
                             <DataGridTemplateColumn Header="Actions" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
+                                            <Button Content="Exporter vers Excel" Width="150" Margin="5" Background="Blue" Foreground="White" Click="ExportToExcel_Click" />
+
                                             <Button Content="Details" Click="DetailsButton_Click" Margin="0,0,5,0" />
                                             <Button Content="Validate" Click="ValidateTicket_Click" />
                                         </StackPanel>

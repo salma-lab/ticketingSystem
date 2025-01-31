@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WpfAuthenticationApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+01108772d025ad23988810a7808c624eb5d730b3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0fd504c919d3ea7c5170fb6c160b608469a945a0")]
 [assembly: System.Reflection.AssemblyProductAttribute("WpfAuthenticationApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WpfAuthenticationApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
