@@ -28,6 +28,12 @@
         public int UtilisateurId { get; set; }
 
         public string Email { get; set; }
+        public string NomIntervenant { get; set; } 
+        
+        public string NomDemandeur { get; set; } 
+
+
+
 
 
     }

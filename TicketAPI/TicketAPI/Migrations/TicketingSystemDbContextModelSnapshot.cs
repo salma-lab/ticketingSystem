@@ -108,23 +108,25 @@ namespace TicketAPI.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EmplacementId")
                         .HasColumnType("int");
 
-                    b.Property<int>("EtageId")
+                    b.Property<int?>("EtageId")
                         .HasColumnType("int");
 
                     b.Property<string>("MotifDemande")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NomIntervenant")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("Oralement")
                         .HasColumnType("bit");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int?>("StatusId")
                         .HasColumnType("int");
 
                     b.Property<int>("TypeAppareilId")
@@ -136,7 +138,7 @@ namespace TicketAPI.Migrations
                     b.Property<int>("UtilisateurId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Validation1")
+                    b.Property<bool?>("Validation1")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("ValidationTime")
@@ -238,14 +240,11 @@ namespace TicketAPI.Migrations
                     b.HasOne("TicketAPI.Models.Etage", "Etage")
                         .WithMany()
                         .HasForeignKey("EtageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("TicketAPI.Models.Status", "Status")
                         .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StatusId");
 
                     b.HasOne("TicketAPI.Models.TypeAppareil", "TypeAppareil")
                         .WithMany()

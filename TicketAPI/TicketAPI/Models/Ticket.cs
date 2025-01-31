@@ -36,5 +36,8 @@ namespace TicketAPI.Models
         public TypeAppareil TypeAppareil { get; set; }
         public Etage Etage { get; set; }
         public Emplacement Emplacement { get; set; }
+        public string NomDemandeur => Utilisateur != null ? $"{Utilisateur.Nom} {Utilisateur.Prenom}" : "Inconnu";
+        public string? NomIntervenant { get; set; }
+
     }
 }

@@ -29,7 +29,7 @@
     <Grid Margin="0,0,0,-6">
 
         <!-- TabControl to organize TypeIntervention, Status, and Ticket management -->
-        <TabControl Margin="10,10,10,169" SelectionChanged="TabControl_SelectionChanged" Background="AliceBlue">
+        <TabControl Margin="10,10,10,60" SelectionChanged="TabControl_SelectionChanged" Background="AliceBlue">
 
 
 
@@ -155,17 +155,14 @@
                     <DataGrid Name="TicketDataGrid" Grid.Row="0" AutoGenerateColumns="False" Margin="5" Height="200"
                   ItemsSource="{Binding Tickets}" SelectionMode="Single">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*" />
+                            <DataGridTextColumn Header="Nom Intervenant" Binding="{Binding NomIntervenant }" Width="*" />
                             <DataGridTextColumn Header="Motif" Binding="{Binding MotifDemande}" Width="*" />
                             <DataGridTextColumn Header="Statut" Binding="{Binding NomStatus}" Width="*" />
 
                             <DataGridTextColumn Header="Date Création" Binding="{Binding DateCreation, StringFormat='{}{0:yyyy/MM/dd HH:mm}'}" Width="*" />
-                            <DataGridTextColumn Header="Appareil" Binding="{Binding AppareilNom}" Width="*" />
-                            <DataGridTextColumn Header="Étage" Binding="{Binding NomEtage}" Width="*" />
-                            <DataGridTextColumn Header="Emplacement" Binding="{Binding NomEmplacement}" Width="*" />
-                            <DataGridTextColumn Header="Type" Binding="{Binding NomType}" Width="*" />
                             <DataGridCheckBoxColumn Header="Validation" Binding="{Binding Validation1}" Width="*" />
-                            <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="*" />
+
+
                             <DataGridTemplateColumn Header="Efficacité">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -177,17 +174,18 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            
+
 
 
                             <DataGridTemplateColumn Header="Actions" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Content="Exporter vers Excel" Width="150" Margin="5" Background="Blue" Foreground="White" Click="ExportToExcel_Click" />
 
                                             <Button Content="Details" Click="DetailsButton_Click" Margin="0,0,5,0" />
-                                            <Button Content="Validate" Click="ValidateTicket_Click" />
+                                            <Button Content="Validate" Click="ValidateTicket_Click" Margin="0,0,5,0"/>
+                                            <Button Content="Supprimer"   Click="DeleteTicket_Click" />
+
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -197,7 +195,7 @@
 
                     <!-- managing demands -->
                     <GroupBox Header="Gérer Interventions" Grid.Row="1" Margin="10">
-                        <Grid Margin="10">
+                        <Grid Margin="16,0,4,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
@@ -217,22 +215,38 @@
                             <!-- Labels and Input Fields -->
 
 
+                            <TextBlock Text="Description de l’intervention " Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="229,0,0,0" />
+                            <TextBox x:Name="NewTicketDescriptionsTextBox" Grid.Row="6" Grid.Column="3" Margin="20,6,6,6" />
 
+                            
 
+                            <TextBlock Text="Statut:" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="229,0,0,0" />
+                            <ComboBox x:Name="TicketStatussComboBox" Grid.Row="5" Grid.Column="3" Margin="20,5,5,5" ItemsSource="{Binding Statuses}" DisplayMemberPath="NomStatus" />
 
-                            <TextBlock Text="Statut:" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" />
-                            <ComboBox x:Name="TicketStatussComboBox" Grid.Row="5" Grid.Column="3" Margin="5" ItemsSource="{Binding Statuses}" DisplayMemberPath="NomStatus" />
+                            <TextBlock Text="NomIntervenant:" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Grid.ColumnSpan="3" Margin="229,0,240,0" />
+
+                            <TextBox x:Name="NewTicketIntervenantTextBox" Grid.Row="4" Grid.Column="3" Margin="20,6,6,6" />
+                           
 
 
 
 
                             <!-- Buttons -->
-                            <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.ColumnSpan="20" HorizontalAlignment="Center" Margin="20">
-                                <Button Content="Supprimer" Width="150" Margin="5" Background="DarkRed" Foreground="White" Click="DeleteTicket_Click" />
-
-
-                                <Button Content="Mettre à jour" Width="150" Margin="5" Background="Green" Foreground="White" Click="UpdateTicket_Click" />
+                            <StackPanel Orientation="Horizontal" Grid.Row="50" Grid.ColumnSpan="40" HorizontalAlignment="Center" Margin="30">
+                                <Button Content="Supprimer" Width="150" Margin="5,5,5,6" Background="DarkRed" Foreground="White" Click="DeleteTicket_Click" />
+                                <Button Content="Mettre à jour" Width="150" Background="Green" Foreground="White" Click="UpdateTicket_Click" RenderTransformOrigin="0.566,2.744" >
+                                    <Button.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform AngleX="-5.362"/>
+                                            <RotateTransform/>
+                                            <TranslateTransform X="-4.904"/>
+                                        </TransformGroup>
+                                    </Button.RenderTransform>
+                                </Button>
                             </StackPanel>
+                            <Button Content="Exporter vers Excel" Width="150" Margin="0,242,0,-192" Background="Blue" Foreground="White" Click="ExportToExcel_Click" Grid.Row="6" />
+
                         </Grid>
                     </GroupBox>
                 </Grid>

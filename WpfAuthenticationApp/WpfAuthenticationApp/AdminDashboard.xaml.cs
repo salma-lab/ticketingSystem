@@ -998,89 +998,85 @@ namespace WpfAuthenticationApp
 
 
 
-        private void ExportToExcel_Click(object sender, RoutedEventArgs e)
+     
+
+private void ExportToExcel_Click(object sender, RoutedEventArgs e)
+{
+    if (TicketDataGrid.ItemsSource == null)
+    {
+        MessageBox.Show("Aucune donnée à exporter.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
+        return;
+    }
+
+    try
+    {
+        // Ask the user to select an existing Excel template
+        var openFileDialog = new OpenFileDialog
         {
-            if (TicketDataGrid.ItemsSource == null)
+            Filter = "Excel Files (*.xlsx)|*.xlsx",
+            Title = "Sélectionnez un fichier Excel existant"
+        };
+
+        if (openFileDialog.ShowDialog() != true)
+        {
+            return; // User canceled the selection
+        }
+
+        string templatePath = openFileDialog.FileName;
+
+        using (var workbook = new XLWorkbook(templatePath))
+        {
+            var worksheet = workbook.Worksheet("Feuille 1"); // Adjust the sheet name as needed
+
+            // Find the first empty row (assuming data starts from row 8 based on your template)
+            int row = 8;
+            while (!worksheet.Cell(row, 1).IsEmpty()) 
             {
-                MessageBox.Show("Aucune donnée à exporter.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                row++; // Move down to the first empty row
             }
 
-            try
+            var tickets = TicketDataGrid.ItemsSource.Cast<Ticket>().ToList(); // Replace with actual model
+
+            foreach (var ticket in tickets)
             {
-                var tickets = TicketDataGrid.ItemsSource.Cast<Ticket>().ToList(); // Replace TicketModel with your actual model
-
-                using (var workbook = new XLWorkbook())
-                {
-                    var worksheet = workbook.Worksheets.Add("Registre des interventions");
-                    worksheet.Cell("B1").Value = "Registre des interventions informatiques";
-                    worksheet.Cell("B5").Value = "Version : 01";
-                    worksheet.Cell("B6").Value = "Date d'application : 07/07/2021";
-
-                    // Headers
-                    int headerRow = 8;
-                    worksheet.Cell(headerRow, 1).Value = "Demande N°";
-
-                    worksheet.Cell(headerRow, 1).Value = "Date et Heure de demande";
-                    worksheet.Cell(headerRow, 2).Value = "Date et heure debut  d’intervention";
-                    worksheet.Cell(headerRow, 3).Value = "Type matériel";
-                    worksheet.Cell(headerRow, 4).Value = "Description de L’anomalie \r\n(+ Réf. machine ou appareil) ";
-                    worksheet.Cell(headerRow, 5).Value = "Description de l’intervention";
-                    worksheet.Cell(headerRow, 6).Value = "Date et heure fin intervention";
-                    worksheet.Cell(headerRow, 7).Value = "Durée totale d’intervention";
-                    worksheet.Cell(headerRow, 8).Value = "Nom Intervenant ";
-                    worksheet.Cell(headerRow, 9).Value = "Visa du demandeur (validation de la réception)";
+                worksheet.Cell(row, 1).Value = ticket.ticketId; // Assuming an ID exists
+                worksheet.Cell(row, 2).Value = ticket.DateCreation.ToString("yyyy/MM/dd HH:mm");
+                worksheet.Cell(row, 3).Value = ticket.DateCreation.ToString("yyyy/MM/dd HH:mm") ?? "";
+                worksheet.Cell(row, 4).Value = ticket.NomTypeAppareil;
+                worksheet.Cell(row, 5).Value = ticket.MotifDemande;
+                worksheet.Cell(row, 6).Value = ticket.Description;
+                worksheet.Cell(row, 7).Value = ticket.ValidationTime?.ToString("yyyy/MM/dd HH:mm") ?? "";
+                worksheet.Cell(row, 8).Value = ticket.Duration;
+                worksheet.Cell(row, 9).Value = ticket.NomIntervenant;
+                worksheet.Cell(row, 10).Value = ticket.NomDemandeur;
 
 
-
-                    int row = headerRow + 1;
-
-
-                    // Data
-                    foreach (var ticket in tickets)
-                    {
-                        worksheet.Cell(row, 1).Value = ticket.DateCreation.ToString("yyyy/MM/dd HH:mm");
-                        worksheet.Cell(row, 2).Value = ticket.DateCreation.ToString("yyyy/MM/dd HH:mm");
-                        
-                        worksheet.Cell(row, 3).Value = ticket.NomTypeAppareil;
-                        worksheet.Cell(row, 4).Value = ticket.MotifDemande;
-                        worksheet.Cell(row, 5).Value = ticket.Description;
-
-                        worksheet.Cell(row, 6).Value = ticket.ValidationTime;
-                        worksheet.Cell(row, 7).Value = ticket.Duration;
-
-                        worksheet.Cell(row, 8).Value = ticket.Email;
-                        
-                        worksheet.Cell(row, 9).Value = ticket.Validation1 ? "Oui" : "Non";
-
-                      
-
-                        row++;
-                    }
-
-                    // Format the table
-                    worksheet.Columns().AdjustToContents();
-
-                    // Save File
-                    var saveFileDialog = new SaveFileDialog
-                    {
-                        Filter = "Excel Files (*.xlsx)|*.xlsx",
-                        Title = "Enregistrer sous",
-                        FileName = "Registre_Interventions.xlsx"
-                    };
-
-                    if (saveFileDialog.ShowDialog() == true)
-                    {
-                        workbook.SaveAs(saveFileDialog.FileName);
-                        MessageBox.Show("Exportation réussie!", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-                }
+                row++; // Move to the next row for the next ticket
             }
-            catch (Exception ex)
+
+            worksheet.Columns().AdjustToContents(); // Auto-resize columns
+
+            // Ask the user where to save the modified file
+            var saveFileDialog = new SaveFileDialog
             {
-                MessageBox.Show($"Erreur lors de l'exportation: {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                Filter = "Excel Files (*.xlsx)|*.xlsx",
+                Title = "Enregistrer sous",
+                FileName = "Registre_Interventions_Modifié.xlsx"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                workbook.SaveAs(saveFileDialog.FileName);
+                MessageBox.Show("Exportation réussie dans le fichier existant!", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show($"Erreur lors de l'exportation: {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+    }
+}
+
 
 
 
@@ -1354,6 +1350,8 @@ namespace WpfAuthenticationApp
             }
 
             var status = TicketStatussComboBox.SelectedItem as Status;
+            var description = NewTicketDescriptionsTextBox.Text.Trim();
+
             if (status == null)
             {
                 MessageBox.Show("Veuillez sélectionner un statut valide pour le ticket.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -1363,6 +1361,8 @@ namespace WpfAuthenticationApp
             var updatedTicket = new TicketUpdateDto
             {
                 StatusId = status.StatusId,
+                Description = description,
+
             };
 
             try
@@ -1459,6 +1459,7 @@ namespace WpfAuthenticationApp
         public int ticketId { get; set; }
         public int? StatusId { get; set; }
         public bool? Validation1 { get; set; }
+        public string? Description { get; set; }
        
 
        
@@ -1494,6 +1495,9 @@ namespace WpfAuthenticationApp
         public string MotifDemande { get; set; }
         public string NomType { get; set; }
         public string NomStatus { get; set; }
+        public string NomIntervenant { get; set; } 
+        public string NomDemandeur { get; set; }
+
         public TimeSpan Duration { get; set; }
 
         public int StatusId { get; set; }

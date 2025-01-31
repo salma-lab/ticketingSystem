@@ -24,6 +24,7 @@ namespace WpfAuthenticationApp.Models
         public int UtilisateurId { get; set; }
         public string NomType { get; set; }
         public string NomStatus { get; set; }
+        public string? NomIntervenant { get; set; }
     }
 
 }

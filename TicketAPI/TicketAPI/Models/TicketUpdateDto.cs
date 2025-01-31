@@ -7,13 +7,18 @@
        
         public int? StatusId { get; set; }
         public bool? Validation1 { get; set; }
-
-       
-
-
+        public string ?Description { get; set; }
+        public string? NomIntervenant { get; set; }
 
 
-       
+        
+
+
+
+
+
+
+
         //public DateTime DateValidation { get; set; }
 
     }

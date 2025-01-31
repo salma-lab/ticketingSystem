@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.Configuration;
 using System.Runtime.InteropServices;
+using System.Net.Sockets;
 
 
 
@@ -52,7 +53,11 @@ namespace TicketAPI.Controllers
                         Oralement = t.Oralement,
                         Validation1 =t.Validation1,
                         NomEtage = t.Etage.NomEtage,
-                        
+                        NomDemandeur = t.Utilisateur != null ? $"{t.Utilisateur.Nom} {t.Utilisateur.Prenom}" : "Inconnu",
+                        NomIntervenant=t.NomDemandeur,
+
+
+
                         NomEmplacement = t.Emplacement.NomEmplacement,
                         NomType = t.TypeIntervention.NomType,
                         NomStatus = t.Status.NomStatus,
@@ -186,6 +191,11 @@ namespace TicketAPI.Controllers
             }
 
             existingTicket.StatusId = updatedTicket.StatusId;
+            existingTicket.Description = updatedTicket.Description;
+            existingTicket.NomIntervenant = updatedTicket.NomIntervenant;
+
+            
+
 
             // Save changes to the database
             await _context.SaveChangesAsync();
