@@ -14,6 +14,7 @@ namespace TicketAPI.Data
         public DbSet<Utilisateur> Utilisateurs { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<TypeAppareil> TypeAppareils { get; set; }
+        public DbSet<Intervenant> Intervenants { get; set; }
         public DbSet<Emplacement> Emplacements { get; set; }
         public DbSet<Etage> Etages{ get; set; }
 
@@ -35,6 +36,13 @@ namespace TicketAPI.Data
                 .WithMany() // Si `TypeAppareil` n'a pas de collection `Tickets`
                 .HasForeignKey(t => t.EtageId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Ticket>()
+              .HasOne(t => t.Intervenant)
+              .WithMany() // Si `TypeAppareil` n'a pas de collection `Tickets`
+              .HasForeignKey(t => t.IdIntervenant)
+              .OnDelete(DeleteBehavior.Cascade);
+
 
             modelBuilder.Entity<Utilisateur>()
                .HasOne(u => u.Role)

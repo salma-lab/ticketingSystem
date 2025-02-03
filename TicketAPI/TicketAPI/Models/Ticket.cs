@@ -29,15 +29,17 @@ namespace TicketAPI.Models
         public string MotifDemande { get; set; }
         public int TypeAppareilId { get; set; }
         public int UtilisateurId { get; set; }
+        public int? IdIntervenant { get; set; }
+
 
         public Status Status { get; set; }
         public TypeIntervention TypeIntervention { get; set; }
         public Utilisateur Utilisateur { get; set; } // Navigation vers l'utilisateur
         public TypeAppareil TypeAppareil { get; set; }
+        public Intervenant Intervenant { get; set; }
         public Etage Etage { get; set; }
         public Emplacement Emplacement { get; set; }
         public string NomDemandeur => Utilisateur != null ? $"{Utilisateur.Nom} {Utilisateur.Prenom}" : "Inconnu";
-        public string? NomIntervenant { get; set; }
 
     }
 }

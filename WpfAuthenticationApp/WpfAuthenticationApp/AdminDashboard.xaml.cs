@@ -18,6 +18,7 @@ using System.Globalization;
 using ClosedXML.Excel;
 using Microsoft.Win32;
 using System.Xml;
+using System.ComponentModel.DataAnnotations;
 
 
 
@@ -35,6 +36,9 @@ namespace WpfAuthenticationApp
         private readonly string _typeAppareilApiUrl = "https://localhost:7046/api/TypeAppareilController";
         private readonly string _etageApiUrl = "https://localhost:7046/api/EtageController";
         private readonly string _emplacementApiUrl = "https://localhost:7046/api/EmplacementController";
+        private readonly string _intervenantApiUrl = "https://localhost:7046/api/IntervenantController";
+
+
 
 
 
@@ -54,6 +58,9 @@ namespace WpfAuthenticationApp
         public ObservableCollection<Etage> Etages { get; set; } = new();
         public ObservableCollection<Emplacement> Emplacement { get; set; } = new();
         public ObservableCollection<TypeAppareil> TypeAppareils { get; set; } = new();
+        public ObservableCollection<Intervenant> Intervenants { get; set; } = new();
+
+
 
 
 
@@ -76,6 +83,7 @@ namespace WpfAuthenticationApp
             LoadTypeAppareil();
             LoadEtages();
             LoadEmplacements();
+            LoadIntervenants();
 
 
         }
@@ -450,10 +458,154 @@ namespace WpfAuthenticationApp
 
 
 
-       
 
-       
 
+
+
+
+        private async void LoadIntervenants()
+        {
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
+                var response = await client.GetAsync(_intervenantApiUrl);
+                response.EnsureSuccessStatusCode();
+
+                var json = await response.Content.ReadAsStringAsync();
+                var outerObject = JsonSerializer.Deserialize<OuterObject<Intervenant>>(json, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+                var intervenants = outerObject?.Values ?? new List<Intervenant>();
+
+                Intervenants.Clear();
+                foreach (var intervenant in intervenants)
+                {
+                    Intervenants.Add(intervenant);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Erreur lors de la récupération des données : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (JsonException ex)
+            {
+                MessageBox.Show($"Erreur lors de l'analyse des données : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private async void UpdateIntervenant_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedStatus = IntervenantDataGrid.SelectedItem as Intervenant;
+            if (selectedStatus == null)
+            {
+                MessageBox.Show("Veuillez sélectionner un intervenant à mettre à jour.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(NewIntervenantNameTextBox.Text))
+            {
+                MessageBox.Show("Veuillez entrer un nouveau nom d'intervenant.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var updatedStatus = new Intervenant
+            {
+                NomIntervenant = NewIntervenantNameTextBox.Text
+            };
+
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token); // Ensure _token is set
+                var json = JsonSerializer.Serialize(updatedStatus);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync($"{_intervenantApiUrl}/{selectedStatus.IdIntervenant}", content);
+                response.EnsureSuccessStatusCode();
+
+                MessageBox.Show("Statut mis à jour avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadStatuses(); // Reload statuses after update
+
+                NewIntervenantNameTextBox.Clear();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Erreur lors de la mise à jour du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (JsonException ex)
+            {
+                MessageBox.Show($"Erreur lors de la sérialisation des données du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private async void DeleteIntervenant_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedEtage = IntervenantDataGrid.SelectedItem as Intervenant;
+            if (selectedEtage == null)
+            {
+                MessageBox.Show("Veuillez sélectionner un intervenant à supprimer.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
+                var response = await client.DeleteAsync($"{_intervenantApiUrl}/{selectedEtage.IdIntervenant}");
+                response.EnsureSuccessStatusCode();
+
+                // Reload the interventions after deletion
+                LoadIntervenants();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Erreur lors de la suppression du type d'intervention : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private async void AddIntervenant_Click(object sender, RoutedEventArgs e)
+        {
+            var name = NewIntervenantNameTextBox.Text.Trim();
+
+            if (string.IsNullOrEmpty(name))
+            {
+                MessageBox.Show("Please enter a name for the status.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var newIntervenant = new Intervenant { NomIntervenant = name };
+
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var json = JsonSerializer.Serialize(newIntervenant);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync(_intervenantApiUrl, content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error adding intervenant: {response.StatusCode}\n{errorContent}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Reload the intervenants after adding
+                LoadIntervenants();
+
+                // Clear the TextBox after adding the new status
+                NewIntervenantNameTextBox.Clear();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Error adding intervenant: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
 
 
@@ -1351,6 +1503,7 @@ private void ExportToExcel_Click(object sender, RoutedEventArgs e)
 
             var status = TicketStatussComboBox.SelectedItem as Status;
             var description = NewTicketDescriptionsTextBox.Text.Trim();
+            var nomIntervenant= TicketIntervenantComboBox.SelectedItem as Intervenant;
 
             if (status == null)
             {
@@ -1362,6 +1515,7 @@ private void ExportToExcel_Click(object sender, RoutedEventArgs e)
             {
                 StatusId = status.StatusId,
                 Description = description,
+                IdIntervenant=nomIntervenant.IdIntervenant,
 
             };
 
@@ -1460,15 +1614,17 @@ private void ExportToExcel_Click(object sender, RoutedEventArgs e)
         public int? StatusId { get; set; }
         public bool? Validation1 { get; set; }
         public string? Description { get; set; }
-       
-
-       
-        
+        public int? IdIntervenant { get; set; }
 
 
 
 
-   
+
+
+
+
+
+
 
     }
 
@@ -1613,6 +1769,15 @@ private void ExportToExcel_Click(object sender, RoutedEventArgs e)
     {
         public int EtageId { get; set; }
         public string NomEtage { get; set; }
+    }
+
+
+    public class Intervenant
+    {
+        [Key]
+
+        public int IdIntervenant { get; set; }
+        public string NomIntervenant { get; set; }
     }
 
 

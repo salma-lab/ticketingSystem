@@ -56,6 +56,23 @@ namespace TicketAPI.Migrations
                     b.ToTable("Etages");
                 });
 
+            modelBuilder.Entity("TicketAPI.Models.Intervenant", b =>
+                {
+                    b.Property<int>("IdIntervenant")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdIntervenant"));
+
+                    b.Property<string>("NomIntervenant")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdIntervenant");
+
+                    b.ToTable("Intervenants");
+                });
+
             modelBuilder.Entity("TicketAPI.Models.Role", b =>
                 {
                     b.Property<int>("RoleId")
@@ -116,11 +133,11 @@ namespace TicketAPI.Migrations
                     b.Property<int?>("EtageId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("IdIntervenant")
+                        .HasColumnType("int");
+
                     b.Property<string>("MotifDemande")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NomIntervenant")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Oralement")
@@ -149,6 +166,8 @@ namespace TicketAPI.Migrations
                     b.HasIndex("EmplacementId");
 
                     b.HasIndex("EtageId");
+
+                    b.HasIndex("IdIntervenant");
 
                     b.HasIndex("StatusId");
 
@@ -242,6 +261,11 @@ namespace TicketAPI.Migrations
                         .HasForeignKey("EtageId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("TicketAPI.Models.Intervenant", "Intervenant")
+                        .WithMany()
+                        .HasForeignKey("IdIntervenant")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("TicketAPI.Models.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId");
@@ -267,6 +291,8 @@ namespace TicketAPI.Migrations
                     b.Navigation("Emplacement");
 
                     b.Navigation("Etage");
+
+                    b.Navigation("Intervenant");
 
                     b.Navigation("Status");
 

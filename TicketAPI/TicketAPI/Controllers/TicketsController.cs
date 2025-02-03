@@ -15,7 +15,7 @@ namespace TicketAPI.Controllers
 {
     [Route("api/TicketsController")]
     [ApiController]
-    [Authorize] 
+    [Authorize]
 
     public class TicketController : ControllerBase
     {
@@ -42,6 +42,7 @@ namespace TicketAPI.Controllers
                     .Include(t => t.TypeAppareil)
                     .Include(t => t.Etage)
                     .Include(t => t.Emplacement)
+                    .Include(t=>t.Intervenant)
                     .Include(t => t.TypeIntervention)
                     .Include(t => t.Utilisateur) // Include the Utilisateur entity
                     .Select(t => new TicketDTO
@@ -51,10 +52,10 @@ namespace TicketAPI.Controllers
                         AppareilNom = t.AppareilNom,
                         MotifDemande = t.MotifDemande,
                         Oralement = t.Oralement,
-                        Validation1 =t.Validation1,
+                        Validation1 = t.Validation1,
                         NomEtage = t.Etage.NomEtage,
+                        NomIntervenant=t.Intervenant.NomIntervenant,
                         NomDemandeur = t.Utilisateur != null ? $"{t.Utilisateur.Nom} {t.Utilisateur.Prenom}" : "Inconnu",
-                        NomIntervenant=t.NomDemandeur,
 
 
 
@@ -192,9 +193,8 @@ namespace TicketAPI.Controllers
 
             existingTicket.StatusId = updatedTicket.StatusId;
             existingTicket.Description = updatedTicket.Description;
-            existingTicket.NomIntervenant = updatedTicket.NomIntervenant;
 
-            
+
 
 
             // Save changes to the database

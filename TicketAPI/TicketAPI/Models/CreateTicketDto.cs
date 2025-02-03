@@ -9,8 +9,10 @@
         public string AppareilNom { get; set; }
         public int ? EtageId { get; set; }
         public int EmplacementId { get; set; }
-        
 
+
+        
+        public int IdIntervenant { get; set; }
 
 
 
