@@ -28,8 +28,12 @@
         public int UtilisateurId { get; set; }
 
         public string Email { get; set; }
-        public string ?NomIntervenant { get; set; } 
-        
+        public string ?NomIntervenant { get; set; }
+        public DateTime? StartTime { get; set; } // Nullable to handle cases where validation hasn't occurred yet
+        public bool? Started { get; set; } = false;
+
+
+
         public string NomDemandeur { get; set; } 
 
 

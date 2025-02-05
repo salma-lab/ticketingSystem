@@ -56,6 +56,9 @@ namespace TicketAPI.Controllers
                         NomEtage = t.Etage.NomEtage,
                         NomIntervenant=t.Intervenant.NomIntervenant,
                         NomDemandeur = t.Utilisateur != null ? $"{t.Utilisateur.Nom} {t.Utilisateur.Prenom}" : "Inconnu",
+                        StartTime=t.StartTime,
+                        Started=t.Started,
+                        
 
 
 
@@ -193,6 +196,7 @@ namespace TicketAPI.Controllers
 
             existingTicket.StatusId = updatedTicket.StatusId;
             existingTicket.Description = updatedTicket.Description;
+            existingTicket.IdIntervenant = updatedTicket.IdIntervenant;
 
 
 
@@ -297,6 +301,32 @@ namespace TicketAPI.Controllers
                 ticket.DateCreation,
                 ticket.ValidationTime,
                 Duration = ticket.ValidationTime.Value - ticket.DateCreation
+            });
+        }
+
+
+        [HttpPut("Timestart/{id}")]
+        public async Task<IActionResult> StartTicket(int id)
+        {
+            var ticket = await _context.Tickets.FindAsync(id);
+            if (ticket == null) return NotFound("Ticket not found.");
+
+            if (ticket.StartTime.HasValue)
+                return BadRequest("This ticket has already been started.");
+
+            ticket.StartTime = DateTime.Now;
+            ticket.Started = true;
+
+            _context.Tickets.Update(ticket);
+            await _context.SaveChangesAsync();
+
+            // Include duration in the response
+            return Ok(new
+            {
+                ticket.TicketId,
+                ticket.Description,
+                ticket.DateCreation,
+                ticket.StartTime
             });
         }
 

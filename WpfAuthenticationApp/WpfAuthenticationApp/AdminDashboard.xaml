@@ -183,24 +183,19 @@
                             <DataGridTextColumn Header="Motif" Binding="{Binding MotifDemande}" Width="*"/>
                             <DataGridTextColumn Header="Statut" Binding="{Binding NomStatus}" Width="*"/>
                             <DataGridTextColumn Header="Date Création" Binding="{Binding DateCreation, StringFormat='{}{0:yyyy/MM/dd HH:mm}'}" Width="*"/>
-                            <DataGridCheckBoxColumn Header="Validation" Binding="{Binding Validation1}" Width="*"/>
+                            <DataGridCheckBoxColumn Header="started" Binding="{Binding Started}" Width="*"/>
+                            <DataGridTextColumn Header="Date debut intervention" Binding="{Binding TimeStart, StringFormat='{}{0:yyyy/MM/dd HH:mm}'}" Width="*"/>
 
-                            <DataGridTemplateColumn Header="Efficacité">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Efficacity}" 
-                                       Background="{Binding EfficacityColor}" 
-                                       Foreground="White" Padding="5"
-                                       TextAlignment="Center"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
+
+                           
 
                             <DataGridTemplateColumn Header="Actions" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <Button Content="Détails" Click="DetailsButton_Click" Margin="2"/>
+                                            <Button Content="Start" Click="StartTicket_Click" Margin="2"/>
+
                                             <Button Content="Valider" Click="ValidateTicket_Click" Margin="2"/>
                                             <Button Content="Supprimer" Click="DeleteTicket_Click" Margin="2"/>
                                         </StackPanel>

@@ -513,8 +513,11 @@ namespace WpfAuthenticationApp
 
             var updatedStatus = new Intervenant
             {
+                IdIntervenant = selectedStatus.IdIntervenant, // Ensure ID is included
                 NomIntervenant = NewIntervenantNameTextBox.Text
             };
+
+            HttpResponseMessage response = null; // Declare response outside try-catch
 
             try
             {
@@ -523,23 +526,27 @@ namespace WpfAuthenticationApp
                 var json = JsonSerializer.Serialize(updatedStatus);
                 var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                var response = await client.PutAsync($"{_intervenantApiUrl}/{selectedStatus.IdIntervenant}", content);
+                response = await client.PutAsync($"{_intervenantApiUrl}/{selectedStatus.IdIntervenant}", content);
                 response.EnsureSuccessStatusCode();
 
-                MessageBox.Show("Statut mis à jour avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
-                LoadStatuses(); // Reload statuses after update
+                MessageBox.Show("Intervenant mis à jour avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadIntervenants(); // Reload intervenants after update
 
                 NewIntervenantNameTextBox.Clear();
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Erreur lors de la mise à jour du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                var errorContent = response != null ? await response.Content.ReadAsStringAsync() : "Aucune réponse du serveur.";
+                MessageBox.Show($"Erreur lors de la mise à jour de l'intervenant : {ex.Message}\nDétails de l'erreur : {errorContent}",
+                                "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (JsonException ex)
             {
-                MessageBox.Show($"Erreur lors de la sérialisation des données du statut : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la sérialisation des données de l'intervenant : {ex.Message}",
+                                "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
         private async void DeleteIntervenant_Click(object sender, RoutedEventArgs e)
         {
             var selectedEtage = IntervenantDataGrid.SelectedItem as Intervenant;
@@ -1193,7 +1200,7 @@ private void ExportToExcel_Click(object sender, RoutedEventArgs e)
             {
                 worksheet.Cell(row, 1).Value = ticket.ticketId; // Assuming an ID exists
                 worksheet.Cell(row, 2).Value = ticket.DateCreation.ToString("yyyy/MM/dd HH:mm");
-                worksheet.Cell(row, 3).Value = ticket.DateCreation.ToString("yyyy/MM/dd HH:mm") ?? "";
+                worksheet.Cell(row, 3).Value = ticket.StartTime;
                 worksheet.Cell(row, 4).Value = ticket.NomTypeAppareil;
                 worksheet.Cell(row, 5).Value = ticket.MotifDemande;
                 worksheet.Cell(row, 6).Value = ticket.Description;
@@ -1295,12 +1302,63 @@ private void ExportToExcel_Click(object sender, RoutedEventArgs e)
                 MessageBox.Show($"Erreur lors de la sérialisation des données de validation. {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        private async void StartTicket_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedTicket = TicketDataGrid.SelectedItem as Ticket;
+            if (selectedTicket == null)
+            {
+                MessageBox.Show("Veuillez sélectionner un ticket à commencer.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var validateTicketDto = new TicketUpdateDto
+            {
+                Started = true
+            };
+
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
+                var json = JsonSerializer.Serialize(validateTicketDto);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                // Validate the ticket via API
+                var response = await client.PutAsync($"{_ticketApiUrl}/Timestart/{selectedTicket.ticketId}", content);
+                response.EnsureSuccessStatusCode();
+
+                // Get the updated ticket details from the response
+                var updatedTicketJson = await response.Content.ReadAsStringAsync();
+                var updatedTicket = JsonSerializer.Deserialize<Ticket>(updatedTicketJson);
+
+                // Update the selected ticket in the DataGrid
+                if (updatedTicket != null)
+                {
+                    selectedTicket.Started = updatedTicket.Started;
+                    selectedTicket.StartTime = updatedTicket.StartTime;
+                }
+
+                MessageBox.Show("Ticket validé avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                TicketDataGrid.Items.Refresh(); // Refresh DataGrid to display updated data
+                LoadTickets();
+
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Erreur lors de la validation du ticket. {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (JsonException ex)
+            {
+                MessageBox.Show($"Erreur lors de la sérialisation des données de validation. {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
 
 
 
 
-
+        
 
 
 
@@ -1503,7 +1561,7 @@ private void ExportToExcel_Click(object sender, RoutedEventArgs e)
 
             var status = TicketStatussComboBox.SelectedItem as Status;
             var description = NewTicketDescriptionsTextBox.Text.Trim();
-            var nomIntervenant= TicketIntervenantComboBox.SelectedItem as Intervenant;
+            var intervenant= TicketIntervenantComboBox.SelectedItem as Intervenant;
 
             if (status == null)
             {
@@ -1515,7 +1573,7 @@ private void ExportToExcel_Click(object sender, RoutedEventArgs e)
             {
                 StatusId = status.StatusId,
                 Description = description,
-                IdIntervenant=nomIntervenant.IdIntervenant,
+                IdIntervenant=intervenant.IdIntervenant,
 
             };
 
@@ -1615,6 +1673,10 @@ private void ExportToExcel_Click(object sender, RoutedEventArgs e)
         public bool? Validation1 { get; set; }
         public string? Description { get; set; }
         public int? IdIntervenant { get; set; }
+        public bool? Started { get; set; } = false;
+        public DateTime? StartTime { get; set; } // Nullable to handle cases where validation hasn't occurred yet
+
+
 
 
 
@@ -1655,6 +1717,8 @@ private void ExportToExcel_Click(object sender, RoutedEventArgs e)
         public string NomDemandeur { get; set; }
 
         public TimeSpan Duration { get; set; }
+        public bool Started { get; set; } = false;
+        public DateTime? StartTime { get; set; } // Nullable to handle cases where validation hasn't occurred yet
 
         public int StatusId { get; set; }
         // Nested objects
@@ -1774,7 +1838,8 @@ private void ExportToExcel_Click(object sender, RoutedEventArgs e)
 
     public class Intervenant
     {
-        [Key]
+
+        public int id { get; set; }
 
         public int IdIntervenant { get; set; }
         public string NomIntervenant { get; set; }

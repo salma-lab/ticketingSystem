@@ -42,18 +42,39 @@ namespace TicketAPI.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Policy = "RequireAdminRole")]
-        public async Task<IActionResult> EditIntervenant([FromBody] int id, Intervenant intervenant)
+        public async Task<IActionResult> EditIntervenant(int id, [FromBody] Intervenant intervenant)
         {
+            // Check for ID mismatch
+            if (id != intervenant.IdIntervenant)
+            {
+                return BadRequest("ID de l'intervenant non valide.");
+            }
+
+            // Validate NomIntervenant
+            if (string.IsNullOrWhiteSpace(intervenant.NomIntervenant))
+            {
+                return BadRequest("Le nom de l'intervenant ne peut pas être vide.");
+            }
+
             var oldIntervenant = await _context.Intervenants.FindAsync(id);
             if (oldIntervenant == null)
             {
                 return NotFound();
             }
-            oldIntervenant.NomIntervenant = intervenant.NomIntervenant;
-            await _context.SaveChangesAsync();
-            return NoContent(); 
 
+            oldIntervenant.NomIntervenant = intervenant.NomIntervenant;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }
+            catch (DbUpdateException ex)
+            {
+                return StatusCode(500, $"Erreur lors de la mise à jour : {ex.Message}");
+            }
         }
+
 
 
         [HttpDelete("{id}")]

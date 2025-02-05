@@ -7,6 +7,7 @@ namespace TicketAPI.Models
         [Key]
 
         public int IdIntervenant { get; set; }
+        [Required]
         public string NomIntervenant { get; set; }
     }
 }

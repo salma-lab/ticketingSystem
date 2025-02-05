@@ -143,6 +143,12 @@ namespace TicketAPI.Migrations
                     b.Property<bool>("Oralement")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("Started")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("StatusId")
                         .HasColumnType("int");
 
