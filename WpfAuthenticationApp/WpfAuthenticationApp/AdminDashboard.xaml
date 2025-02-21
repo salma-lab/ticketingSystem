@@ -183,8 +183,6 @@
                             <DataGridTextColumn Header="Motif" Binding="{Binding MotifDemande}" Width="*"/>
                             <DataGridTextColumn Header="Statut" Binding="{Binding NomStatus}" Width="*"/>
                             <DataGridTextColumn Header="Date Création" Binding="{Binding DateCreation, StringFormat='{}{0:yyyy/MM/dd HH:mm}'}" Width="*"/>
-                            <DataGridCheckBoxColumn Header="started" Binding="{Binding Started}" Width="*"/>
-                            <DataGridTextColumn Header="Date debut intervention" Binding="{Binding TimeStart, StringFormat='{}{0:yyyy/MM/dd HH:mm}'}" Width="*"/>
 
 
                            
@@ -194,7 +192,7 @@
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <Button Content="Détails" Click="DetailsButton_Click" Margin="2"/>
-                                            <Button Content="Start" Click="StartTicket_Click" Margin="2"/>
+                                            <Button Content="Commencer" Click="StartTicket_Click" Margin="2"/>
 
                                             <Button Content="Valider" Click="ValidateTicket_Click" Margin="2"/>
                                             <Button Content="Supprimer" Click="DeleteTicket_Click" Margin="2"/>
@@ -236,6 +234,8 @@
                     <!-- Bottom-aligned buttons -->
                     <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left" Margin="57,150,0,188" RenderTransformOrigin="0.485,2.435">
                         <Button Content="Mettre à jour" Width="129" Background="Green" Foreground="White" Click="UpdateTicket_Click" Margin="5" Height="28"/>
+                        <Button Content="Supprimer" Width="75" Margin="5" Background="Red" Foreground="White" FontWeight="Bold" BorderBrush="Red" Click="DeleteTicket_Click"/>
+
                         <Button Content="Exporter vers Excel" Width="126" Background="Blue" Foreground="White" Click="ExportToExcel_Click" Margin="5" Height="25"/>
                     </StackPanel>
                 </Grid>
@@ -283,8 +283,8 @@
                     <!-- Type Appareil and Description -->
                     <TextBlock Text="Type Appareil:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="5" />
                     <ComboBox x:Name="NewTypeAppareilComboBox" Grid.Row="4" Grid.Column="1" Margin="5" ItemsSource="{Binding TypeAppareils}" DisplayMemberPath="NomTypeAppareil" />
-                    <TextBlock Text="Description:" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Margin="5" />
-                    <TextBox x:Name="NewTicketDescriptionTextBox" Grid.Row="4" Grid.Column="3" Margin="5" />
+                    <TextBlock Text="Nom Demandeur:" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Margin="5" />
+                    <TextBox x:Name="NewTicketNomDeTextBox" Grid.Row="4" Grid.Column="3" Margin="5" />
 
                     <!-- Type and Statut -->
                     <TextBlock Text="Type:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Margin="5" />
@@ -309,25 +309,51 @@
             <TabItem Header="Les utilisateurs">
                 <StackPanel Margin="10">
                     <!-- DataGrid for displaying Utilisateurs -->
-                    <DataGrid Name="UtilisateurDataGrid" AutoGenerateColumns="False" 
-        Height="150" Width="Auto" Margin="10" 
-        ItemsSource="{Binding Utilisateurss}" 
-        HorizontalAlignment="Stretch"
-        SelectionMode="Single">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="*"/>
-                            <DataGridTextColumn Header="Prénom" Binding="{Binding Prenom}" Width="*"/>
-                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
-                            <DataGridTextColumn Header="Role d'utilisateur" Binding="{Binding RoleName}" Width="*"/>
+                    <GroupBox Header="Liste des utilisateurs" Padding="10" Margin="10">
+                        <DataGrid Name="UtilisateurDataGrid" AutoGenerateColumns="False" 
+                      Height="200" Width="Auto" 
+                      ItemsSource="{Binding Utilisateurss}" 
+                      HorizontalAlignment="Stretch"
+                      SelectionMode="Single">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="Black"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
 
+                                <DataGridTextColumn Header="Prénom" Binding="{Binding Prenom}" Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="Black"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
 
+                                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="Black"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
 
-                        </DataGrid.Columns>
-                    </DataGrid>
+                                <DataGridTextColumn Header="Rôle d'utilisateur" Binding="{Binding RoleName}" Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="Black"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
 
                     <!-- Form for input fields -->
-                    <GroupBox Header="Ajouter / Modifier Utilisateur" Margin="10">
-                        <Grid Margin="10">
+                    <GroupBox Header="Ajouter / Modifier Utilisateur" Padding="10" Margin="10">
+                        <Grid Margin="5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
@@ -342,40 +368,49 @@
 
                             <!-- Nom -->
                             <TextBlock Text="Nom:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
-                            <TextBox Name="NomTextBox" Grid.Row="0" Grid.Column="1" Width="200" Margin="5" 
-               Padding="5" BorderBrush="Gray" BorderThickness="1"/>
+                            <TextBox Name="NomTextBox" Grid.Row="0" Grid.Column="1" Width="250" Margin="5"
+                         Padding="5" BorderBrush="Gray" BorderThickness="1"/>
 
-                            <!-- Prenom -->
+                            <!-- Prénom -->
                             <TextBlock Text="Prénom:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
-                            <TextBox Name="PrenomTextBox" Grid.Row="1" Grid.Column="1" Width="200" Margin="5" 
-               Padding="5" BorderBrush="Gray" BorderThickness="1"/>
+                            <TextBox Name="PrenomTextBox" Grid.Row="1" Grid.Column="1" Width="250" Margin="5"
+                         Padding="5" BorderBrush="Gray" BorderThickness="1"/>
 
                             <!-- Email -->
                             <TextBlock Text="Email:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
-                            <TextBox Name="EmailTextBox" Grid.Row="2" Grid.Column="1" Width="200" Margin="5" 
-               Padding="5" BorderBrush="Gray" BorderThickness="1"/>
+                            <TextBox Name="EmailTextBox" Grid.Row="2" Grid.Column="1" Width="250" Margin="5"
+                         Padding="5" BorderBrush="Gray" BorderThickness="1"/>
 
                             <!-- Password -->
                             <TextBlock Text="Mot de Passe:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
-                            <PasswordBox Name="PasswordBox" Grid.Row="3" Grid.Column="1" Width="200" Margin="5" 
-                   Padding="5" BorderBrush="Gray" BorderThickness="1"/>
+                            <PasswordBox Name="PasswordBox" Grid.Row="3" Grid.Column="1" Width="250" Margin="5"
+                             Padding="5" BorderBrush="Gray" BorderThickness="1"/>
 
                             <!-- Role -->
                             <TextBlock Text="Rôle:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
-                            <ComboBox Name="RoleComboBox" Grid.Row="4" Grid.Column="1" Width="200" Margin="5" 
-                Padding="5" BorderBrush="Gray" BorderThickness="1"
-                ItemsSource="{Binding Roles}" DisplayMemberPath="Role"/>
+                            <ComboBox Name="RoleComboBox" Grid.Row="4" Grid.Column="1" Width="250" Margin="5"
+                          Padding="5" BorderBrush="Gray" BorderThickness="1"
+                          ItemsSource="{Binding Roles}" DisplayMemberPath="Role"/>
                         </Grid>
                     </GroupBox>
 
-                    <!-- Button to trigger Utilisateur creation -->
-                    <Button Content="Ajouter" Width="200" Height="40" Margin="10" 
-      HorizontalAlignment="Center" 
-      Background="DodgerBlue" Foreground="White" 
-      BorderBrush="DodgerBlue" BorderThickness="1" 
-      Click="CreateUtilisateur_Click"/>
+                    <!-- Buttons -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                        <Button Content="Ajouter" Width="120" Height="40" Margin="5" 
+                    Background="DodgerBlue" Foreground="White" 
+                    FontWeight="Bold" BorderBrush="DodgerBlue" 
+                    Click="CreateUtilisateur_Click"/>
+
+                        <Button Content="Supprimer" Width="120" Height="40" Margin="5" 
+                    Background="Red" Foreground="White" 
+                    FontWeight="Bold" BorderBrush="Red" 
+                    Click="DeleteUtilisateur_Click"/>
+                    </StackPanel>
                 </StackPanel>
             </TabItem>
+
+
+
 
 
         </TabControl>

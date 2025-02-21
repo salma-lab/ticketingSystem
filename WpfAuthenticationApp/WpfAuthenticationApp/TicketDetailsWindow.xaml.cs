@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Controls;
 
 namespace WpfAuthenticationApp
 {
@@ -69,5 +70,20 @@ namespace WpfAuthenticationApp
                 MessageBox.Show($"Erreur inattendue : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        // Print functionality
+        private void PrintButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Create a PrintDialog
+            PrintDialog printDialog = new PrintDialog();
+
+            // Show the print dialog to the user
+            if (printDialog.ShowDialog() == true)
+            {
+                // Print the visual element (in this case, the entire window's content)
+                printDialog.PrintVisual(this.Content as UIElement, "Ticket Details");
+            }
+        }
     }
 }
+

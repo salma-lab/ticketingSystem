@@ -35,6 +35,7 @@
     <Grid Margin="20">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel>
+                <!-- Window Header -->
                 <TextBlock Text="Détails du Ticket" FontSize="24" FontWeight="Bold" Margin="0,0,0,20" HorizontalAlignment="Center"/>
 
                 <!-- Basic Ticket Information Section -->
@@ -55,11 +56,11 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Text="Email:" Grid.Row="0" Grid.Column="0"/>
-                        <TextBlock Text="{Binding Email}" Grid.Row="0" Grid.Column="1"/>
+                        <TextBlock Text="Nom et prénom:" Grid.Row="0" Grid.Column="0"/>
+                        <TextBlock Text="{Binding NomDe}" Grid.Row="0" Grid.Column="1"/>
 
-                        <TextBlock Text="Description:" Grid.Row="1" Grid.Column="0"/>
-                        <TextBlock Text="{Binding Description}" Grid.Row="1" Grid.Column="1"/>
+                        <TextBlock Text="Motif de la Demande:" Grid.Row="1" Grid.Column="0"/>
+                        <TextBlock Text="{Binding MotifDemande}" Grid.Row="1" Grid.Column="1"/>
 
                         <TextBlock Text="Date de Création:" Grid.Row="2" Grid.Column="0"/>
                         <TextBlock Text="{Binding DateCreation, StringFormat=yyyy/MM/dd HH:mm}" Grid.Row="2" Grid.Column="1"/>
@@ -117,8 +118,8 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Text="Motif de la Demande:" Grid.Row="0" Grid.Column="0"/>
-                        <TextBlock Text="{Binding MotifDemande}" Grid.Row="0" Grid.Column="1"/>
+                        <TextBlock Text="Description:" Grid.Row="0" Grid.Column="0"/>
+                        <TextBlock Text="{Binding Description}" Grid.Row="0" Grid.Column="1"/>
 
                         <TextBlock Text="Type d'Intervention:" Grid.Row="1" Grid.Column="0"/>
                         <TextBlock Text="{Binding NomType}" Grid.Row="1" Grid.Column="1"/>
@@ -129,7 +130,7 @@
                         <TextBlock Text="Statut:" Grid.Row="3" Grid.Column="0"/>
                         <TextBlock Text="{Binding NomStatus}" Grid.Row="3" Grid.Column="1"/>
 
-                        <TextBlock Text="Efficacité:" Grid.Row="4" Grid.Column="0"/>
+                        <TextBlock Text="Rapidité:" Grid.Row="4" Grid.Column="0"/>
                         <TextBlock Text="{Binding Efficacity}" Grid.Row="4" Grid.Column="1" Foreground="{Binding EfficacityColor}"/>
 
                         <TextBlock Text="Durée:" Grid.Row="5" Grid.Column="0"/>
@@ -137,11 +138,15 @@
                     </Grid>
                 </GroupBox>
 
+                <!-- Close Button -->
                 <Button Content="Fermer" HorizontalAlignment="Right" Click="CloseButton_Click" Margin="10"/>
+                <Button Content="Imprimer" HorizontalAlignment="Right" Click="PrintButton_Click" Margin="10"/>
+
             </StackPanel>
         </ScrollViewer>
     </Grid>
 </Window>
+
 
 
 

@@ -7,6 +7,14 @@
       "RelativeMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|solutionrelative:ticketapi\\controllers\\ticketscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\ticketapi\\ticketapi\\controllers\\utilisateurscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|solutionrelative:ticketapi\\controllers\\utilisateurscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\ticketapi\\ticketapi\\controllers\\intervenantcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|solutionrelative:ticketapi\\controllers\\intervenantcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\ticketapi\\ticketapi\\models\\ticket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|solutionrelative:ticketapi\\models\\ticket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -15,8 +23,8 @@
       "RelativeMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|solutionrelative:ticketapi\\models\\ticketdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\ticketapi\\ticketapi\\controllers\\intervenantcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|solutionrelative:ticketapi\\controllers\\intervenantcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\ticketapi\\ticketapi\\models\\createticketdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|solutionrelative:ticketapi\\models\\createticketdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1A74CD45-7618-4118-9C76-E1578FE18A91}|TicketAPI\\TicketAPI.csproj|c:\\users\\salma\\source\\repos\\ticketing_system\\ticketapi\\ticketapi\\models\\intervenant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -34,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,25 +50,49 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
+              "Title": "UtilisateursController.cs",
+              "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Controllers\\UtilisateursController.cs",
+              "RelativeDocumentMoniker": "TicketAPI\\Controllers\\UtilisateursController.cs",
+              "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Controllers\\UtilisateursController.cs",
+              "RelativeToolTip": "TicketAPI\\Controllers\\UtilisateursController.cs",
+              "ViewState": "AgIAAM0AAAAAAAAAAADwv9EAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-19T17:08:05.023Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CreateTicketDto.cs",
+              "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Models\\CreateTicketDto.cs",
+              "RelativeDocumentMoniker": "TicketAPI\\Models\\CreateTicketDto.cs",
+              "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Models\\CreateTicketDto.cs",
+              "RelativeToolTip": "TicketAPI\\Models\\CreateTicketDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-19T14:49:53.425Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "TicketDTO.cs",
               "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Models\\TicketDTO.cs",
               "RelativeDocumentMoniker": "TicketAPI\\Models\\TicketDTO.cs",
               "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Models\\TicketDTO.cs",
               "RelativeToolTip": "TicketAPI\\Models\\TicketDTO.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAwwCEAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABEAAAAAAAAAAAAwwBgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-04T15:37:29.977Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Ticket.cs",
               "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Models\\Ticket.cs",
               "RelativeDocumentMoniker": "TicketAPI\\Models\\Ticket.cs",
               "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Models\\Ticket.cs",
               "RelativeToolTip": "TicketAPI\\Models\\Ticket.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAADwvxcAAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAACIAAAAAAAAAAAAswBEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-04T10:06:43.324Z"
             },
@@ -72,14 +104,14 @@
               "RelativeDocumentMoniker": "TicketAPI\\Controllers\\TicketsController.cs",
               "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Controllers\\TicketsController.cs",
               "RelativeToolTip": "TicketAPI\\Controllers\\TicketsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADwAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-04T09:50:11.634Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "EtageController.cs",
               "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Controllers\\EtageController.cs",
               "RelativeDocumentMoniker": "TicketAPI\\Controllers\\EtageController.cs",
@@ -91,7 +123,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Intervenant.cs",
               "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Models\\Intervenant.cs",
               "RelativeDocumentMoniker": "TicketAPI\\Models\\Intervenant.cs",
@@ -103,13 +135,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "IntervenantController.cs",
               "DocumentMoniker": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Controllers\\IntervenantController.cs",
               "RelativeDocumentMoniker": "TicketAPI\\Controllers\\IntervenantController.cs",
               "ToolTip": "C:\\Users\\salma\\source\\repos\\Ticketing_system\\TicketAPI\\TicketAPI\\Controllers\\IntervenantController.cs",
               "RelativeToolTip": "TicketAPI\\Controllers\\IntervenantController.cs",
-              "ViewState": "AgIAADkAAAAAAAAAAAAUwEwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAUwEwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-03T17:18:53.554Z"
             },

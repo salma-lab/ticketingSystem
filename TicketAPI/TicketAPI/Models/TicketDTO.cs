@@ -21,6 +21,8 @@
         public string AppareilNom { get; set; }
 
         public string MotifDemande { get; set; }
+        public string NomDe { get; set; }
+
 
 
         public string NomStatus { get; set; } 

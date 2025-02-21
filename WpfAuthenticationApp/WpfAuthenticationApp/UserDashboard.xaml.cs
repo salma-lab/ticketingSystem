@@ -9,6 +9,23 @@ using System.Windows.Controls;
 using WpfAuthenticationApp.Models;
 using Newtonsoft.Json;
 
+using System.Data;
+
+using System.Net.Http.Json;
+
+using System.Threading.Tasks;
+
+using System.Windows.Documents;
+
+using System.Windows.Media;
+
+
+using System.Globalization;
+using ClosedXML.Excel;
+using Microsoft.Win32;
+using System.Xml;
+using System.ComponentModel.DataAnnotations;
+
 
 
 namespace WpfAuthenticationApp
@@ -25,6 +42,11 @@ namespace WpfAuthenticationApp
         private readonly string _commentApiUrl = "https://localhost:7046/api/CommentairesController";
         private readonly string baseUrl = "https://localhost:7046"; // Replace with your API base URL
         private readonly string _MyTickets = "https://localhost:7046/api/MyTickets";
+  
+        private readonly string _typeAppareilApiUrl = "https://localhost:7046/api/TypeAppareilController";
+        private readonly string _etageApiUrl = "https://localhost:7046/api/EtageController";
+        private readonly string _emplacementApiUrl = "https://localhost:7046/api/EmplacementController";
+        private readonly string _intervenantApiUrl = "https://localhost:7046/api/IntervenantController";
 
 
 
@@ -33,10 +55,19 @@ namespace WpfAuthenticationApp
 
 
 
-        public ObservableCollection<TypeInterventions> TypeInterventions { get; set; } = new();
-        public ObservableCollection<Statusq> Statuses { get; set; } = new();
-        public ObservableCollection<Tickets> Tickets { get; set; } = new();
-        public ObservableCollection<Commentaire> Commentaire { get; set; } = new();
+        public ObservableCollection<TypeInterventions> TypeInterventionss { get; set; } = new();
+        public ObservableCollection<Statusq> Statusess { get; set; } = new();
+        public ObservableCollection<Tickets> Ticketss { get; set; } = new();
+        public ObservableCollection<Commentaire> Commentaires { get; set; } = new();
+       
+        public ObservableCollection<Utilisateur> Utilisateurs { get; set; } = new();
+        public ObservableCollection<UtilisateurDTO> Utilisateurss { get; set; } = new();
+        public ObservableCollection<Role> Roless { get; set; } = new();
+      
+        public ObservableCollection<Etages> Etagess { get; set; } = new();
+        public ObservableCollection<Emplacements> Emplacements { get; set; } = new();
+        public ObservableCollection<TypeAppareils> TypeAppareilss { get; set; } = new();
+        public ObservableCollection<Intervenant> Intervenantss { get; set; } = new();
 
 
 
@@ -51,8 +82,9 @@ namespace WpfAuthenticationApp
             _token = token;
             DataContext = this;
             LoadTypeInterventionss();
+
             LoadStatuses();
-            LoadMyTicketsAsync();
+           
 
         }
 
@@ -171,158 +203,120 @@ namespace WpfAuthenticationApp
 
         private async void AddTicket_Click(object sender, RoutedEventArgs e)
         {
-            // Retrieve form data
-            var description = NewTicketDescriptionTextBox.Text.Trim();
-            var oralement = NewTicketOralementCheckBox.IsChecked ?? false; // If checkbox is checked
+            // Retrieve the form data
+            var oralement = NewTicketOralementCheckBox.IsChecked ?? false; // Check if Oralement is checked
             var appareilNom = NewTicketAppareilNomTextBox.Text.Trim();
-            var etage = NewTicketEtageTextBox.Text.Trim();
-            var emplacement = NewTicketEmplacementTextBox.Text.Trim();
+            var etage = NewTicketEtageComboBox.SelectedItem as Etages;
+            var emplacement = NewTicketEmplacementComboBox.SelectedItem as Emplacements;
             var motif = NewTicketMotifTextBox.Text.Trim();
-            var type = NewTicketTypeComboBox.SelectedItem as TypeInterventions; // Selected item from ComboBox
+            var type = NewTicketTypeComboBox.SelectedItem as TypeIntervention; // Assuming you have TypeInterventions in the ViewModel
+            var typeApp = NewTypeAppareilComboBox.SelectedItem as TypeAppareil;
+            var nomDe = NewTicketNomDeTextBox.Text.Trim();// Assuming you have TypeInterventions in the ViewModel
 
-            // Check if type is selected
-            if (type == null)
+            // Get the selected date from the DatePicker
+            var selectedDate = NewTicketDatePicker.SelectedDate ?? DateTime.Now;
+
+            // Validate input
+            if (string.IsNullOrEmpty(motif) || type == null || etage == null ||  typeApp == null || emplacement == null)
             {
-                MessageBox.Show("Please select a type of intervention.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Veuillez remplir tous les champs obligatoires.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            // Validate if required fields are filled
-            if (string.IsNullOrEmpty(description) || string.IsNullOrEmpty(appareilNom) || string.IsNullOrEmpty(etage) || string.IsNullOrEmpty(emplacement) || string.IsNullOrEmpty(motif))
+            // Create a new Ticket object to send to the API
+            var newTicket = new TicketCreateDtos
             {
-                MessageBox.Show("Please fill all the required fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            // Create a new Ticket object for the API
-            var newTicket = new TicketCreateDto
-            {
-                Description = description,
                 Oralement = oralement,
                 AppareilNom = appareilNom,
                
+                EtageId = etage.EtageId,
+                EmplacementId = emplacement.EmplacementId,
+                TypeAppareilId = typeApp.TypeAppareilId,
                 MotifDemande = motif,
-                TypeInterventionId = type.TypeInterventionId, // Ensure TypeInterventionId is being used
-                StatusId = 5 // Set to "En cours" by default
+                TypeInterventionId = type.TypeInterventionId,
+                DateCreation = selectedDate // Use the selected date
             };
 
             try
             {
                 using var client = new HttpClient();
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token); // Ensure token is valid
-                var json = System.Text.Json.JsonSerializer.Serialize(newTicket);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token); // _token should hold your JWT token
+                var json = JsonSerializer.Serialize(newTicket);
                 var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                // Send the request to create the ticket
+                // Send the POST request to create a new ticket
                 var response = await client.PostAsync(_ticketApiUrl, content);
-                response.EnsureSuccessStatusCode(); // Will throw an exception if status is not success
+                response.EnsureSuccessStatusCode(); // Will throw an exception if status code is not successful
 
-                // Reload ticket list or refresh as necessary
-                LoadMyTicketsAsync();
-                // Clear form fields after adding ticket
-                NewTicketDescriptionTextBox.Clear();
+                // Reload tickets after adding
+                
+
+                // Clear the input fields
                 NewTicketOralementCheckBox.IsChecked = false;
                 NewTicketAppareilNomTextBox.Clear();
-                NewTicketEtageTextBox.Clear();
-                NewTicketEmplacementTextBox.Clear();
+                NewTicketEtageComboBox.SelectedIndex = -1;
+                NewTicketEmplacementComboBox.SelectedIndex = -1;
                 NewTicketMotifTextBox.Clear();
-                NewTicketTypeComboBox.SelectedIndex = -1; // Reset ComboBox selection
+                NewTicketTypeComboBox.SelectedIndex = -1;
+                NewTypeAppareilComboBox.SelectedIndex = -1;
+
+                // Reset the DatePicker
+                NewTicketDatePicker.SelectedDate = null;
+
+                // Show success message
+                MessageBox.Show("Ticket ajouté avec succès !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Error adding ticket: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de l'ajout du ticket: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
 
-
-        private async void DeleteTickets_Click(object sender, RoutedEventArgs e)
+        private async void LoadEmplacements()
         {
-            var selectedTicket = TicketsDataGrid.SelectedItem as Ticket;
-            if (selectedTicket == null)
-            {
-                MessageBox.Show("Please select a ticket to delete.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
             try
             {
                 using var client = new HttpClient();
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
 
-                var response = await client.DeleteAsync($"{_MyTickets}/{selectedTicket.ticketId}");
+                var response = await client.GetAsync(_emplacementApiUrl);
                 response.EnsureSuccessStatusCode();
 
-                // Reload the tickets after deletion
-                LoadMyTicketsAsync();
-            }
-            catch (HttpRequestException ex)
-            {
-                MessageBox.Show($"Error deleting ticket: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-
-
-
-
-
-        private async Task LoadMyTicketsAsync()
-        {
-            try
-            {
-                // Set up the HttpClient
-                using var client = new HttpClient();
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token); // Ensure valid JWT token
-                client.BaseAddress = new Uri("https://localhost:7046");
-
-                // Send the GET request to the MyTickets endpoint
-                var response = await client.GetAsync("MyTickets");
-
-                // Check the response status
-                if (response.IsSuccessStatusCode)
+                var json = await response.Content.ReadAsStringAsync();
+                var outerObject = JsonSerializer.Deserialize<OuterObject<Emplacements>>(json, new JsonSerializerOptions
                 {
-                    // Deserialize the response to a list of tickets
-                    var jsonResponse = await response.Content.ReadAsStringAsync();
-                    var tickets = JsonConvert.DeserializeObject<List<Tickets>>(jsonResponse);
+                    PropertyNameCaseInsensitive = true
+                });
 
-                    // Bind the data to a UI element (e.g., DataGrid)
-                    TicketsDataGrid.ItemsSource = tickets;
-                }
-                else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                var emplacements = outerObject?.Values ?? new List<Emplacements>();
+
+                Emplacements.Clear();
+                foreach (var emplacement in emplacements)
                 {
-                    MessageBox.Show("You are not authorized. Please check your login credentials or token.",
-                                    "Unauthorized",
-                                    MessageBoxButton.OK,
-                                    MessageBoxImage.Warning);
-                }
-                else
-                {
-                    MessageBox.Show($"Error fetching tickets: {response.ReasonPhrase} ({(int)response.StatusCode})",
-                                    "Error",
-                                    MessageBoxButton.OK,
-                                    MessageBoxImage.Error);
+                    Emplacements.Add(emplacement);
                 }
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Error connecting to the server: {ex.Message}",
-                                "Connection Error",
-                                MessageBoxButton.OK,
-                                MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de la récupération des données : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception ex)
+            catch (JsonException ex)
             {
-                MessageBox.Show($"An unexpected error occurred: {ex.Message}",
-                                "Error",
-                                MessageBoxButton.OK,
-                                MessageBoxImage.Error);
+                MessageBox.Show($"Erreur lors de l'analyse des données : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            await LoadMyTicketsAsync();
-        }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -411,6 +405,28 @@ namespace WpfAuthenticationApp
         public string NomType { get; set; }
 
     }
+
+
+
+
+    public class Emplacements
+    {
+
+        public int EmplacementId { get; set; }
+        public string NomEmplacement { get; set; }
+
+    }
+    public class TypeAppareils
+    {
+        public int TypeAppareilId { get; set; }
+        public string NomTypeAppareil { get; set; }
+    }
+    public class Etages
+    {
+        public int EtageId { get; set; }
+        public string NomEtage { get; set; }
+    }
+
 }
 
 

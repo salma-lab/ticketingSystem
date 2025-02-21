@@ -3,6 +3,7 @@
     public class CreateTicketDto
     {
         public int TicketId { get; set; }
+        public string NomDe { get; set; }
 
         public string? Description { get; set; }
         public bool Oralement { get; set; }

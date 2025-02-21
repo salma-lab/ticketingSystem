@@ -15,6 +15,7 @@ namespace TicketAPI.Models
         public int ?StatusId { get; set; }
         public int TypeInterventionId { get; set; }
         public bool Oralement { get; set; }
+        public string NomDe { get; set; }
         public bool ? Validation1 { get; set; } = false;
         public bool? Started { get; set; } = false;
 

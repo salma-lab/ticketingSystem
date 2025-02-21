@@ -572,6 +572,57 @@ namespace WpfAuthenticationApp
                 MessageBox.Show($"Erreur lors de la suppression du type d'intervention : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
+
+        private async void DeleteUtilisateur_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedU = UtilisateurDataGrid.SelectedItem as UtilisateurDTO; 
+
+            if (selectedU == null)
+            {
+                MessageBox.Show("Veuillez sélectionner un utilisateur à supprimer.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Confirmation dialog
+            var result = MessageBox.Show(
+                $"Voulez-vous vraiment supprimer l'utilisateur {selectedU.Nom} {selectedU.Prenom}  ?",
+                "Confirmation de suppression",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+
+            if (result != MessageBoxResult.Yes)
+            {
+                return; // User canceled the deletion
+            }
+
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
+                var response = await client.DeleteAsync($"{_utilisateurApiUrl}/{selectedU.UtilisateurId}");
+                response.EnsureSuccessStatusCode();
+
+                // Reload the data or clear selection here
+                LoadUtilisateurs();
+
+                // Clear selection after deletion
+                UtilisateurDataGrid.SelectedItem = null;
+
+                MessageBox.Show("Utilisateur supprimé avec succès.", "Suppression réussie", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Erreur lors de la suppression : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+
+
+
         private async void AddIntervenant_Click(object sender, RoutedEventArgs e)
         {
             var name = NewIntervenantNameTextBox.Text.Trim();
@@ -1083,7 +1134,6 @@ namespace WpfAuthenticationApp
         private async void AddTicket_Click(object sender, RoutedEventArgs e)
         {
             // Retrieve the form data
-            var description = NewTicketDescriptionTextBox.Text.Trim();
             var oralement = NewTicketOralementCheckBox.IsChecked ?? false; // Check if Oralement is checked
             var appareilNom = NewTicketAppareilNomTextBox.Text.Trim();
             var etage = NewTicketEtageComboBox.SelectedItem as Etage;
@@ -1091,7 +1141,8 @@ namespace WpfAuthenticationApp
             var motif = NewTicketMotifTextBox.Text.Trim();
             var type = NewTicketTypeComboBox.SelectedItem as TypeIntervention; // Assuming you have TypeInterventions in the ViewModel
             var status = TicketStatusComboBox.SelectedItem as Status;
-            var typeApp = NewTypeAppareilComboBox.SelectedItem as TypeAppareil; // Assuming you have TypeInterventions in the ViewModel
+            var typeApp = NewTypeAppareilComboBox.SelectedItem as TypeAppareil;
+            var nomDe = NewTicketNomDeTextBox.Text.Trim();// Assuming you have TypeInterventions in the ViewModel
 
             // Get the selected date from the DatePicker
             var selectedDate = NewTicketDatePicker.SelectedDate ?? DateTime.Now;
@@ -1106,9 +1157,9 @@ namespace WpfAuthenticationApp
             // Create a new Ticket object to send to the API
             var newTicket = new TicketCreateDto
             {
-                Description = description,
                 Oralement = oralement,
                 AppareilNom = appareilNom,
+                NomDe = nomDe,
                 EtageId = etage.EtageId,
                 EmplacementId = emplacement.EmplacementId,
                 TypeAppareilId = typeApp.TypeAppareilId,
@@ -1133,7 +1184,6 @@ namespace WpfAuthenticationApp
                 LoadTickets();
 
                 // Clear the input fields
-                NewTicketDescriptionTextBox.Clear();
                 NewTicketOralementCheckBox.IsChecked = false;
                 NewTicketAppareilNomTextBox.Clear();
                 NewTicketEtageComboBox.SelectedIndex = -1;
@@ -1207,7 +1257,7 @@ private void ExportToExcel_Click(object sender, RoutedEventArgs e)
                 worksheet.Cell(row, 7).Value = ticket.ValidationTime?.ToString("yyyy/MM/dd HH:mm") ?? "";
                 worksheet.Cell(row, 8).Value = ticket.Duration;
                 worksheet.Cell(row, 9).Value = ticket.NomIntervenant;
-                worksheet.Cell(row, 10).Value = ticket.NomDemandeur;
+                worksheet.Cell(row, 10).Value = ticket.NomDe;
 
 
                 row++; // Move to the next row for the next ticket
@@ -1295,11 +1345,11 @@ private void ExportToExcel_Click(object sender, RoutedEventArgs e)
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Erreur lors de la validation du ticket. {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ce ticket est déja validé.." , "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (JsonException ex)
             {
-                MessageBox.Show($"Erreur lors de la sérialisation des données de validation. {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($". {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private async void StartTicket_Click(object sender, RoutedEventArgs e)
@@ -1339,18 +1389,18 @@ private void ExportToExcel_Click(object sender, RoutedEventArgs e)
                     selectedTicket.StartTime = updatedTicket.StartTime;
                 }
 
-                MessageBox.Show("Ticket validé avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Ticket commencé avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
                 TicketDataGrid.Items.Refresh(); // Refresh DataGrid to display updated data
                 LoadTickets();
 
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Erreur lors de la validation du ticket. {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ce ticket est déja validé. {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (JsonException ex)
             {
-                MessageBox.Show($"Erreur lors de la sérialisation des données de validation. {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ce ticket est déja en mode start. {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -1422,22 +1472,31 @@ private void ExportToExcel_Click(object sender, RoutedEventArgs e)
                 return;
             }
 
-            try
-            {
-                using var client = new HttpClient();
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+            var result = MessageBox.Show($"Voulez-vous vraiment supprimer le ticket avec l'ID {selectedTicket.ticketId} ?", "Confirmer la suppression", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-                var response = await client.DeleteAsync($"{_ticketApiUrl}/{selectedTicket.ticketId}");
-                response.EnsureSuccessStatusCode();
-
-                // Reload the tickets after deletion
-                LoadTickets();
-            }
-            catch (HttpRequestException ex)
+            if (result == MessageBoxResult.Yes)
             {
-                MessageBox.Show($"Erreur lors de la suppression du ticket. {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                try
+                {
+                    using var client = new HttpClient();
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
+                    var response = await client.DeleteAsync($"{_ticketApiUrl}/{selectedTicket.ticketId}");
+                    response.EnsureSuccessStatusCode();
+
+                    // Reload the tickets after deletion
+                    LoadTickets();
+
+                    // Show a message that the ticket was successfully deleted
+                    MessageBox.Show($"Le ticket a bien été supprimé.", "Suppression réussie", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (HttpRequestException ex)
+                {
+                    MessageBox.Show($"Erreur lors de la suppression du ticket. {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
+
 
 
 
@@ -1696,6 +1755,8 @@ private void ExportToExcel_Click(object sender, RoutedEventArgs e)
     {
         public int ticketId { get; set; }
         public string Email { get; set; }
+        public string NomDe { get; set; }
+
 
 
         public string Description { get; set; }
@@ -1735,8 +1796,8 @@ private void ExportToExcel_Click(object sender, RoutedEventArgs e)
 
                 double maxHours = NomStatus == "Urgent" ? 12 : 24;
                 if (Duration.TotalHours <= maxHours)
-                    return "Efficace";
-                return "Inefficace";
+                    return "Rapide";
+                return "Lent";
             }
         }
 
@@ -1760,7 +1821,7 @@ private void ExportToExcel_Click(object sender, RoutedEventArgs e)
 
     public class TicketCreateDto
     {
-        public string Description { get; set; }
+        public string NomDe { get; set; }
         public bool Oralement { get; set; }
         public string AppareilNom { get; set; }
         public DateTime DateCreation { get; set; } = DateTime.Now;
@@ -1796,6 +1857,7 @@ private void ExportToExcel_Click(object sender, RoutedEventArgs e)
     }
     public class UtilisateurDTO
     {
+        public int UtilisateurId { get; set; }
         public string Nom { get; set; }
         public string Prenom { get; set; }
         public string Email { get; set; }

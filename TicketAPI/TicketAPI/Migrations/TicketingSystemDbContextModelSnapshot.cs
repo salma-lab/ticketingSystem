@@ -140,6 +140,10 @@ namespace TicketAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NomDe")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("Oralement")
                         .HasColumnType("bit");
 

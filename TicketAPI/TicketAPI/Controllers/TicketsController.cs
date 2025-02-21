@@ -53,6 +53,7 @@ namespace TicketAPI.Controllers
                         MotifDemande = t.MotifDemande,
                         Oralement = t.Oralement,
                         Validation1 = t.Validation1,
+                        NomDe = t.NomDe,
                         NomEtage = t.Etage.NomEtage,
                         NomIntervenant=t.Intervenant.NomIntervenant,
                         NomDemandeur = t.Utilisateur != null ? $"{t.Utilisateur.Nom} {t.Utilisateur.Prenom}" : "Inconnu",
@@ -146,6 +147,7 @@ namespace TicketAPI.Controllers
             var ticket = new Ticket
             {
                 Description = createTicketDto.Description,
+                NomDe = createTicketDto.NomDe,
                 StatusId = createTicketDto.StatusId,
                 TypeAppareilId = createTicketDto.TypeAppareilId,
                 DateCreation = createTicketDto.DateCreation, // Use the provided date
